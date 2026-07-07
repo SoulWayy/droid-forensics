@@ -1,0 +1,28 @@
+{
+  "checkpoint": "rebuild-poc-v2",
+  "timestamp": "2026-07-07T17:55:00Z",
+  "working": {
+    "entry_point": "src/index.ts — dispatches to tui or worker mode",
+    "tui": "src/tui/index.tsx — Ink/React TUI, NO sync I/O in render, NO dup keys, async git check",
+    "llm_client": "src/llm/client.ts — real fetch() streaming with exponential backoff",
+    "worker": "src/worker/index.ts — JSON-RPC over stdin/stdout, handles prompt requests",
+    "test": "test-integration.ts — spawns worker, sends prompt, streams response"
+  },
+  "verified": {
+    "worker_ping": "pass — JSON-RPC ping/pong via stdin/stdout",
+    "worker_react18": "pass — downgraded to React 18 for ink v5 compat",
+    "tui_compiles": "pass — renders correctly, needs TTY stdin"
+  },
+  "bugs_fixed_from_original": [
+    "sync I/O in render path → replaced with useEffect + async git check",
+    "duplicate React keys → unique id-based keys (user-{timestamp}, assistant-{timestamp})",
+    "429 rate limit spam → exponential backoff with maxRetries, clean error messages",
+    "no worker lifecycle → proper dual-process model with stdin/stdout JSON-RPC"
+  ],
+  "next": [
+    "Run test-integration.ts with a real API key to verify end-to-end",
+    "Add MCP tool support to worker",
+    "Improve TUI with scrollback and streaming display",
+    "Bundle as single binary with bun build"
+  ]
+}
