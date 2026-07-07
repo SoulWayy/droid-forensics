@@ -4,22 +4,36 @@ Extract comprehensive GLM 5.2 metrics from Droid logs for Z.ai bug report.
 Processes all available droid-log-single.log files (current + archived).
 """
 
+import argparse
 import gzip
 import json
+import os
 import re
+import sys
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
 
-LOG_FILES = [
-    "/home/jan/.factory/logs/droid-log-single.log",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-02",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-05.gz",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-06.gz",
-    "/home/jan/.factory_backup_20260605_173344/logs/droid-log-single.log",
-    "/home/jan/.factory_backup_20260605_173344/logs/archived/droid-log-single-20260527-2249.log.gz",
-    "/home/jan/.factory_backup_20260605_173344/logs/archived/droid-log-single-20260531.log.gz",
-]
+REPO = Path(__file__).resolve().parent.parent
+
+
+def default_logs():
+    env = os.environ.get("DROID_LOG")
+    if env:
+        return [env]
+    return [str(REPO / "fixtures" / "sample-droid-log.log")]
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Extract GLM 5.2 metrics from droid logs.")
+    p.add_argument("--log", action="append", default=None,
+                   help="Path to a droid log (repeatable). Defaults to fixtures/sample-droid-log.log")
+    p.add_argument("--out", default=str(REPO / "glm-extracted"),
+                   help="Output directory for extracted JSONL + report")
+    return p.parse_args()
+
+
+LOG_FILES = default_logs()
 
 ZAI_MODELS = {"custom:GLM-5.2-0", "custom:GLM-5.2-anthropic-0"}
 RAW_GLM = {"glm-5.2"}
@@ -80,13 +94,13 @@ def stats(values):
     }
 
 
-def main():
+def main(log_files=None):
     # Data structures
     zai_events = []  # list of context dicts with _ts, _model, _source
     raw_events = []
     all_errors = []
 
-    for path in LOG_FILES:
+    for path in (log_files or LOG_FILES):
         p = Path(path)
         if not p.exists():
             print(f"SKIP (not found): {path}")
@@ -131,7 +145,7 @@ def main():
     print(f"GLM-related errors/warnings: {len(all_errors)}")
 
     # Save raw events for further analysis
-    output_dir = Path("/home/jan/Droid-onderzoek-triage/glm-extracted")
+    output_dir = Path(OUTPUT_DIR)
     output_dir.mkdir(exist_ok=True)
 
     with open(output_dir / "zai_glm_events.jsonl", "w") as f:
@@ -269,4 +283,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    OUTPUT_DIR = args.out
+    logs = args.log if args.log else LOG_FILES
+    main(log_files=logs)

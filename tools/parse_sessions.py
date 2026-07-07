@@ -1,13 +1,32 @@
 #!/usr/bin/env python3
-"""Parse 64MB droid-log-single.log and extract per-session metrics."""
+"""Parse droid log and extract per-session metrics. CLI-driven, no hardcoded paths."""
 
+import argparse
 import json
+import os
 import re
 import sys
 from collections import defaultdict, OrderedDict
+from pathlib import Path
 
-LOG_PATH = "/home/jan/.factory/logs/droid-log-single.log"
-OUTPUT_PATH = "/home/jan/Droid-onderzoek-triage/subagent-sessies.md"
+REPO = Path(__file__).resolve().parent.parent
+
+
+def default_log():
+    return os.environ.get("DROID_LOG", str(REPO / "fixtures" / "sample-droid-log.log"))
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Parse droid log and extract per-session metrics.")
+    p.add_argument("--log", default=default_log(), help="Path to droid log file")
+    p.add_argument("--out", default=str(REPO / "reports" / "subagent-sessies.md"),
+                   help="Output markdown path")
+    return p.parse_args()
+
+
+# Module-level paths (overridden by CLI in __main__)
+LOG_PATH = default_log()
+OUTPUT_PATH = str(REPO / "reports" / "subagent-sessies.md")
 
 # Patterns
 TS_RE = re.compile(r"^\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\]")
@@ -361,4 +380,8 @@ def _process_entry(entry_ts, entry_text, session_data, all_session_ids):
 
 
 if __name__ == "__main__":
+    args = parse_args()
+    LOG_PATH = args.log
+    OUTPUT_PATH = args.out
+    os.makedirs(os.path.dirname(OUTPUT_PATH) or ".", exist_ok=True)
     main()

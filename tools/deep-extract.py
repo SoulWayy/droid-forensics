@@ -1,12 +1,21 @@
+import argparse
 import os
 import re
+from pathlib import Path
 
-SOURCE_FILE = "/home/jan/Droid-onderzoek-triage/droid-full-source.js"
-OUT_DIR = "/home/jan/Droid-onderzoek-triage/extracted-source/deep-extraction"
+REPO = Path(__file__).resolve().parent.parent
+SOURCE_FILE = str(REPO / "droid-full-source.js")
+OUT_DIR = str(REPO / "extracted-source" / "deep-extraction")
 
-os.makedirs(OUT_DIR, exist_ok=True)
+ap = argparse.ArgumentParser(description="Deep extraction of Droid bundle subsystems.")
+ap.add_argument("--source", default=SOURCE_FILE, help="Path to droid-full-source.js")
+ap.add_argument("--out-dir", default=OUT_DIR, help="Output directory for extracted subsystems")
+args = ap.parse_args()
+source_file = args.source
+out_dir = args.out_dir
+os.makedirs(out_dir, exist_ok=True)
 
-# Define the targets to search for. We will grab 15KB around the first match, 
+# Define the targets to search for. We will grab 15KB around the first match,
 # or multiple 5KB chunks for all matches.
 TARGETS = {
     "llm_streaming_engine": [b"stream-jsonrpc", b"useLLMStreaming", b"factory_app_jsonrpc"],
@@ -17,14 +26,14 @@ TARGETS = {
     "rate_limiting_retry": [b"RateLimit", b"exponentialBackoff", b"CircuitBreaker"],
 }
 
-print(f"Starting deep extraction on {SOURCE_FILE} ({os.path.getsize(SOURCE_FILE) / 1024 / 1024:.2f} MB)")
+print(f"Starting deep extraction on {source_file} ({os.path.getsize(source_file) / 1024 / 1024:.2f} MB)")
 
-with open(SOURCE_FILE, 'rb') as f:
+with open(source_file, 'rb') as f:
     content = f.read()
 
 for name, patterns in TARGETS.items():
     print(f"\nExtracting subsystem: {name}")
-    out_path = os.path.join(OUT_DIR, f"{name}.js")
+    out_path = os.path.join(out_dir, f"{name}.js")
     
     extracted_chunks = []
     

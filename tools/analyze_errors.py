@@ -2,18 +2,30 @@
 """Parse droid logs, extract errors, build timeline, identify cascades.
 
 READ ONLY -- does not modify any log files.
-Output written to /home/jan/Droid-onderzoek-triage/subagent-timeline.md
+Output written to reports/subagent-timeline.md (override with --out).
 """
 
+import argparse
 import re
 import json
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
+from pathlib import Path
 
-# ── file paths ──────────────────────────────────────────────────────
-DROID_LOG   = "/home/jan/.factory/logs/droid-log-single.log"
-CONSOLE_LOG = "/home/jan/.factory/logs/console.log"
-OUTPUT      = "/home/jan/Droid-onderzoek-triage/subagent-timeline.md"
+REPO = Path(__file__).resolve().parent.parent
+
+# ── file paths (overridable via CLI) ────────────────────────────────
+ap = argparse.ArgumentParser(description="Parse Droid logs, extract errors, build timeline.")
+ap.add_argument("--log", default=str(REPO / "fixtures" / "sample-droid-log.log"),
+                help="Droid log file (default: fixtures/sample-droid-log.log)")
+ap.add_argument("--console-log", default=str(REPO / "fixtures" / "console.log"),
+                help="Console log file")
+ap.add_argument("--out", default=str(REPO / "reports" / "subagent-timeline.md"),
+                help="Output markdown report")
+args = ap.parse_args()
+DROID_LOG = args.log
+CONSOLE_LOG = args.console_log
+OUTPUT = args.out
 
 # ── helpers ──────────────────────────────────────────────────────────
 

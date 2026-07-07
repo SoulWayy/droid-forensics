@@ -4,6 +4,7 @@ Deep analysis of GLM 5.2 streaming behavior, TPS, errors, and sessions.
 Processes all Droid logs and correlates TTFT metrics with streaming notifications.
 """
 
+import argparse
 import gzip
 import json
 import re
@@ -11,15 +12,13 @@ from collections import defaultdict, Counter
 from datetime import datetime
 from pathlib import Path
 
-LOG_FILES = [
-    "/home/jan/.factory/logs/droid-log-single.log",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-02",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-05.gz",
-    "/home/jan/.factory/logs/droid-log-single.log.2026-07-06.gz",
-    "/home/jan/.factory_backup_20260605_173344/logs/droid-log-single.log",
-    "/home/jan/.factory_backup_20260605_173344/logs/archived/droid-log-single-20260527-2249.log.gz",
-    "/home/jan/.factory_backup_20260605_173344/logs/archived/droid-log-single-20260531.log.gz",
-]
+REPO = Path(__file__).resolve().parent.parent
+DEFAULT_LOG = str(REPO / "fixtures" / "sample-droid-log.log")
+
+ap = argparse.ArgumentParser(description="Deep analysis of GLM 5.2 streaming behavior, TPS, errors, sessions.")
+ap.add_argument("--log", action="append", default=[], help="Log file to process (repeatable). Default: fixtures/sample-droid-log.log")
+args = ap.parse_args()
+LOG_FILES = args.log if args.log else [DEFAULT_LOG]
 
 
 def open_log(path):

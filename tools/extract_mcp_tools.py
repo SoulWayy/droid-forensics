@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 """Extract MCP, tool execution, sandbox, permission, and related code from droid-full-source.js"""
+import argparse
 import os
+from pathlib import Path
 
-SOURCE = "/home/jan/Droid-onderzoek-triage/droid-full-source.js"
-OUTPUT = "/home/jan/Droid-onderzoek-triage/extracted-source/mcp-tools-sandbox.js"
+REPO = Path(__file__).resolve().parent.parent
+
+SOURCE = str(REPO / "droid-full-source.js")
+OUTPUT = str(REPO / "extracted-source" / "mcp-tools-sandbox.js")
 CHUNK = 5120  # 5KB on each side = ~10KB per region
 
 # Curated offsets grouped by topic, selecting the most interesting clusters
@@ -119,9 +123,9 @@ REGIONS = {
     "Plugin cluster (1365K)": [1365074, 1365232, 1366111, 1366617],
 }
 
-def extract():
-    os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-    filesize = os.path.getsize(SOURCE)
+def extract(source=SOURCE, output=OUTPUT):
+    os.makedirs(os.path.dirname(output) or ".", exist_ok=True)
+    filesize = os.path.getsize(source)
     
     # Merge overlapping regions
     all_ranges = []
@@ -148,11 +152,11 @@ def extract():
     print(f"Merged regions: {len(merged)}")
     
     total_bytes = 0
-    with open(SOURCE, 'rb') as src, open(OUTPUT, 'w', encoding='utf-8', errors='replace') as out:
+    with open(source, 'rb') as src, open(output, 'w', encoding='utf-8', errors='replace') as out:
         out.write("// ============================================================\n")
         out.write("// EXTRACTED: MCP, Tool Execution, Sandbox, Permissions, Computer,\n")
         out.write("//            Mission, SlashCommand, Plugin systems\n")
-        out.write(f"// Source: {SOURCE}\n")
+        out.write(f"// Source: {source}\n")
         out.write(f"// Source size: {filesize:,} bytes\n")
         out.write(f"// Regions extracted: {len(merged)} (merged from {len(all_ranges)} raw)\n")
         out.write("// ============================================================\n\n")
@@ -178,9 +182,13 @@ def extract():
         out.write(f"// Total bytes extracted: {total_bytes:,}\n")
         out.write(f"// {'='*80}\n")
     
-    output_size = os.path.getsize(OUTPUT)
+    output_size = os.path.getsize(output)
     print(f"Total bytes extracted: {total_bytes:,}")
-    print(f"Output file: {OUTPUT} ({output_size:,} bytes)")
+    print(f"Output file: {output} ({output_size:,} bytes)")
 
 if __name__ == "__main__":
-    extract()
+    ap = argparse.ArgumentParser(description="Extract MCP/tool/sandbox code from a droid source bundle.")
+    ap.add_argument("--source", default=SOURCE, help="Path to full droid source bundle")
+    ap.add_argument("--out", default=OUTPUT, help="Output path for extracted code")
+    a = ap.parse_args()
+    extract(source=a.source, output=a.out)

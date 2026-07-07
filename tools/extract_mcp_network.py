@@ -4,14 +4,31 @@
 Produces a structured markdown report. Read-only: never modifies the log file.
 """
 
+import argparse
 import json
+import os
 import re
 import sys
 from collections import defaultdict, Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
-LOG_PATH = Path("/home/jan/.factory/logs/droid-log-single.log")
+REPO = Path(__file__).resolve().parent.parent
+
+
+def default_log():
+    return os.environ.get("DROID_LOG", str(REPO / "fixtures" / "sample-droid-log.log"))
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Extract MCP tool calls, network endpoints, status changes, token usage.")
+    p.add_argument("--log", default=default_log(), help="Path to droid log file")
+    p.add_argument("--out", default=str(REPO / "reports" / "mcp-network.md"),
+                   help="Output markdown path (optional; writes to stdout if omitted)")
+    return p.parse_args()
+
+
+LOG_PATH = Path(default_log())
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -173,7 +190,10 @@ def parse_network_endpoints_from_ctx(ctx: dict) -> list[str]:
 # Main
 # ---------------------------------------------------------------------------
 
-def main():
+def main(log_path=None):
+    global LOG_PATH
+    if log_path is not None:
+        LOG_PATH = Path(log_path)
     if not LOG_PATH.exists():
         print(f"ERROR: log file not found at {LOG_PATH}", file=sys.stderr)
         sys.exit(1)
@@ -487,5 +507,10 @@ def lines_ts_range(tool_calls, streaming_results, mcp_connected):
 
 
 if __name__ == "__main__":
-    output = main()
+    args = parse_args()
+    output = main(log_path=args.log)
     print(output)
+    if args.out:
+        os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
+        with open(args.out, "w", encoding="utf-8") as f:
+            f.write(output)

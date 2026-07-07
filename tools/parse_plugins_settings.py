@@ -8,14 +8,32 @@
 Output: subagent-plugins-settings.md (read-only extraction, no modification)
 """
 
+import argparse
+import os
 import re
 import json
 import sys
 from collections import defaultdict
 from datetime import datetime
+from pathlib import Path
 
-LOG_PATH = "/home/jan/.factory/logs/droid-log-single.log"
-OUT_PATH = "/home/jan/Droid-onderzoek-triage/subagent-plugins-settings.md"
+REPO = Path(__file__).resolve().parent.parent
+
+
+def default_log():
+    return os.environ.get("DROID_LOG", str(REPO / "fixtures" / "sample-droid-log.log"))
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Extract plugin/settings/skills events from a droid log.")
+    p.add_argument("--log", default=default_log(), help="Path to droid log file")
+    p.add_argument("--out", default=str(REPO / "reports" / "subagent-plugins-settings.md"),
+                   help="Output markdown path")
+    return p.parse_args()
+
+
+LOG_PATH = default_log()
+OUT_PATH = str(REPO / "reports" / "subagent-plugins-settings.md")
 
 # ---- helpers ----
 
@@ -376,4 +394,8 @@ def main():
     print(f"Written to {OUT_PATH} ({len(md)} lines)")
 
 if __name__ == "__main__":
+    args = parse_args()
+    LOG_PATH = args.log
+    OUT_PATH = args.out
+    os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)
     main()

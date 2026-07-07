@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """Extract plugin, settings, and skills events from droid-log-single.log"""
 
+import argparse
 import json
 import re
 import os
 from collections import defaultdict, Counter
+from pathlib import Path
 
-LOGFILE = "/home/jan/.factory/logs/droid-log-single.log"
-OUTFILE = "/home/jan/Droid-onderzoek-triage/subagent-plugins-settings.md"
+REPO = Path(__file__).resolve().parent.parent
+
+
+def default_logfile():
+    return os.environ.get("DROID_LOG", str(REPO / "fixtures" / "sample-droid-log.log"))
+
+
+LOGFILE = default_logfile()
+OUTFILE = str(REPO / "reports" / "subagent-plugins-settings.md")
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -48,7 +57,7 @@ def fmt_val(val, digits=2):
 # Main extraction
 # ---------------------------------------------------------------------------
 
-def extract():
+def extract(logfile=LOGFILE, outfile=OUTFILE):
     records = {
         "plugin": {
             "auto_updates": [],          # PluginMarketplaceManager Auto-updating marketplaces
@@ -90,7 +99,7 @@ def extract():
     }
 
     line_count = 0
-    with open(LOGFILE, "r", errors="replace") as f:
+    with open(logfile, "r", errors="replace") as f:
         for line in f:
             line_count += 1
             # PluginLoader errors appear on raw stacktrace lines (no timestamp)
@@ -255,12 +264,12 @@ def extract():
 # Reporting
 # ---------------------------------------------------------------------------
 
-def write_report(records, line_count):
+def write_report(records, line_count, logfile=LOGFILE, outfile=OUTFILE):
     lines = []
     w = lines.append
 
     w("# Droid Log Extract: Plugins, Settings, Skills\n")
-    w(f"\nParsed {line_count} lines from `{LOGFILE}`.\n")
+    w(f"\nParsed {line_count} lines from `{logfile}`.\n")
 
     # ===================================================================
     # 1. PLUGINS
@@ -456,10 +465,10 @@ def write_report(records, line_count):
     w(f"- Total notifications: {len(sk['mcp_tools_change'])}\n")
 
     # Write file
-    os.makedirs(os.path.dirname(OUTFILE) or ".", exist_ok=True)
-    with open(OUTFILE, "w") as f:
+    os.makedirs(os.path.dirname(outfile) or ".", exist_ok=True)
+    with open(outfile, "w") as f:
         f.writelines(lines)
-    print(f"Report written to {OUTFILE}")
+    print(f"Report written to {outfile}")
     print(f"  Lines parsed: {line_count}")
 
     # Print summary to stdout
@@ -473,5 +482,9 @@ def write_report(records, line_count):
 
 
 if __name__ == "__main__":
-    records, line_count = extract()
-    write_report(records, line_count)
+    ap = argparse.ArgumentParser(description="Extract plugin/settings/skills events from a droid log.")
+    ap.add_argument("--log", default=LOGFILE, help="Path to droid log file")
+    ap.add_argument("--out", default=OUTFILE, help="Output markdown path")
+    a = ap.parse_args()
+    records, line_count = extract(logfile=a.log)
+    write_report(records, line_count, logfile=a.log, outfile=a.out)

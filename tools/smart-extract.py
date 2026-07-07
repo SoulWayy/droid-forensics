@@ -1,14 +1,26 @@
+import argparse
 import os
 import re
+from pathlib import Path
 
-SOURCE_FILE = "/home/jan/Droid-onderzoek-triage/droid-full-source.js"
-OUT_DIR = "/home/jan/Droid-onderzoek-triage/extracted-source/smart-recovery"
+REPO = Path(__file__).resolve().parent.parent
+SOURCE_FILE = str(REPO / "droid-full-source.js")
+OUT_DIR = str(REPO / "extracted-source" / "smart-recovery")
 
-os.makedirs(OUT_DIR, exist_ok=True)
 
-print(f"Loading {SOURCE_FILE} into memory for smart extraction...")
-with open(SOURCE_FILE, 'rb') as f:
-    content = f.read().decode('utf-8', errors='ignore')
+def main():
+    ap = argparse.ArgumentParser(description="Smart recovery of Droid bundle components.")
+    ap.add_argument("--source", default=SOURCE_FILE, help="Path to droid-full-source.js")
+    ap.add_argument("--out-dir", default=OUT_DIR, help="Output directory for recovered components")
+    args = ap.parse_args()
+
+    source_file = args.source
+    out_dir = args.out_dir
+    os.makedirs(out_dir, exist_ok=True)
+
+    print(f"Loading {source_file} into memory for smart extraction...")
+    with open(source_file, 'rb') as f:
+        content = f.read().decode('utf-8', errors='ignore')
 
 # Factory AI UI components often use React.createElement or typical JSX transpilation
 # We look for large React components, hooks, and classes, mapping them to their guessed filenames.
@@ -33,7 +45,7 @@ for match in matches:
     
     # Only save if it looks like actual Factory AI code (contains typical keywords)
     if 'createElement' in chunk or 'useState' in chunk or 'useMemo' in chunk or 'stream-jsonrpc' in chunk or 'McpServer' in chunk:
-        out_file = os.path.join(OUT_DIR, f"{name}.js")
+        out_file = os.path.join(out_dir, f"{name}.js")
         
         # Prevent overwriting with generic names, append count if needed
         if os.path.exists(out_file):
@@ -50,4 +62,8 @@ for match in matches:
             
         extracted_count += 1
 
-print(f"\nSmart recovery complete. Extracted {extracted_count} named components/functions to {OUT_DIR}")
+    print(f"\nSmart recovery complete. Extracted {extracted_count} named components/functions to {out_dir}")
+
+
+if __name__ == "__main__":
+    main()

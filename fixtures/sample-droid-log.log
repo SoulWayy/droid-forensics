@@ -1,0 +1,42 @@
+[2026-07-06T22:18:03.412Z] INFO Droid v0.164.1 starting (pid 4823) — composableDaemon worker mode
+[2026-07-06T22:18:04.018Z] INFO Loading system prompt from <HOME>/.factory/system-prompt.md (12408 bytes)
+[2026-07-06T22:19:41.770Z] INFO {"sessionId":"sess_1a2b","subcommand":"agent","modelId":"glm-5.2","isByok":"false","servers":["filesystem","github"]}
+[2026-07-06T22:20:11.004Z] INFO {"sessionId":"sess_1a2b"} FileReadTool read <HOME>/project/src/Header.tsx (1820 bytes)
+[2026-07-06T22:20:12.110Z] WARN git.ts:statSync called during React render of Header.tsx (sync filesystem I/O in render path)
+[2026-07-06T22:20:14.551Z] INFO {"jsonrpc":"2.0","method":"notification/thinking_delta","params":{"delta":"Analyzing readiness hint..."}}
+[2026-07-06T22:21:00.902Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:05.911Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:10.920Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:15.933Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:20.941Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:25.950Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:30.962Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:40.981Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:45.992Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-06T22:21:51.003Z] WARN Retry backoff: 9 consecutive 429s; emitting retry notification storm to TUI
+[2026-07-06T22:21:52.010Z] INFO {"jsonrpc":"2.0","method":"notification/retry","params":{"attempt":1,"error":"rate_limit","retry_after_ms":5000}}
+[2026-07-06T22:21:57.019Z] INFO {"jsonrpc":"2.0","method":"notification/retry","params":{"attempt":2,"error":"rate_limit","retry_after_ms":5000}}
+[2026-07-06T22:22:02.028Z] INFO {"jsonrpc":"2.0","method":"notification/retry","params":{"attempt":3,"error":"rate_limit","retry_after_ms":5000}}
+[2026-07-06T22:22:07.037Z] INFO {"jsonrpc":"2.0","method":"notification/retry","params":{"attempt":4,"error":"rate_limit","retry_after_ms":5000}}
+[2026-07-06T22:22:12.046Z] INFO {"jsonrpc":"2.0","method":"notification/retry","params":{"attempt":5,"error":"rate_limit","retry_after_ms":5000}}
+[2026-07-06T22:23:30.551Z] ERROR: React duplicate key warning: Each child in a list should have a unique key (key=session-id)
+[2026-07-06T22:23:30.552Z] ERROR: React duplicate key warning: Each child in a list should have a unique key (key=session-id)
+[2026-07-06T22:24:10.118Z] ERROR: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+[2026-07-06T22:24:11.220Z] ERROR: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+[2026-07-06T22:25:00.330Z] INFO CPU sample: 58.4% (render loop saturated)
+[2026-07-06T22:26:14.881Z] ERROR: YAML parse error at line 12: mapping values are not allowed here
+[2026-07-06T22:26:15.002Z] ERROR: YAML parse error at line 31: could not find expected ':'
+[2026-07-06T22:30:42.115Z] INFO {"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"GlobTool","arguments":{"pattern":"src/**/*.tsx"}}}
+[2026-07-06T22:40:00.000Z] INFO {"sessionId":"sess_1a2b","endStatus":"completed"}
+[2026-07-06T23:11:22.551Z] INFO {"sessionId":"sess_3c4d","subcommand":"agent","modelId":"glm-5.2","isByok":"false"}
+[2026-07-06T23:45:10.220Z] WARN git.ts:statSync called during React render of Header.tsx (sync filesystem I/O in render path)
+[2026-07-07T00:12:33.771Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-07T00:12:38.780Z] ERROR: HTTP 429 Too Many Requests — rate limited by provider (retry-after: 5)
+[2026-07-07T00:13:00.112Z] ERROR: React duplicate key warning: Each child in a list should have a unique key (key=session-id)
+[2026-07-07T00:15:44.980Z] ERROR: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+[2026-07-07T01:02:00.000Z] INFO {"sessionId":"sess_3c4d","endStatus":"completed"}
+[2026-07-07T09:30:11.440Z] INFO {"sessionId":"sess_5e6f","subcommand":"agent","modelId":"glm-5.2","isByok":"false"}
+[2026-07-07T09:55:00.000Z] INFO CPU sample: 61.2% (render loop saturated)
+[2026-07-07T10:20:14.002Z] ERROR: YAML parse error at line 8: mapping values are not allowed here
+[2026-07-07T11:00:00.000Z] INFO {"sessionId":"sess_5e6f","endStatus":"completed"}
+[2026-07-07T13:34:55.901Z] INFO Droid shutting down (daemon interrupted, process exited)
