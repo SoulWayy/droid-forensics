@@ -85,7 +85,7 @@ export class FullDroidIpcStream extends Writable {
     }
   }
 
-  close(): void {
+  override close(): void {
     if (this.flushHandle) {
       clearTimeout(this.flushHandle);
       this.flushHandle = null;
