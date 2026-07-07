@@ -1,4 +1,4 @@
-import { Composition } from 'remotion';
+import { Composition, registerRoot } from 'remotion';
 import { DeathSpiral } from './DeathSpiral';
 
 export const RemotionRoot: React.FC = () => {
@@ -13,3 +13,5 @@ export const RemotionRoot: React.FC = () => {
     />
   );
 };
+
+registerRoot(RemotionRoot);

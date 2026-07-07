@@ -150,11 +150,13 @@ export const DeathSpiral: React.FC = () => {
       </Sequence>
 
       {/* 8 steps */}
-      {STEPS.map((step, i) => (
-        <Series.Sequence key={i} durationInFrames={stepDuration}>
-          <StepCard step={step} index={i} startFrame={0} duration={stepDuration} />
-        </Series.Sequence>
-      ))}
+      <Series>
+        {STEPS.map((step, i) => (
+          <Series.Sequence key={i} durationInFrames={stepDuration}>
+            <StepCard step={step} index={i} startFrame={0} duration={stepDuration} />
+          </Series.Sequence>
+        ))}
+      </Series>
 
       {/* Final verdict */}
       <Sequence from={20 + 8 * stepDuration} durationInFrames={30}>
