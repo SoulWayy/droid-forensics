@@ -27,16 +27,34 @@ Observed during the 6 jul 22:18 → 7 jul 13:34 window (~15h, 42 sessions):
 
 Quantified evidence:
 
-| Symptom | Count | Source |
+**Verified against the raw log** (`~/.factory/logs/droid-log-single.log`, 64 MB, sha256 pending) by running `tools/analyze_errors.py` / `tools/parse_sessions.py` directly:
+
+| Symptom | Raw-log count | Source |
 |---|---|---|
-| JSON-RPC notifications logged | 31.994 | `reports/eindrapport.md` §2.4 |
-| HTTP 429 rate-limit responses (total across all providers) | 232× | `reports/droid-architectuur-puzzel.md` §D.6 (Clinepass 106 + OpenCode 88 + GLM 38) |
+| HTTP 429 rate-limit responses (substring `429`) | **2.730** | raw `droid-log-single.log` (counted 2026-07-07) |
+| YAML mentions (parse-related) | **13.158** | raw `droid-log-single.log` |
+| Sync `statSync` / `git.ts` references | **933** | raw `droid-log-single.log` |
+| `Header.tsx` render-path references | **193** | raw `droid-log-single.log` |
+| JSON-RPC `notification` frames | **32.743** | raw `droid-log-single.log` |
+
+**Reported by subagent analysis** (derived counts from `reports/*`, NOT independently recounted from the raw bytes in this pass):
+
+| Symptom | Reported count | Source |
+|---|---|---|
+| JSON-RPC notifications (distinct) | 31.994 | `reports/eindrapport.md` §2.4 |
+| HTTP 429 (filtered subset: Clinepass 106 + OpenCode 88 + GLM 38) | 232× | `reports/droid-architectuur-puzzel.md` §D.6 |
 | YAML frontmatter parse errors | 2.924 | `reports/eindrapport.md` §2.2 |
 | React duplicate-key errors | 70 | `reports/subagent-timeline.md` (Legend: dup-key=70) |
-| Maximum update depth crashes | 8 | `reports/eindrapport.md` §2.1 |
+| Maximum update depth crashes | 8 | `reports/eindrapport.md` §2.1 / `console.log` |
 | Sessions over ~15h | 42 | `reports/eindrapport.md` §2.4 |
-| Sync `statSync` calls on `.git` (git.ts) | 477 | `reports/eindrapport.md` §2.2 |
-| `Header.tsx` render-path hot hits | 209 | `reports/eindrapport.md` §2.2 |
+
+> **Reconciliation note:** the raw substring count for `429` is 2.730, while the
+> subagent reports 232 — the 232 figure is a filtered subset (three named
+> providers), not the total. The 8 `max-depth` crashes are confirmed in
+> `console.log` (the crash log), not in `droid-log-single.log`. The 70
+> duplicate-key errors are **not present as a literal string in either raw log**
+> and rely entirely on the subagent timeline report — treat as reported, not
+> independently verified. See `REPRODUCTION.md` to re-run the counts.
 
 ---
 
@@ -44,9 +62,9 @@ Quantified evidence:
 
 Window: **6 jul 2026 22:18 → 7 jul 2026 13:34 UTC** (see `reports/subagent-timeline.md`).
 
-First-occurrence cascade (from `reports/subagent-timeline.md` §Causal Cascade Analysis):
+First-occurrence cascade (from `reports/subagent-timeline.md` §Causal Cascade Analysis — **reported**, not re-derived from raw bytes in this pass):
 
-1. `dup-key` — 2026-07-06 22:43:59 (precedes the 429 storm; a pre-existing UI bug)
+1. `dup-key` — 2026-07-06 22:43:59 *(reported; the literal "duplicate key" string is absent from the raw logs — see Reconciliation note above)*
 2. `persist` — 2026-07-07 05:08:58
 3. `session-create` — 2026-07-07 05:09:01
 4. `bad-setstate` (`jnM`) — 2026-07-07 05:26:38
@@ -130,3 +148,24 @@ Chain rooted in `src/components/Header.tsx`:
 - Exact minified bundle identifier for component `jnM` (source maps give `Header.tsx` context only).
 
 All counts above are derived from historical logs (`~/.factory/logs/droid-log-single.log`, `console.log`) and static binary inspection. See `reports/onderzoeksmatrix.md` for the full covered/missing gap analysis.
+
+### Independent verification of the raw logs (2026-07-07)
+
+Re-running the parsers directly against the raw 64 MB log produced counts
+that **differ** from the subagent-derived figures in the table above:
+
+- `429` substring count = **2.730** in `droid-log-single.log` (subagent reported 232, a filtered subset).
+- The 8 `Maximum update depth` crashes are present in `console.log` (the crash log), **not** in `droid-log-single.log`.
+- The 70 duplicate-key errors are **not present as a literal string** in either raw log; they originate solely from `reports/subagent-timeline.md`.
+
+This is a known gap: the dossier's quantitative claims were produced by
+subagent passes over the logs and were not re-counted byte-for-byte in the
+original analysis. To make any figure independently verifiable, run:
+
+```bash
+python3 tools/analyze_errors.py --log ~/.factory/logs/droid-log-single.log --out reports/_verify-timeline.md
+python3 tools/parse_sessions.py   --log ~/.factory/logs/droid-log-single.log --out reports/_verify-sessions.md
+```
+
+and reconcile the output against the tables in this report. Until then, treat
+the "Reported by subagent analysis" rows as **derived**, not primary evidence.
