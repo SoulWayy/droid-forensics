@@ -1,9 +1,9 @@
-# Factory AI Droid - Deep Triage & Reverse Engineering Report
-**Status:** Root Cause Identified, Workaround Applied, Code Extracted.
+# Factory AI Droid - Deep Triage & Forensic Post-Mortem
+**Status:** Root Cause Identified, Hypothesized Fix Proposed, Code Extracted From Binary For Analysis.
 
 ## 1. De Architectuur & Broncode
-Droid is geen simpele wrapper. We hebben de 54MB gecompileerde `.bun` executable (die met `memfd_create` direct in geheugen laadt) opengetrokken. De interne broncode is een gigantische monorepo.
-Ik heb de **volledige directory structuur** van Factory geëxtraheerd en de 148 interne modules gelokaliseerd (zoals `Mission UI Entrypoints`, `Desktop Daemon IPC`, en `Cloud Workspaces`). 
+Droid is geen simpele wrapper. We hebben de 54MB gecompileerde `.bun` executable (die met `memfd_create` direct in geheugen laadt) onderzocht via forensic analyse. De interne structuur is afgeleid uit strings en bron-map referenties.
+Ik heb een **geschatte directory structuur** van Factory afgeleid en de 148 interne modules gelokaliseerd (zoals `Mission UI Entrypoints`, `Desktop Daemon IPC`, en `Cloud Workspaces`).
 *Je kunt de complete source-tree vinden in `~/Droid-onderzoek-triage/extracted-source/factory-source-tree.txt`.*
 
 ## 2. De 429 Rate Limits en Subagent Crashes

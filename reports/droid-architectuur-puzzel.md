@@ -1,7 +1,7 @@
-# Droid Architectuur — De Volledige Puzzel (Reverse-Engineered)
+# Droid Architectuur — De Volledige Puzzel (Forensic Reconstructie)
 
 > **Doel:** de codebase zo volledig uitleggen dat je Droid theoretisch zelf zou kunnen bouwen.  
-> **Basis:** reverse engineering van `/home/jan/.local/bin/droid` + logs + stack traces. Niets aangepast aan Droid.
+> **Basis:** forensic analyse van `/home/jan/.local/bin/droid` + logs + stack traces. Niets aangepast aan Droid.
 
 ---
 
@@ -1040,7 +1040,7 @@ Schrijf een functie die...
 
 ---
 
-## Appendix C — Reverse Engineering Methodiek
+## Appendix C — Forensische Methodiek
 
 Hoe we dit allemaal hebben gevonden zonder source code:
 
@@ -1578,7 +1578,7 @@ sudo gdb -p $PID -batch \
 
 ---
 
-## Appendix G — Reverse Engineering Toolchain Setup
+## Appendix G — Forensische Toolchain Setup
 
 ### G.1 Minimale tools
 
@@ -1711,4 +1711,4 @@ return (
 
 ---
 
-*Dit document is volledig gereconstrueerd via reverse engineering van de binary en logs. Geen enkele regel echte Droid source code is gelezen of aangepast.*
+*Dit document is volledig gereconstrueerd via forensic analyse van de binary en logs. Geen enkele regel echte Droid source code is gelezen of aangepast.*

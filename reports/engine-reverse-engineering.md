@@ -1,6 +1,6 @@
-# Droid TUI Performance Dissectie (Reverse Engineering)
+# Droid TUI Performance Dissectie (Forensic Post-Mortem)
 
-Na een diepgaande dissectie van de Bun-executable, de event-loop syscalls en de React (Ink) error logs, hebben we de exacte architecturale fouten ontrafeld die Droid "absurd traag" maken en voor extreme input-lag zorgen, ongeacht of je Herdr, Tmux of Zellij gebruikt.
+Na een diepgaande analyse van de Bun-executable, de event-loop syscalls en de React (Ink) error logs, hebben we de vermoedelijke architecturale fouten ontrafeld die Droid "absurd traag" maken en voor extreme input-lag zorgen, ongeacht of je Herdr, Tmux of Zellij gebruikt.
 
 ## 1. De React/Ink Reconciliation Crash
 De fouten `Encountered two children with the same key, 'header-configs'` en `Cannot update a component ('jnM')` wijzen op een fundamenteel state-management probleem in de CLI UI.
