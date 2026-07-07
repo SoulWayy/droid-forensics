@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droid Architectuur — Volledige Reverse Engineering</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f; color: #e0e0e0; line-height: 1.6;
+        }
+        body::before {
+            content: ''; position: fixed; top:0; left:0; right:0; bottom:0;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 32px 32px; pointer-events: none; z-index: 0;
+        }
+        .container { position: relative; z-index: 1; max-width: 1300px; margin:0 auto; padding: 32px 24px; }
+
+        /* ── HEADER ── */
+        .top-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .back-link { color: #58a6ff; text-decoration: none; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+        .version-badge {
+            display: inline-block; background: rgba(188,140,255,0.12);
+            color: #bc8cff; padding: 4px 12px; border-radius: 6px;
+            font-size: 0.8rem; font-weight: 600;
+        }
+        h1 {
+            font-size: 2.8rem; font-weight: 800; margin-bottom: 6px;
+            background: linear-gradient(135deg, #58a6ff, #7c5cff, #f97583);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle { color: #8b949e; font-size: 1.1rem; margin-bottom: 32px; }
+
+        /* ── STATS RIBBON ── */
+        .stats-ribbon {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px; margin-bottom: 32px;
+        }
+        .stat-pill {
+            background: rgba(22,27,34,0.7);
+            border: 1px solid rgba(48,54,61,0.4);
+            border-radius: 10px; padding: 14px 12px; text-align: center;
+            transition: border-color 0.2s;
+        }
+        .stat-pill:hover { border-color: #58a6ff; }
+        .stat-pill .num {
+            font-size: 1.6rem; font-weight: 700; color: #58a6ff;
+        }
+        .stat-pill .lbl {
+            font-size: 0.7rem; color: #8b949e;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;
+        }
+
+        /* ── TAB NAV ── */
+        .tab-bar {
+            display: flex; gap: 2px; overflow-x: auto;
+            border-bottom: 1px solid rgba(48,54,61,0.5);
+            margin-bottom: 0;
+        }
+        .tab-btn {
+            background: transparent; border: none; color: #8b949e;
+            padding: 12px 18px; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; border-bottom: 2px solid transparent;
+            transition: all 0.15s; white-space: nowrap;
+            font-family: inherit;
+        }
+        .tab-btn:hover { color: #e6edf3; background: rgba(255,255,255,0.03); }
+        .tab-btn.active {
+            color: #58a6ff; border-color: #58a6ff;
+            background: rgba(88,166,255,0.06);
+        }
+
+        /* ── TAB CONTENT ── */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ── LAYER STACK ── */
+        .layer-stack {
+            display: flex; flex-direction: column; gap: 0;
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            margin: 24px 0;
+        }
+        .layer { padding: 24px; position: relative; }
+        .layer h3 { margin:0 0 8px; color:#fff; font-size:1.1rem; }
+        .layer p { margin:0; color: rgba(255,255,255,0.8); font-size:0.9rem; }
+        .layer-items {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+        }
+        .layer-item {
+            background: rgba(255,255,255,0.08);
+            padding: 4px 10px; border-radius: 4px;
+            font-size:0.8rem; border:1px solid rgba(255,255,255,0.1);
+        }
+        .layer-3 { background: linear-gradient(135deg,#1a4d6e 0%,#0d3a5c 100%); }
+        .layer-2 { background: linear-gradient(135deg,#4a1a6e 0%,#2d0d4d 100%); }
+        .layer-1 { background: linear-gradient(135deg,#1a6e3d 0%,#0d3d24 100%); }
+
+        /* ── PROCESS GRID ── */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .process-box {
+            background: rgba(22,27,34,0.8);
+            border: 1px solid rgba(48,54,61,0.5);
+            border-radius: 12px; padding: 16px; text-align: center;
+        }
+        .process-box .icon { font-size:1.8rem; margin-bottom:6px; }
+        .process-box h4 { color:#e6edf3; margin-bottom:4px; font-size:0.95rem; }
+        .process-box p { color:#8b949e; font-size:0.8rem; margin:0; }
+
+        /* ── SECTIONS ── */
+        h2 {
+            color:#58a6ff; font-size:1.5rem; margin:40px 0 16px;
+            padding-bottom:8px; border-bottom:1px solid rgba(48,54,61,0.4);
+        }
+        h3 { color:#bc8cff; font-size:1.15rem; margin:24px 0 10px; }
+        h4 { color:#e6edf3; font-size:1rem; margin:18px 0 8px; }
+        p, li { color:#c9d1d9; margin-bottom:10px; }
+        ul, ol { padding-left: 24px; margin-bottom: 16px; }
+        code {
+            background: rgba(88,166,255,0.08);
+            color: #58a6ff; padding: 2px 6px; border-radius: 4px;
+            font-size: 0.88em;
+        }
+
+        /* ── CHARTS ── */
+        .chart {
+            background: rgba(22,27,34,0.8);
+            border: 1px solid rgba(48,54,61,0.5);
+            border-radius: 12px; padding: 20px; margin: 16px 0;
+        }
+        .bar-row {
+            display: flex; align-items: center; margin: 6px 0;
+        }
+        .bar-label { width: 240px; font-size:0.82rem; color:#c9d1d9; flex-shrink:0; }
+        .bar-track {
+            flex:1; height:22px; background:rgba(48,54,61,0.4);
+            border-radius:4px; overflow:hidden; margin:0 10px;
+        }
+        .bar-fill {
+            height:100%; border-radius:4px;
+            display:flex; align-items:center; justify-content:flex-end;
+            padding-right:6px; font-size:0.7rem; font-weight:600; color:#fff;
+        }
+        .bar-value { width:52px; text-align:right; font-size:0.82rem; color:#8b949e; }
+
+        /* ── MERMAID ── */
+        .mermaid-box {
+            background: rgba(22,27,34,0.8);
+            border: 1px solid rgba(48,54,61,0.5);
+            border-radius: 12px; padding: 20px; margin: 16px 0;
+            overflow-x: auto;
+        }
+        .mermaid-box svg { max-width: 100%; }
+
+        /* ── DATA TABLE ── */
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 16px 0;
+            font-size: 0.85rem;
+        }
+        .data-table th {
+            background: rgba(48,54,61,0.3);
+            color: #8b949e; text-align: left; padding: 10px 12px;
+            font-weight: 600; text-transform: uppercase; font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+        .data-table td {
+            padding: 8px 12px; border-bottom: 1px solid rgba(48,54,61,0.3);
+            color: #c9d1d9;
+        }
+        .data-table tr:hover td { background: rgba(88,166,255,0.04); }
+
+        /* ── INFO CARD ── */
+        .info-card {
+            background: rgba(22,27,34,0.8);
+            border: 1px solid rgba(48,54,61,0.5);
+            border-radius: 12px; padding: 20px; margin: 16px 0;
+        }
+        .info-card.warn { border-color: #f97583; }
+        .info-card.idea { border-color: #58a6ff; }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center; padding: 60px 20px 20px;
+            color: #484f58; font-size: 0.85rem;
+        }
+        .footer a { color: #58a6ff; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .tab-btn { padding: 10px 12px; font-size: 0.8rem; }
+            .bar-label { width: 140px; font-size: 0.75rem; }
+            .data-table { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <a href="index.html" class="back-link">← Index</a>
+        <span class="version-badge">droid v0.164.0 / v0.164.1</span>
+    </div>
+
+    <h1>🧩 Droid Architectuur</h1>
+    <p class="subtitle">Complete reverse engineering van de Droid codebase — 3 lagen, 14 threads, 42 sessies, 31.994 notifications</p>
+
+    <!-- ═══════ STATS ═══════ -->
+    <div class="stats-ribbon">
+        <div class="stat-pill"><div class="num">3</div><div class="lbl">Lagen</div></div>
+        <div class="stat-pill"><div class="num">14</div><div class="lbl">Threads</div></div>
+        <div class="stat-pill"><div class="num">42</div><div class="lbl">Sessies</div></div>
+        <div class="stat-pill"><div class="num">150MB</div><div class="lbl">Binary</div></div>
+        <div class="stat-pill"><div class="num">53MB</div><div class="lbl">JS bundle</div></div>
+        <div class="stat-pill"><div class="num">31.994</div><div class="lbl">Notifications</div></div>
+        <div class="stat-pill"><div class="num">523</div><div class="lbl">Crates</div></div>
+        <div class="stat-pill"><div class="num">2.924</div><div class="lbl">YAML Errors</div></div>
+    </div>
+
+    <!-- ═══════ TAB BAR ═══════ -->
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="overzicht">📋 Overzicht</button>
+        <button class="tab-btn" data-tab="processen">🔄 Processen</button>
+        <button class="tab-btn" data-tab="dataflow">📊 Dataflow</button>
+        <button class="tab-btn" data-tab="protocol">🔌 Protocol</button>
+        <button class="tab-btn" data-tab="hotspots">🔥 Hotspots</button>
+        <button class="tab-btn" data-tab="renderloop">💀 Render Loop</button>
+        <button class="tab-btn" data-tab="build">📦 Build</button>
+    </div>
+
+    <!-- ═══════ TAB: OVERZICHT ═══════ -->
+    <div class="tab-content active" id="tab-overzicht">
+
+        <h2>🏗️ De Drie Lagen</h2>
+        <div class="layer-stack">
+            <div class="layer layer-3">
+                <h3>Layer 3 — JavaScript Applicatie (53 MB .bun)</h3>
+                <p>Ink/React TUI, agent logic, plugins, commands, skills. Embedded als BunFS image met source maps.</p>
+                <div class="layer-items">
+                    <span class="layer-item">app.tsx</span>
+                    <span class="layer-item">Header.tsx — ⚠️ BOOSDOENER</span>
+                    <span class="layer-item">ChatInput.tsx</span>
+                    <span class="layer-item">AgentLoop.ts</span>
+                    <span class="layer-item">McpHub.ts</span>
+                    <span class="layer-item">PluginLoader.ts</span>
+                    <span class="layer-item">SettingsManager.ts</span>
+                    <span class="layer-item">parseFrontmatter.ts</span>
+                    <span class="layer-item">fileLoaders.ts</span>
+                    <span class="layer-item">TuiDaemonAdapter.ts</span>
+                </div>
+            </div>
+            <div class="layer layer-2">
+                <h3>Layer 2 — JavaScriptCore (WebKit JSC)</h3>
+                <p>JS engine — JIT compiler, Garbage Collector (via HeapHelper threads), NAPI bindings naar Rust.</p>
+                <div class="layer-items">
+                    <span class="layer-item">JSC VM — 74 GB VSZ (normaal)</span>
+                    <span class="layer-item">JIT Worker thread</span>
+                    <span class="layer-item">GC HeapHelper × 3</span>
+                    <span class="layer-item">WTF (WebKit Template Library)</span>
+                    <span class="layer-item">NAPI FFI → Rust</span>
+                </div>
+            </div>
+            <div class="layer layer-1">
+                <h3>Layer 1 — Rust Core (~50 MB .text, 523 crates)</h3>
+                <p>Bun canary v1.3.14 (Rust rewrite, PR #30412). Async runtime, HTTP/TLS, PTY, JSON-RPC.</p>
+                <div class="layer-items">
+                    <span class="layer-item">tokio-1.49.0</span>
+                    <span class="layer-item">hyper-1.8.1</span>
+                    <span class="layer-item">reqwest-0.12.28</span>
+                    <span class="layer-item">rustls-0.23.37</span>
+                    <span class="layer-item">ring-0.17.14</span>
+                    <span class="layer-item">portable-pty-0.8.1</span>
+                    <span class="layer-item">crossbeam-channel-0.5.15</span>
+                    <span class="layer-item">clap-2.33.3</span>
+                    <span class="layer-item">serde_json-1.0.149</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>🧠 Componenten in Detail</h2>
+
+        <div class="info-card">
+            <h4>📁 Monorepo structuur</h4>
+            <ul>
+                <li><code>src/</code> — Main applicatie (8000+ trace refs)</li>
+                <li><code>packages/runtime/</code> — gedeelde runtime libs (shell, settings, plugins)</li>
+                <li><code>packages/utils/</code> — utility libs (frontmatter, promise pool)</li>
+                <li><code>packages/droid-core/</code> — LLM client (<code>sendMessage.ts</code>)</li>
+                <li><code>packages/daemon-client/</code> — daemon verbinding</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h4>⚙️ Entrypoints</h4>
+            <table class="data-table">
+                <tr><th>Subcommand</th><th>Entry</th><th>Mode</th><th>Usage</th></tr>
+                <tr><td><code>droid</code> (geen args)</td><td><code>src/entrypoints/tui/run.ts</code></td><td><code>terminal-ui</code></td><td>40.049×</td></tr>
+                <tr><td><code>droid exec</code></td><td><code>src/entrypoints/exec/run.ts</code></td><td><code>interactive-cli</code></td><td>41.509×</td></tr>
+                <tr><td><code>droid doctor</code></td><td><code>src/entrypoints/tui/</code></td><td><code>terminal-ui</code></td><td>2.472×</td></tr>
+                <tr><td><code>droid config</code></td><td>via exec</td><td><code>non-interactive</code></td><td>491×</td></tr>
+                <tr><td><code>droid update</code></td><td>via exec</td><td><code>non-interactive</code></td><td>20×</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ═══════ TAB: PROCESSEN ═══════ -->
+    <div class="tab-content" id="tab-processen">
+
+        <h2>🔄 Proces Architectuur</h2>
+        <p>Droid gebruikt een <strong>dual-process model</strong>: de Main TUI en een Worker per prompt-sessie.</p>
+
+        <div class="process-grid">
+            <div class="process-box">
+                <div class="icon">🖥️</div>
+                <h4>Main TUI</h4>
+                <p>PID van <code>droid</code><br>Ink/React TUI<br>14 threads<br>~400 MB RSS</p>
+            </div>
+            <div class="process-box">
+                <div class="icon">👹</div>
+                <h4>TuiDaemonAdapter</h4>
+                <p>Sessie bridge<br>TUI ⇄ Daemon<br>State & lifecycle</p>
+            </div>
+            <div class="process-box">
+                <div class="icon">⚙️</div>
+                <h4>Worker</h4>
+                <p><code>droid exec</code><br>LLM + tools<br>Stream-jsonrpc</p>
+            </div>
+            <div class="process-box">
+                <div class="icon">🔌</div>
+                <h4>MCP Servers</h4>
+                <p>linear / notion<br>playwright / github<br>Per tool apart proces</p>
+            </div>
+            <div class="process-box">
+                <div class="icon">📊</div>
+                <h4>Daemon</h4>
+                <p>Factory daemon<br>Achtergrond service<br>Sessie persistentie</p>
+            </div>
+        </div>
+
+        <div class="mermaid-box">
+<div class="mermaid">
+flowchart LR
+    TUI["Main TUI<br/>PID A<br/>Ink/React"]:::tui
+    DA["TuiDaemonAdapter<br/>in-process"]:::daemon
+    W["Worker<br/>PID B<br/>droid exec"]:::worker
+    MCP["MCP Servers<br/>linear / notion / playwright"]:::mcp
+    LLM["LLM API<br/>GLM / OpenCode / Clinepass"]:::llm
+
+    TUI --> DA
+    DA <-->|JSON-RPC<br/>over loopback| W
+    W <-->|MCP protocol<br/>tools/list tools/call| MCP
+    W <-->|HTTPS<br/>streaming| LLM
+    DA --> TUI
+
+    classDef tui fill:#1a4d6e,stroke:#58a6ff
+    classDef daemon fill:#2d0d4d,stroke:#bc8cff
+    classDef worker fill:#1a6e3d,stroke:#3fb950
+    classDef mcp fill:#4d3a1a,stroke:#d29922
+    classDef llm fill:#4d1a1a,stroke:#f97583
+</div>
+        </div>
+
+        <h3>🧵 Thread-level Model (Main TUI, PID 2663905)</h3>
+        <table class="data-table">
+            <tr><th>TID</th><th>Naam</th><th>%CPU</th><th>Functie</th></tr>
+            <tr><td>2663905</td><td>main (tokio event loop)</td><td>56.0% ⚠️</td><td>JSC event loop + Ink rendering</td></tr>
+            <tr><td>2663906</td><td>tokio worker</td><td>0.4%</td><td>Async tasks</td></tr>
+            <tr><td>2663907–2663909</td><td>HeapHelper × 3</td><td>0.5% elk</td><td>JSC Garbage Collector</td></tr>
+            <tr><td>2664077–2664079</td><td>Bun Pool × 3</td><td>0.0%</td><td>Bun internal thread pool</td></tr>
+            <tr><td>2664185</td><td>HTTP Client</td><td>0.0%</td><td>reqwest HTTP client</td></tr>
+            <tr><td>2665922</td><td>Bun Pool</td><td>0.0%</td><td>Extra worker</td></tr>
+            <tr><td>2665923</td><td>fs.watch</td><td>0.0%</td><td>File system watcher</td></tr>
+            <tr><td>2673460</td><td>JITWorker</td><td>1.6%</td><td>JSC JIT compilation</td></tr>
+        </table>
+
+        <div class="info-card warn">
+            <strong>🔴 Main thread overheerst:</strong> 56% CPU op thread 2663905 (JSC event loop + Ink rendering).
+            De HeapHelper threads zijn actief (0.5% elk) — GC wordt constant getriggerd.
+            JITWorker op 1.6% — er wordt veel JS gecompileerd.
+        </div>
+
+        <h3>👷 Worker Lifecycle (per prompt)</h3>
+        <div class="mermaid-box">
+<div class="mermaid">
+stateDiagram-v2
+    [*] --> Idle: Droid start
+    Idle --> Spawning: Gebruiker typt prompt
+    Spawning --> Connecting: droid exec spawned
+    Connecting --> Initializing: JSON-RPC verbonden
+    Initializing --> Running: Agent loop start
+    Running --> WaitingLLM: sendMessage
+    WaitingLLM --> Processing: stream deltas
+    Processing --> Running: delta processed
+    Running --> CallingTool: tool_call
+    CallingTool --> Running: tool_result
+    Running --> Shutdown: prompt done / error
+    Shutdown --> Idle: SIGTERM, cleanup
+    Idle --> [*]: Droid exit
+</div>
+        </div>
+
+        <h4>Worker teardown (5 seconden!)</h4>
+        <ol>
+            <li>SIGTERM ontvangen</li>
+            <li><code>JsonRpc.shutdown()</code> — buffer legen, pending requests cancel</li>
+            <li><code>ProcessTracker.killAll()</code> — tool processen doden</li>
+            <li><code>McpHub.close()</code> — MCP servers stoppen (linear, notion, playwright)</li>
+            <li><code>CustomerOtelClient.flush()</code> — telemetry wegschrijven</li>
+            <li><code>CustomerOtelClient.shutdown()</code></li>
+            <li><code>TuiDaemonAdapter.close()</code></li>
+        </ol>
+        <p>De 5s teardown komt waarschijnlijk door open HTTP verbindingen (LLM streaming) die niet direct sluiten.</p>
+    </div>
+
+    <!-- ═══════ TAB: DATAFLOW ═══════ -->
+    <div class="tab-content" id="tab-dataflow">
+
+        <h2>📊 Dataflow: Van toetsaanslag tot antwoord</h2>
+
+        <div class="mermaid-box">
+<div class="mermaid">
+sequenceDiagram
+    participant U as Gebruiker
+    participant T as TUI (Ink/React)
+    participant H as Header.tsx
+    participant D as TuiDaemonAdapter
+    participant W as Worker
+    participant L as LLM API
+    participant M as MCP Server
+
+    Note over U,M: NORMALE FLOW
+    U->>T: typt toets
+    T->>H: re-render (useMemo)
+    H->>H: getReadinessHint()
+    H->>H: statSync('.../.git') ← blokkeert event loop
+    T-->>U: toont getypte tekst (vertraagd)
+    U->>T: Enter → prompt versturen
+    T->>D: JSON-RPC request
+    D->>W: forward
+    W->>W: AgentLoop
+    W->>W: laad frontmatter
+    W->>L: sendMessage (streaming)
+    L-->>W: thinking_text_delta
+    W-->>T: notification
+    L-->>W: assistant_text_delta
+    W-->>T: notification
+    T->>H: re-render op elke notif
+    T-->>U: toont antwoord
+    W->>M: tool_call
+    M-->>W: tool_result
+    W->>L: resultaat terug
+    L-->>W: final delta
+
+    Note over U,M: 429 CRASH FLOW
+    L-->>W: 429 Rate Limited
+    W-->>T: error notification
+    T->>H: re-render
+    H->>H: statSync × 5-10
+    W->>L: retry (geen backoff!)
+    L-->>W: 429 Rate Limited
+    W-->>T: error notification
+    T->>H: re-render... herhaal
+</div>
+        </div>
+
+        <h3>⚡ Metrics storm per tijdseenheid</h3>
+        <table class="data-table">
+            <tr><th>Uur</th><th>Events</th><th>Dup Keys</th><th>i18next</th><th>setState</th><th>429s</th><th>JSON-RPC</th></tr>
+            <tr><td>6 jul 22:00</td><td>4</td><td>2</td><td>2</td><td>0</td><td>0</td><td>~50</td></tr>
+            <tr><td>7 jul 05:00</td><td>6</td><td>0</td><td>5</td><td>1</td><td>0</td><td>~2.100</td></tr>
+            <tr><td>7 jul 06:00</td><td>3</td><td>0</td><td>2</td><td>1</td><td>0</td><td>~200</td></tr>
+            <tr><td>7 jul 07:00</td><td>16</td><td>10</td><td>4</td><td>2</td><td>0</td><td>~180</td></tr>
+            <tr><td style="color:#f97583;">7 jul 08:00</td><td>35</td><td>0</td><td>27</td><td>0</td><td>57</td><td>~5.100</td></tr>
+            <tr><td>7 jul 09:00</td><td>3</td><td>1</td><td>2</td><td>0</td><td>0</td><td>~5.100</td></tr>
+            <tr><td style="color:#f97583;">7 jul 11:00</td><td>44</td><td>31</td><td>10</td><td>3</td><td>44</td><td>~5.700</td></tr>
+            <tr><td style="color:#f97583;">7 jul 12:00</td><td>28</td><td>21</td><td>6</td><td>1</td><td>58</td><td>~12.500</td></tr>
+            <tr><td>7 jul 13:00</td><td>11</td><td>5</td><td>6</td><td>0</td><td>17</td><td>~300</td></tr>
+        </table>
+
+        <div class="info-card warn">
+            <strong>🔴 Correlatie:</strong> De pieken in JSON-RPC (08:00, 11:00, 12:00) vallen samen met 429 errors
+            EN React duplicate key errors. Dit bevestigt de death spiral: rate limits → notifications → re-renders.
+        </div>
+
+        <h3>📈 Notification types distributie</h3>
+        <div class="chart">
+            <div class="bar-row">
+                <div class="bar-label">thinking_text_delta</div>
+                <div class="bar-track"><div class="bar-fill" style="width:100%; background:#bc8cff;">~17.000</div></div>
+                <div class="bar-value">17.000</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">assistant_text_delta</div>
+                <div class="bar-track"><div class="bar-fill" style="width:34%; background:#58a6ff;">5.732</div></div>
+                <div class="bar-value">5.732</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">tool_call</div>
+                <div class="bar-track"><div class="bar-fill" style="width:7%; background:#d29922;">1.105</div></div>
+                <div class="bar-value">1.105</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">tool_progress_update</div>
+                <div class="bar-track"><div class="bar-fill" style="width:6%; background:#3fb950;">1.000</div></div>
+                <div class="bar-value">1.000</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">droid_working_state_changed</div>
+                <div class="bar-track"><div class="bar-fill" style="width:2.5%; background:#f9c513;">390</div></div>
+                <div class="bar-value">390</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">mcp_status_changed</div>
+                <div class="bar-track"><div class="bar-fill" style="width:2%; background:#f97583;">27</div></div>
+                <div class="bar-value">27</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ TAB: PROTOCOL ═══════ -->
+    <div class="tab-content" id="tab-protocol">
+
+        <h2>🔌 JSON-RPC Protocol</h2>
+        <p>Droid gebruikt <strong>stream-jsonrpc</strong>: JSON-RPC 2.0 over stdio of TCP loopback.</p>
+
+        <h3>Bericht structuur</h3>
+        <pre style="background:rgba(22,27,34,0.8); border:1px solid rgba(48,54,61,0.5); border-radius:8px; padding:16px; color:#c9d1d9; overflow-x:auto; font-size:0.85rem;">
+<code>{
+  "jsonrpc": "2.0",
+  "method": "notification",
+  "params": {
+    "type": "assistant_text_delta",
+    "tag": {...},           // metadata: clientType, platform, sessionId, etc.
+    "value": "..."          // payload
+  }
+}</code></pre>
+
+        <h3>Volledige notification schema</h3>
+        <table class="data-table">
+            <tr><th>#</th><th>Type</th><th>Richting</th><th>Payload</th><th>Frequentie</th></tr>
+            <tr><td>1</td><td><code>thinking_text_delta</code></td><td>W→T</td><td>LLM reasoning token</td><td>🏆 17.000</td></tr>
+            <tr><td>2</td><td><code>assistant_text_delta</code></td><td>W→T</td><td>LLM antwoord token</td><td>5.732</td></tr>
+            <tr><td>3</td><td><code>assistant_text_complete</code></td><td>W→T</td><td>Einde van antwoord</td><td>67</td></tr>
+            <tr><td>4</td><td><code>tool_call</code></td><td>W→T</td><td>Tool aanroep ({name, args})</td><td>1.105</td></tr>
+            <tr><td>5</td><td><code>tool_result</code></td><td>W→T</td><td>Tool resultaat</td><td>269</td></tr>
+            <tr><td>6</td><td><code>tool_progress_update</code></td><td>W→T</td><td>Voortgang ({progress, total})</td><td>1.000</td></tr>
+            <tr><td>7</td><td><code>tool_execution_heartbeat</code></td><td>W→T</td><td>Keep-alive tijdens tool</td><td>273</td></tr>
+            <tr><td>8</td><td><code>droid_working_state_changed</code></td><td>W→T</td><td>Busy/idle toggle</td><td>390</td></tr>
+            <tr><td>9</td><td><code>create_message</code></td><td>W→T</td><td>Nieuw bericht in chat</td><td>233</td></tr>
+            <tr><td>10</td><td><code>mcp_status_changed</code></td><td>W→T</td><td>MCP server connect/disconnect</td><td>27</td></tr>
+            <tr><td>11</td><td><code>session_token_usage_changed</code></td><td>W→T</td><td>Token count update</td><td>202</td></tr>
+            <tr><td>12</td><td><code>session_title_updated</code></td><td>W→T</td><td>Sessie titel</td><td>8</td></tr>
+            <tr><td>13</td><td><code>error</code></td><td>W→T</td><td>Foutmelding (429 etc.)</td><td>4</td></tr>
+            <tr><td>14</td><td><code>agent_turn_completed</code></td><td>W→T</td><td>Agent turn done</td><td>19</td></tr>
+            <tr><td>15</td><td><code>settings_updated</code></td><td>W→T</td><td>Settings change</td><td>17</td></tr>
+        </table>
+
+        <h3>Tags / metadata velden</h3>
+        <p>Elke notification bevat een <code>tags</code> object:</p>
+        <table class="data-table">
+            <tr><th>Veld</th><th>Voorbeeld</th><th>Betekenis</th></tr>
+            <tr><td><code>clientType</code></td><td><code>"cli"</code></td><td>Altijd "cli"</td></tr>
+            <tr><td><code>platform</code></td><td><code>"linux"</code></td><td>OS platform</td></tr>
+            <tr><td><code>version</code></td><td><code>"0.164.0"</code></td><td>Droid versie</td></tr>
+            <tr><td><code>terminal</code></td><td><code>"xterm-256color"</code></td><td>Terminal emulator</td></tr>
+            <tr><td><code>clientMode</code></td><td><code>"tui"</code> / <code>"interactive-cli"</code></td><td>Submodus</td></tr>
+            <tr><td><code>droidMode</code></td><td><code>"terminal-ui"</code></td><td>Hoofdmodus</td></tr>
+            <tr><td><code>sessionId</code></td><td>UUID</td><td>Unieke sessie</td></tr>
+            <tr><td><code>isDroidExec</code></td><td><code>"true"</code> / <code>"false"</code></td><td>Is worker?</td></tr>
+            <tr><td><code>isStreamJsonRpcWorker</code></td><td><code>"true"</code></td><td>JSON-RPC mode</td></tr>
+            <tr><td><code>droidInstallationId</code></td><td>UUID</td><td>Machine ID</td></tr>
+            <tr><td><code>factoryTier</code></td><td><code>"team"</code></td><td>Licentie tier</td></tr>
+        </table>
+    </div>
+
+    <!-- ═══════ TAB: HOTSPOTS ═══════ -->
+    <div class="tab-content" id="tab-hotspots">
+
+        <h2>🔥 Source Code Hotspots</h2>
+        <p>Gebaseerd op 103.974 logregels met stack traces uit <code>droid-log-single.log</code>.</p>
+
+        <div class="chart">
+            <div class="bar-row">
+                <div class="bar-label"><code>parseFrontmatter.ts:28</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:100%; background:#f97583;">2.924</div></div>
+                <div class="bar-value">2.924</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>fileLoaders.ts:85-86</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:50%; background:#f97583;">1.462×2</div></div>
+                <div class="bar-value">2.924</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>PluginLoader.ts:482</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:25%; background:#f9c513;">720</div></div>
+                <div class="bar-value">720</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>DotFolderPaths.ts:29-67</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:23%; background:#f9c513;">654</div></div>
+                <div class="bar-value">654</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>factoryPaths.ts:294</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:18%; background:#f9c513;">524</div></div>
+                <div class="bar-value">524</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>git.ts:18 (statSync)</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:17%; background:#f9c513;">477</div></div>
+                <div class="bar-value">477</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>SettingsManager.ts:1126</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:14%; background:#f9c513;">399</div></div>
+                <div class="bar-value">399</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>Header.tsx:376-386</code> ⚠️</div>
+                <div class="bar-track"><div class="bar-fill" style="width:8%; background:#58a6ff;">209</div></div>
+                <div class="bar-value">209</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>mcpStatusHandler.ts:50-226</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:7%; background:#58a6ff;">182</div></div>
+                <div class="bar-value">182</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>getGuidelinesInfo.ts</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:7%; background:#58a6ff;">194</div></div>
+                <div class="bar-value">194</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>systemInfo.ts:629</code></div>
+                <div class="bar-track"><div class="bar-fill" style="width:6%; background:#58a6ff;">148</div></div>
+                <div class="bar-value">148</div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><code>getReadinessHint/index.ts:85</code> ⚠️</div>
+                <div class="bar-track"><div class="bar-fill" style="width:3%; background:#3fb950;">75</div></div>
+                <div class="bar-value">75</div>
+            </div>
+        </div>
+
+        <div class="info-card warn">
+            <strong>🔴 Top 3 performance-problemen:</strong>
+            <ol>
+                <li><strong>YAML parse errors (2.924×)</strong> — frontmatter parser faalt op indentation</li>
+                <li><strong>Sync I/O in render path</strong> — Header.tsx → getReadinessHint → git.ts:statSync (477×)</li>
+                <li><strong>Duplicate keys in Header.tsx</strong> — 70× console.error in 15 uur</li>
+            </ol>
+        </div>
+
+        <h3>📂 Bestand per module</h3>
+        <table class="data-table">
+            <tr><th>Module</th><th>Totaal refs</th><th>Top file</th><th>%</th></tr>
+            <tr><td><code>src/</code> (main app)</td><td>8.036</td><td>parseFrontmatter.ts</td><td>45%</td></tr>
+            <tr><td><code>packages/utils/</code></td><td>4.551</td><td>parseFrontmatter.ts</td><td>25%</td></tr>
+            <tr><td><code>packages/droid-core/</code></td><td>12</td><td>sendMessage.ts</td><td>0.1%</td></tr>
+            <tr><td><code>packages/daemon-client/</code></td><td>9</td><td>DaemonClient.ts</td><td>0.05%</td></tr>
+        </table>
+    </div>
+
+    <!-- ═══════ TAB: RENDERLOOP ═══════ -->
+    <div class="tab-content" id="tab-renderloop">
+
+        <h2>💀 Render Death Spiral — Complete Analyse</h2>
+
+        <div class="mermaid-box">
+<div class="mermaid">
+flowchart TD
+    %% Triggers
+    TRIG["Externe Trigger<br/>429 Rate Limit"]:::trigger
+    USR["Gebruiker typt"]:::trigger
+
+    %% Death spiral
+    W["Worker stuurt<br/>error notification"]:::worker
+    T["TUI ontvangt<br/>notification"]:::tui
+    H["Header.tsx<br/>re-rendert"]:::bad
+    G["getReadinessHint<br/>in useMemo"]:::bad
+    S["statSync door<br/>directory tree"]:::bad
+    CPU["Event loop blocked<br/>CPU 56-60%"]:::bad
+    R["React reconciler<br/>FAILT op dup keys"]:::bad
+    FULL["FULL RE-RENDER<br/>header tree"]:::bad
+    GC["JSC GC pressure<br/>HeapHelper actief"]:::bad
+    RETRY["Worker retryt<br/>zonder backoff"]:::worker
+
+    TRIG --> W
+    USR --> T
+    W --> T
+    T --> H
+    H --> G
+    G --> S
+    S --> CPU
+    CPU --> R
+    R --> FULL
+    FULL --> GC
+    GC --> CPU
+    CPU -->|input lag<br/>user typt opnieuw| TRIG
+
+    %% side loop
+    CPU -.->|nog een notification| W
+
+    H -->|header-${category}<br/>70× dup key errors| R
+
+    style H fill:#f97583,color:#fff
+    style G fill:#f97583,color:#fff
+    style S fill:#f97583,color:#fff
+    style R fill:#f97583,color:#fff
+    style CPU fill:#f97583,color:#fff
+    style FULL fill:#f97583,color:#fff
+
+    classDef trigger fill:#4d1a1a,stroke:#f97583
+    classDef worker fill:#1a6e3d,stroke:#3fb950
+    classDef tui fill:#1a4d6e,stroke:#58a6ff
+    classDef bad fill:#4d1a1a,stroke:#f97583
+</div>
+        </div>
+
+        <h3>🔬 Stap-voor-stap dissectie</h3>
+
+        <div class="info-card warn">
+            <h4>Stap 1: getReadinessHint in useMemo (FOUT)</h4>
+            <p><code>Header.tsx</code> gebruikt <code>useMemo</code> om de git readiness hint te berekenen.
+            <code>useMemo</code> hoort <strong>pure</strong> te zijn (geen side-effects). Maar <code>getReadinessHint</code>
+            roept <code>statSync</code> aan om <code>.git</code> te vinden in elke parent directory — dat is een
+            <strong>synchronis I/O side-effect tijdens render</strong>.</p>
+            <pre style="background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; margin:10px 0; font-size:0.85rem; overflow-x:auto;">
+<code>// Hypothetische reconstructie wat Droid doet (FOUT):
+const readiness = useMemo(() => {
+  // ⚠️ SYNCHRONIS I/O TIJDENS RENDER ⚠️
+  return getReadinessHint(cwd);
+}, [cwd]);
+
+// Wat het zou moeten zijn:
+const [readiness, setReadiness] = useState(null);
+useEffect(() => {
+  getReadinessHintAsync(cwd).then(setReadiness);
+}, [cwd]);</code></pre>
+        </div>
+
+        <div class="info-card warn">
+            <h4>Stap 2: statSync door de hele tree</h4>
+            <p><code>git.ts:18</code> zoekt <code>.git</code> in huidige dir, dan parent, dan parent's parent...</p>
+            <p>Bij elke render (die door elke notification triggert) wordt dit pad afgelopen:</p>
+            <pre style="background:rgba(0,0,0,0.3); padding:8px; border-radius:4px; font-size:0.82rem;">
+<code>statSync('/home/jan/utrecht-data-os/.git') → ENOENT
+statSync('/home/jan/.git')                 → ENOENT
+statSync('/home/.git')                     → ENOENT
+statSync('/.git')                          → ENOENT</code></pre>
+            <p>Dit zijn <strong>4 sync syscalls per render</strong>. Bij 100 renders/sec = 400 statSync/sec → CPU overload.</p>
+        </div>
+
+        <div class="info-card warn">
+            <h4>Stap 3: Duplicate keys</h4>
+            <p>De code genereert keys als <code>header-${category}</code> voor elke categorie in een lijst.
+            De lijst bevat duplicates (<code>configs</code> 2×), dus:</p>
+            <pre style="background:rgba(0,0,0,0.3); padding:8px; border-radius:4px; font-size:0.82rem;">
+<code>ERROR: Encountered two children with the same key, `header-configs`
+ERROR: Encountered two children with the same key, `header-session`
+ERROR: Encountered two children with the same key, `header-built_in_commands`
+ERROR: Encountered two children with the same key, `header-custom_skills`</code></pre>
+            <p><strong>Gevolg:</strong> React kan de VDOM niet correct reconcileren. Het <strong>gooit de hele subtree weg en herbouwt</strong> deze — een full re-render die alle vorige stappen opnieuw triggert.</p>
+        </div>
+
+        <div class="info-card warn">
+            <h4>Stap 4: Maximum update depth</h4>
+            <p>8× om 08:49-08:50. Dit is React's vangnet dat ingrijpt als een component te diep nestelt in re-renders.
+            Dit gebeurde vermoedelijk toen een <code>useEffect</code> zonder dependency array
+            <code>setState</code> aanriep die weer een re-render triggert die weer... → oneindige loop.
+            React verbreekt de loop na ~50 iteraties.</p>
+        </div>
+
+        <div class="info-card">
+            <h4>Stap 5: setState during render (jnM)</h4>
+            <p>8× verspreid over de dag. Een component (<code>jnM</code> in productiecode — mogelijk een minified
+            versie van een chat of header component) roept <code>setState</code> aan <strong>terwijl</strong>
+            React een andere instantie van hetzelfde component aan het renderen is.</p>
+            <p>Dit gebeurt vaak kort na i18next promo clusters — wat suggereert dat de render cycle opnieuw start
+            na een herinitialisatie.</p>
+        </div>
+
+        <h3>⏱️ Tijdlijn van de crash</h3>
+        <div class="chart">
+            <div style="position:relative; height:100px; margin: 20px 0;">
+                <div style="position:absolute; left:0; right:0; top:40px; height:2px; background:rgba(48,54,61,0.5);"></div>
+                <!-- Timeline markers -->
+                <div style="position:absolute; left:0%; top:0; width:2px; height:20px; background:#8b949e;">
+                    <span style="position:absolute; top:20px; left:-20px; font-size:0.7rem; color:#8b949e; white-space:nowrap;">22:18</span>
+                </div>
+                <div style="position:absolute; left:15%; top:0; width:2px; height:20px; background:#f9c513;">
+                    <span style="position:absolute; top:20px; left:-20px; font-size:0.7rem; color:#f9c513; white-space:nowrap;">05:00</span>
+                    <div style="position:absolute; top:-16px; left:4px; font-size:0.6rem; color:#f9c513;">i18next</div>
+                </div>
+                <div style="position:absolute; left:30%; top:0; width:2px; height:30px; background:#f97583;">
+                    <span style="position:absolute; top:30px; left:-20px; font-size:0.7rem; color:#f97583; white-space:nowrap;">08:49</span>
+                    <div style="position:absolute; top:-16px; left:4px; font-size:0.6rem; color:#f97583;">🚨 MAX DEPTH</div>
+                </div>
+                <div style="position:absolute; left:50%; top:0; width:2px; height:20px; background:#f97583;">
+                    <span style="position:absolute; top:20px; left:-20px; font-size:0.7rem; color:#f97583; white-space:nowrap;">11:00</span>
+                    <div style="position:absolute; top:-16px; left:4px; font-size:0.6rem; color:#f97583;">🔥 dup keys</div>
+                </div>
+                <div style="position:absolute; left:65%; top:0; width:2px; height:20px; background:#f97583;">
+                    <span style="position:absolute; top:20px; left:-20px; font-size:0.7rem; color:#f97583; white-space:nowrap;">12:00</span>
+                    <div style="position:absolute; top:-16px; left:4px; font-size:0.6rem; color:#f97583;">🔥 spray</div>
+                </div>
+                <div style="position:absolute; left:85%; top:0; width:2px; height:20px; background:#8b949e;">
+                    <span style="position:absolute; top:20px; left:-20px; font-size:0.7rem; color:#8b949e; white-space:nowrap;">13:34</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════ TAB: BUILD ═══════ -->
+    <div class="tab-content" id="tab-build">
+
+        <h2>📦 Build Pipeline</h2>
+
+        <div class="mermaid-box">
+<div class="mermaid">
+flowchart LR
+    subgraph SOURCE[Source Code]
+        S1[TypeScript/JS<br/>src/ + packages/]
+        S2[Rust crates<br/>523 dependencies]
+        S3[JavaScriptCore<br/>WebKit C++]
+    end
+
+    subgraph BUILD[Build Process]
+        B1[Bun Bundler<br/>bundle't alles naar<br/>1 entrypoint]
+        B2[Rustc 1.94 nightly<br/>+ Clang 21.1.5<br/>compileert core]
+    end
+
+    subgraph BINARY[Native Binary]
+        BIN[/home/jan/.local/bin/droid]
+        SEC1[.text ~57MB<br/>Rust + JSC code]
+        SEC2[.bun ~53MB<br/>JS bundle]
+        SEC3[__DATA,__jsc 256KB]
+        SEC4[__DATA,__wtf 256KB]
+    end
+
+    S1 --> B1
+    S2 --> B2
+    S3 --> B2
+    B1 --> BIN
+    B2 --> BIN
+    BIN --> SEC1
+    BIN --> SEC2
+    BIN --> SEC3
+    BIN --> SEC4
+</div>
+        </div>
+
+        <h3>Build toolchain (uit .comment sectie)</h3>
+        <table class="data-table">
+            <tr><th>Component</th><th>Versie</th></tr>
+            <tr><td>Rust compiler</td><td><code>rustc 1.94.0-nightly (c61a3a44d 2025-12-09)</code></td></tr>
+            <tr><td>C++ compiler (JSC)</td><td><code>Ubuntu clang version 21.1.5</code></td></tr>
+            <tr><td>Linker</td><td><code>Ubuntu LLD 21.1.5</code></td></tr>
+            <tr><td>GCC (JSC compat)</td><td><code>GCC: (Ubuntu 13.1.0-8ubuntu1~20.04.2) 13.1.0</code></td></tr>
+        </table>
+
+        <h3>Bun bundler markers in bundle</h3>
+        <ul>
+            <li><code>// @bun</code> — Bun bundler output marker</li>
+            <li><code>bun build v1.3.14 (0d9b296a)</code> — bundler versie</li>
+            <li><code>/$bunfs/root/droid</code> — BunFS entry point</li>
+        </ul>
+
+        <h3>Top Rust crates (performance-relevant)</h3>
+        <table class="data-table">
+            <tr><th>Crate</th><th>Versie</th><th>Functie</th></tr>
+            <tr><td><code>tokio</code></td><td>1.49.0</td><td>Async runtime — alle I/O</td></tr>
+            <tr><td><code>hyper</code></td><td>1.8.1</td><td>HTTP/1.1+2 protocol</td></tr>
+            <tr><td><code>reqwest</code></td><td>0.12.28</td><td>HTTP client (LLM API calls)</td></tr>
+            <tr><td><code>rustls</code></td><td>0.23.37</td><td>TLS 1.2/1.3 — geen OpenSSL!</td></tr>
+            <tr><td><code>ring</code></td><td>0.17.14</td><td>Cryptografie</td></tr>
+            <tr><td><code>portable-pty</code></td><td>0.8.1</td><td>PTY/terminal I/O</td></tr>
+            <tr><td><code>crossbeam-channel</code></td><td>0.5.15</td><td>Lock-free IPC</td></tr>
+            <tr><td><code>zlib-rs</code></td><td>0.6.3</td><td>Compressie (Rust, geen C)</td></tr>
+            <tr><td><code>image</code></td><td>0.25.9</td><td>Image processing</td></tr>
+            <tr><td><code>clap</code></td><td>2.33.3</td><td>CLI argument parsing</td></tr>
+            <tr><td><code>tungstenite</code></td><td>0.24.0</td><td>WebSocket client</td></tr>
+            <tr><td><code>serde_json</code></td><td>1.0.149</td><td>JSON serialisatie</td></tr>
+        </table>
+
+        <h3>Metrics telemetry pipeline</h3>
+        <p>Droid logt honderden metrics naar Factory Cloud via OpenTelemetry:</p>
+        <table class="data-table">
+            <tr><th>Metric name</th><th>Count</th><th>Wat het meet</th></tr>
+            <tr><td><code>factory_app_jsonrpc_notification_count</code></td><td>31.994</td><td>Alle JSON-RPC notifications</td></tr>
+            <tr><td><code>mcp_tool_search_context_tokens</code></td><td>3.292</td><td>MCP tool search tokens</td></tr>
+            <tr><td><code>skill_loaded_count</code></td><td>2.627</td><td>Skills geladen</td></tr>
+            <tr><td><code>droid_mode_tool_execution_latency</code></td><td>1.182</td><td>Tool executie tijd</td></tr>
+            <tr><td><code>cli_tui_keypress_queue_latency</code></td><td>945</td><td>Toetsaanslag verwerkingstijd</td></tr>
+            <tr><td><code>cli_tui_input_handler_latency</code></td><td>743</td><td>Input handler tijd</td></tr>
+            <tr><td><code>cli_tui_input_frame_latency</code></td><td>591</td><td>Frame render tijd</td></tr>
+            <tr><td><code>chat_client_time_to_first_token</code></td><td>820</td><td>TTFT van LLM</td></tr>
+            <tr><td><code>phase_teardown-droid-exec</code></td><td>1</td><td>5.085ms teardown</td></tr>
+        </table>
+    </div>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <div class="footer">
+        <p style="color:#8b949e;">🔍 Volledig gereconstrueerd uit binary + logs. Niets aangepast aan Droid.</p>
+        <p>📁 <a href="index.html" style="color:#58a6ff; font-weight:600;">Project index → alle 15 bestanden</a></p>
+        <p><a href="droid-architectuur-puzzel.md" style="color:#58a6ff; font-weight:600;">📖 Volledige architectuur-doc (52 KB, 1714 regels)</a></p>
+        <p><a href="eindrapport.md" style="color:#f97583; font-weight:600;">📊 Eindrapport — root causes & fixes</a></p>
+    </div>
+</div>
+
+<script>
+    mermaid.initialize({
+        startOnLoad: false,  // we renderen handmatig om hidden-tab issues te voorkomen
+        theme: 'dark',
+        themeVariables: {
+            primaryColor: '#1f6feb', primaryTextColor: '#fff', primaryBorderColor: '#58a6ff',
+            lineColor: '#8b949e', secondaryColor: '#21262d', tertiaryColor: '#161b22',
+            fontFamily: 'Inter, sans-serif'
+        }
+    });
+
+    // ── MERMAID RENDERING ──
+    async function renderMermaidsInActiveTab() {
+        // Find mermaid elements in the currently active tab (or any tab-content if none active = first tab)
+        const activeTab = document.querySelector('.tab-content.active') || document.querySelector('.tab-content');
+        if (!activeTab) return;
+        
+        const mermaidEls = activeTab.querySelectorAll('.mermaid');
+        for (const el of mermaidEls) {
+            // Skip already rendered diagrams
+            if (el.querySelector('svg')) continue;
+            try {
+                await mermaid.run({ nodes: [el] });
+            } catch(e) { 
+                console.error('Mermaid render error:', e.message || e);
+                el.innerHTML = '<p style="color:#f97583;">⚠️ Diagram error: ' + (e.message || e) + '</p>';
+            }
+        }
+    }
+
+    // Initial render
+    setTimeout(() => renderMermaidsInActiveTab(), 200);
+
+    // ── TAB SWITCHING ──
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+            // Small delay to let the DOM show the tab, then render mermaids
+            setTimeout(() => renderMermaidsInActiveTab(), 100);
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droid Onderzoek Triage - Bevindingen</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1e1e1e; color: #cfcfcf; line-height: 1.6; padding: 20px; max-width: 900px; margin: auto; }
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #30363d; padding-bottom: 10px; }
+        .metadata { background: #2d2d2d; padding: 15px; border-radius: 8px; margin-bottom: 30px; font-size: 0.95em; border-left: 4px solid #58a6ff; }
+        .metadata strong { color: #ffffff; }
+        .section { background: #21262d; border: 1px solid #30363d; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        code { background-color: #161b22; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; color: #ff7b72; }
+        .critical { color: #f85149; font-weight: bold; }
+        .highlight { color: #a5d6ff; }
+    </style>
+</head>
+<body>
+
+    <h1>Droid Onderzoek Triage - Bevindingen</h1>
+
+    <div class="metadata">
+        <p><strong>Datum:</strong> 7 Juli 2026</p>
+        <p><strong>Doelwit:</strong> <code>droid</code> (PID 2663905 & 2749201) binnen de <code>herdr</code> server (Utrecht Data OS)</p>
+        <p><strong>Probleem:</strong> Extreme input-lag, hoog token-gebruik, en algemene instabiliteit.</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Systeem & Proces Status</h2>
+        <ul>
+            <li><strong>Hoofdproces (PID 2663905):</strong> Draait met ~60% CPU verbruik en neemt gigantisch veel virtueel geheugen in beslag (de gemaakte core dump was <span class="critical">~6.8GB groot</span>).</li>
+            <li><strong>Sub-processen (PID 2749201, 2760682):</strong> Worker agents die communiceren via JSON-RPC streams (<code>droid exec --input-format stream-jsonrpc --output-format stream-jsonrpc</code>).</li>
+            <li><strong>Syscall Profiling (<code>strace</code>):</strong> Het proces is hevig bezig met <code>madvise</code> (duidt op agressieve Garbage Collection binnen de Bun/V8 engine), gevolgd door <code>pread64</code>, <code>clock_gettime</code> en <code>epoll_wait</code>. Dit is typisch voor een event-loop die zwaar overbelast is.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. Netwerk & IPC</h2>
+        <ul>
+            <li><strong>Externe API Calls:</strong> Er staan actieve HTTPS verbindingen open naar Google API's (<code>ra-in-f121.1e100.net:https</code>). Dit verklaart de aanroepen naar de LLM (waarschijnlijk Gemini).</li>
+            <li><strong>IPC (Inter-Process Communication):</strong> Communicatie tussen het hoofdproces en de workers verloopt via UNIX sockets en pipes (<code>pidfd</code>). Bij het traceren van de JSON-RPC zagen we constante, lege of zeer kleine binaire pings (<code>\1\0\0\0...</code>), wat kan duiden op een vastgelopen heartbeat of overmatige status-polling.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Logs & Applicatie Fouten</h2>
+        <p>In <code>~/.factory/logs/console.log</code> is een continue stroom van kritieke React/Ink fouten te zien die de command-line interface overspoelen:</p>
+        <ul>
+            <li><span class="critical">Duplicate Keys:</span> <code>ERROR: Encountered two children with the same key, 'header-configs'.</code> Dit zorgt voor onvoorspelbaar gedrag en enorme render-overhead in de TUI.</li>
+            <li><span class="critical">Component Update Loop:</span> <code>ERROR: Cannot update a component ('jnM') while rendering a different component ('jnM').</code> Dit triggert een oneindige React re-render cyclus in de achtergrond.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. Conclusie tot nu toe (Root Causes)</h2>
+        <ol>
+            <li><strong>Input Lag Root-Cause:</strong> De TUI (Terminal UI gebouwd in React/Ink) zit in een oneindige re-render loop door state-management fouten in de componenten (<code>header-configs</code> & <code>jnM</code>). Hierdoor blokkeert de JavaScript event-loop, wat resulteert in extreme input lag, overmatig geheugenbeheer (vandaar de 6.8GB VIRT / <code>madvise</code> spam) en hoog CPU-gebruik.</li>
+            <li><strong>Token Gebruik Root-Cause:</strong> Door de vastgelopen renders en de mogelijk hoge frequentie van status updates/polling (de IPC pings), is de kans groot dat de worker constant API-calls afvuurt om de UI state te trachten bij te werken, wat een escalatie in LLM token verbruik veroorzaakt.</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>Volgende Stappen</h2>
+        <ul>
+            <li class="highlight">Broncode van de UI/Ink componenten lokaal analyseren en de render-loop en keys patchen in de repository.</li>
+            <li class="highlight">Diepere inspectie van de JSON-RPC IPC payloads uitvoeren om te bevestigen of LLM queries onbedoeld geloopt worden in de worker threads.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

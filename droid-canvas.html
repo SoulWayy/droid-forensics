@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droid Forensics — Case File #0164</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Caveat:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/konva@9/konva.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --paper:#ede8db; --paper-dark:#d9d2bf; --ink:#1c1917; --ink-light:#57534e;
+  --red:#b91c1c; --red-bright:#dc2626; --blue:#1e40af; --blue-light:#3b82f6;
+  --green:#15803d; --yellow:#fde047; --yellow-soft:#fef9c3;
+  --tape:rgba(253,224,71,0.35);
+}
+html,body{height:100%;overflow:hidden;font-family:'IBM Plex Sans',sans-serif;color:var(--ink)}
+body{
+  background:var(--paper);
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(180,160,120,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(160,140,100,0.06) 0%, transparent 40%),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.008) 2px, rgba(0,0,0,0.008) 3px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.006) 2px, rgba(0,0,0,0.006) 3px);
+}
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:1;
+  background:
+    radial-gradient(ellipse at center, transparent 30%, rgba(120,100,70,0.06) 100%),
+    radial-gradient(circle at 10% 10%, rgba(139,119,80,0.04) 0%, transparent 8%),
+    radial-gradient(circle at 90% 90%, rgba(139,119,80,0.04) 0%, transparent 8%),
+    radial-gradient(circle at 30% 80%, rgba(180,160,120,0.03) 0%, transparent 6%);
+}
+#container{width:100vw;height:100vh;position:relative;z-index:2}
+.tooltip{
+  position:absolute; pointer-events:none; z-index:100; display:none;
+  background:var(--paper); border:1px solid var(--ink); border-radius:2px;
+  padding:14px 18px; max-width:360px;
+  box-shadow:4px 4px 0 rgba(0,0,0,0.15), 8px 8px 16px rgba(0,0,0,0.1);
+  font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--ink);
+  transform:rotate(-0.5deg);
+}
+.tooltip .stamp{display:inline-block; padding:2px 8px; border:2px solid; border-radius:2px;
+  font-family:'Special Elite',monospace; font-size:0.7rem; font-weight:700;
+  letter-spacing:1px; margin-bottom:6px; transform:rotate(-2deg)}
+.tooltip .stamp.crit{color:var(--red); border-color:var(--red)}
+.tooltip .stamp.ok{color:var(--green); border-color:var(--green)}
+.tooltip .stamp.warn{color:var(--ink-light); border-color:var(--ink-light)}
+.tooltip .title{font-family:'Special Elite',monospace; font-size:1rem; font-weight:700;
+  margin-bottom:4px; color:var(--ink)}
+.tooltip .field{color:var(--ink-light); margin-top:3px}
+.tooltip .field .val{color:var(--ink); font-weight:500}
+.tooltip .field .err{color:var(--red); font-weight:600}
+.tooltip .field .fix{color:var(--green); font-weight:500}
+.tooltip::before{content:''; position:absolute; top:-8px; left:20px; width:30px; height:16px;
+  background:var(--tape); transform:rotate(3deg); border-radius:1px}
+.header-bar{
+  position:absolute; top:0; left:0; right:0; z-index:50; padding:16px 28px;
+  background:linear-gradient(180deg, var(--paper) 0%, rgba(237,232,219,0.85) 80%, transparent 100%);
+  display:flex; align-items:flex-end; justify-content:space-between; pointer-events:none
+}
+.header-bar .case-id{font-family:'Special Elite',monospace; font-size:0.7rem;
+  color:var(--ink-light); letter-spacing:2px; text-transform:uppercase}
+.header-bar h1{font-family:'Special Elite',monospace; font-size:1.6rem; font-weight:400;
+  color:var(--ink); margin-top:2px; letter-spacing:-0.5px}
+.header-bar .meta{font-family:'IBM Plex Mono',monospace; font-size:0.72rem;
+  color:var(--ink-light); text-align:right; line-height:1.7}
+.header-bar .meta strong{color:var(--ink)}
+.stamp-429{
+  position:absolute; top:18px; right:340px; z-index:50; pointer-events:none;
+  font-family:'Special Elite',monospace; font-size:0.85rem; font-weight:700;
+  color:var(--red); border:3px solid var(--red); padding:4px 12px;
+  letter-spacing:3px; transform:rotate(-8deg); opacity:0.7;
+  background:rgba(237,232,219,0.5); border-radius:2px
+}
+.help-text{
+  position:absolute; bottom:20px; left:24px; z-index:50; pointer-events:none;
+  font-family:'Caveat',cursive; font-size:1.1rem; color:var(--blue);
+  transform:rotate(-1deg); max-width:300px; line-height:1.4
+}
+.help-text::before{content:'※ '; color:var(--red)}
+.legend{
+  position:absolute; bottom:20px; right:24px; z-index:50; pointer-events:none;
+  background:var(--paper); border:1px solid var(--ink-light); padding:12px 16px;
+  font-family:'IBM Plex Mono',monospace; font-size:0.72rem;
+  box-shadow:2px 2px 0 rgba(0,0,0,0.1); transform:rotate(0.5deg)
+}
+.legend .title{font-family:'Special Elite',monospace; font-size:0.7rem;
+  color:var(--ink); margin-bottom:6px; letter-spacing:1px; border-bottom:1px solid var(--ink-light); padding-bottom:4px}
+.legend-row{display:flex; align-items:center; gap:8px; margin:3px 0; color:var(--ink-light)}
+.legend-swatch{width:14px; height:8px; border:1px solid}
+</style>
+</head>
+<body>
+<div class="header-bar">
+  <div>
+    <div class="case-id">Case File № 0164 • Systems Autopsy</div>
+    <h1>Droid Performance Forensics</h1>
+  </div>
+  <div class="meta">
+    <strong>Subject:</strong> droid v0.164.1<br>
+    <strong>Evidence:</strong> 103,994 log lines • 42 sessions<br>
+    <strong>Verdict:</strong> Sync I/O in render path
+  </div>
+</div>
+<div class="stamp-429">CLASSIFIED</div>
+<div class="help-text">drag om te pannen • scroll om te zoomen • hover voor bewijs</div>
+<div id="container"></div>
+<div class="tooltip" id="tooltip"></div>
+<div class="legend">
+  <div class="title">EVIDENCE KEY</div>
+  <div class="legend-row"><div class="legend-swatch" style="background:#1e40af22;border-color:#1e40af"></div>Process / Actor</div>
+  <div class="legend-row"><div class="legend-swatch" style="background:#15803d22;border-color:#15803d"></div>Healthy flow</div>
+  <div class="legend-row"><div class="legend-swatch" style="background:#b91c1c22;border-color:#b91c1c"></div>Error / Cascade</div>
+  <div class="legend-row"><div class="legend-swatch" style="background:#fde04755;border-color:#ca8a04"></div>Configuration</div>
+</div>
+<script>
+// ═══════════════════════════════════════════════════════════
+// FORENSIC DATA — from subagent analysis of 103,994 log lines
+// ═══════════════════════════════════════════════════════════
+const CASE = {
+  actors: [
+    { id:"tui", label:"TUI Process", sub:"PID 2663905 • Ink/React", color:"#1e40af",
+      x:80, y:260, w:180, h:90, rotation:-1.5,
+      facts:{ cpu:"56%", rss:"400MB", threads:"14", verdict:"PRIMARY SUSPECT" } },
+    { id:"daemon", label:"Daemon Adapter", sub:"Session Bridge", color:"#1e40af",
+      x:90, y:430, w:160, h:60, rotation:1,
+      facts:{ role:"State proxy", verdict:"Bystander" } },
+    { id:"worker", label:"Worker", sub:"droid exec • 42 sessions", color:"#15803d",
+      x:430, y:270, w:180, h:90, rotation:0.5,
+      facts:{ model:"GLM-5.2-0", sessions:"42", teardown:"5,085ms", verdict:"Overworked" } },
+    { id:"llm", label:"LLM API", sub:"GLM • OpenCode • Clinepass", color:"#b91c1c",
+      x:780, y:120, w:190, h:80, rotation:-2,
+      facts:{ errors429:"232", providers:"3", cascade:"Source trigger", verdict:"RATE LIMITED" } },
+    { id:"mcp", label:"MCP Servers", sub:"linear • notion • playwright", color:"#1e40af",
+      x:780, y:400, w:190, h:75, rotation:1.5,
+      facts:{ tools:"102", calls:"1,182", connects:"120", verdict:"Stable" } },
+    { id:"settings", label:"Settings Store", sub:"keyfile-v2", color:"#ca8a04",
+      x:70, y:580, w:170, h:55, rotation:-0.5,
+      facts:{ sources:"9", persist_fails:"3", verdict:"Corrupt" } },
+    { id:"plugins", label:"Plugin Loader", sub:"8 marketplaces", color:"#ca8a04",
+      x:300, y:580, w:170, h:55, rotation:1,
+      facts:{ yaml_errors:"360", skills:"2,627", latency:"221-20,482ms", verdict:"Degraded" } },
+    { id:"factory", label:"Factory Cloud", sub:"Telemetry", color:"#1e40af",
+      x:780, y:530, w:190, h:55, rotation:-1,
+      facts:{ metrics:"22 types", verdict:"Observer" } }
+  ],
+  // Red string connections — like detective board yarn
+  connections: [
+    { from:"tui", to:"daemon", label:"state", type:"internal" },
+    { from:"daemon", to:"worker", label:"JSON-RPC", count:31994, type:"data",
+      detail:"stream-jsonrpc over loopback" },
+    { from:"worker", to:"daemon", label:"notifications", count:31994, type:"data",
+      detail:"15 notification types" },
+    { from:"worker", to:"llm", label:"HTTPS stream", count:1250, type:"data",
+      detail:"sendMessage.ts" },
+    { from:"llm", to:"worker", label:"429 RATE LIMITED", count:232, type:"error",
+      detail:"Weekly Clinepass + 5h OpenCode limit" },
+    { from:"llm", to:"worker", label:"thinking_delta", count:17000, type:"data",
+      detail:"LLM reasoning stream" },
+    { from:"llm", to:"worker", label:"assistant_delta", count:5732, type:"data",
+      detail:"LLM response stream" },
+    { from:"worker", to:"mcp", label:"tool_call", count:1182, type:"data",
+      detail:"19 unique tools" },
+    { from:"mcp", to:"worker", label:"tool_result", count:307, type:"data" },
+    { from:"tui", to:"settings", label:"read config", type:"config" },
+    { from:"tui", to:"plugins", label:"load skills", count:2627, type:"config",
+      detail:"180→196 skills loaded repeatedly" }
+  ],
+  // Evidence cards — pinned to the board
+  evidence: [
+    { file:"Header.tsx:376-386", count:209, sev:"critical",
+      cause:"sync statSync in useMemo render path", fix:"useEffect + async" },
+    { file:"parseFrontmatter.ts:28", count:2924, sev:"critical",
+      cause:"YAML indent errors in skill files", fix:"try/catch + defaults" },
+    { file:"git.ts:18 (statSync)", count:477, sev:"critical",
+      cause:"blocking I/O in render path", fix:"async git check" },
+    { file:"getReadinessHint/index.ts:85", count:75, sev:"critical",
+      cause:"called from Header useMemo", fix:"move to useEffect" },
+    { file:"PluginLoader.ts:482", count:720, sev:"high",
+      cause:"plugin load errors", fix:"validate manifests" },
+    { file:"fileLoaders.ts:85-86", count:2924, sev:"high",
+      cause:"cascaded from parseFrontmatter", fix:"linked" }
+  ]
+};
+
+// ═══════════════════════════════════════════════════════════
+// CANVAS — Konva Stage on the corkboard
+// ═══════════════════════════════════════════════════════════
+const W = window.innerWidth, H = window.innerHeight;
+const stage = new Konva.Stage({ container:'container', width:W, height:H, draggable:true });
+const bgLayer = new Konva.Layer();      // paper texture, stains
+const stringLayer = new Konva.Layer();  // red yarn connections
+const cardLayer = new Konva.Layer();    // index card nodes
+const pinLayer = new Konva.Layer();     // pushpins, tape
+const evidenceLayer = new Konva.Layer();// polaroid evidence cards
+const animLayer = new Konva.Layer();    // pulsing, particles
+stage.add(bgLayer, stringLayer, cardLayer, pinLayer, evidenceLayer, animLayer);
+
+// ── Zoom ──
+stage.on('wheel', e => {
+  e.evt.preventDefault();
+  const old = stage.scaleX();
+  const p = stage.getPointerPosition();
+  const mp = { x:(p.x-stage.x())/old, y:(p.y-stage.y())/old };
+  const ns = e.evt.deltaY > 0 ? old*0.92 : old/0.92;
+  stage.scale({x:ns,y:ns});
+  stage.position({ x:p.x-mp.x*ns, y:p.y-mp.y*ns });
+});
+
+// ── Corkboard grid texture (faint) ──
+for (let x=0; x<W*2; x+=80) {
+  bgLayer.add(new Konva.Line({ points:[x,0,x,H*2], stroke:'rgba(120,100,70,0.04)', strokeWidth:1, listening:false }));
+}
+for (let y=0; y<H*2; y+=80) {
+  bgLayer.add(new Konva.Line({ points:[0,y,W*2,y], stroke:'rgba(120,100,70,0.04)', strokeWidth:1, listening:false }));
+}
+
+// Coffee stain
+bgLayer.add(new Konva.Circle({ x:W-150, y:H-100, radius:60, fill:'rgba(139,90,43,0.04)', listening:false }));
+bgLayer.add(new Konva.Circle({ x:W-140, y:H-90, radius:45, fill:'rgba(139,90,43,0.03)', listening:false }));
+
+const actorPos = {};
+CASE.actors.forEach(a => actorPos[a.id] = a);
+
+// ═══════════ INDEX CARDS — Actors as pinned notes ═══════════
+CASE.actors.forEach(actor => {
+  const grp = new Konva.Group({ x:actor.x, y:actor.y, rotation:actor.rotation || 0 });
+  
+  // Shadow (offset, like card lifted from board)
+  grp.add(new Konva.Rect({
+    x:6, y:6, width:actor.w, height:actor.h,
+    fill:'rgba(0,0,0,0.18)', cornerRadius:2, listening:false
+  }));
+  
+  // Card body — paper texture color
+  const isSuspect = actor.facts.verdict && /SUSPECT|LIMITED|Corrupt|Degraded/i.test(actor.facts.verdict);
+  const cardColor = isSuspect ? '#fef9c3' : '#f5f0e0'; // yellowed if suspect
+  const body = new Konva.Rect({
+    width:actor.w, height:actor.h, fill:cardColor,
+    stroke:actor.color, strokeWidth:1.5, cornerRadius:2, listening:true
+  });
+  grp.add(body);
+  
+  // Header band
+  grp.add(new Konva.Rect({
+    width:actor.w, height:22, fill:actor.color+'cc', cornerRadius:[2,2,0,0], listening:false
+  }));
+  
+  // Title — typewriter font
+  grp.add(new Konva.Text({
+    text:actor.label, x:8, y:3, fontSize:12, fontFamily:'Special Elite',
+    fill:'#fff', listening:false
+  }));
+  
+  // Subtitle
+  grp.add(new Konva.Text({
+    text:actor.sub, x:8, y:24, fontSize:9, fontFamily:'IBM Plex Mono',
+    fill:'#57534e', listening:false
+  }));
+  
+  // Facts — typed lines
+  let fy = 40;
+  const facts = actor.facts || {};
+  Object.entries(facts).forEach(([k,v]) => {
+    if (k === 'verdict') return;
+    const isErr = /429|fail|error|corrupt/i.test(k);
+    grp.add(new Konva.Text({
+      text:`${k}:`, x:8, y:fy, fontSize:8, fontFamily:'IBM Plex Mono',
+      fill:'#78716c', listening:false
+    }));
+    grp.add(new Konva.Text({
+      text:String(v), x:8 + (k.length+1)*4.5, y:fy, fontSize:8, fontFamily:'IBM Plex Mono',
+      fill: isErr ? '#b91c1c' : '#1c1917', fontStyle: isErr ? 'bold' : 'normal',
+      listening:false
+    }));
+    fy += 12;
+  });
+  
+  // Verdict stamp if suspect
+  if (isSuspect) {
+    const verdict = facts.verdict || '';
+    const stampColor = /SUSPECT|LIMITED/i.test(verdict) ? '#b91c1c' : '#ca8a04';
+    grp.add(new Konva.Text({
+      text:verdict.toUpperCase(), x:actor.w-110, y:actor.h-18,
+      fontSize:9, fontFamily:'Special Elite', fill:stampColor,
+      rotation:-3, listening:false
+    }));
+    // Stamp border (simulated rubber stamp)
+    const stampW = verdict.length * 5.5 + 8;
+    grp.add(new Konva.Rect({
+      x:actor.w-110-4, y:actor.h-20, width:stampW, height:14,
+      stroke:stampColor, strokeWidth:1.5, rotation:-3,
+      opacity:0.6, listening:false, cornerRadius:1
+    }));
+  }
+  
+  cardLayer.add(grp);
+  
+  // Hover
+  grp.on('mouseenter', () => {
+    body.strokeWidth(3);
+    body.shadowColor(actor.color);
+    body.shadowBlur(8);
+    showTooltip(actor);
+    document.body.style.cursor = 'pointer';
+  });
+  grp.on('mouseleave', () => {
+    body.strokeWidth(1.5);
+    body.shadowBlur(0);
+    hideTooltip();
+    document.body.style.cursor = 'default';
+  });
+});
+
+// ═══════════ RED STRING — Detective board connections ═══════════
+const typeColors = {
+  data:'#1e40af', error:'#b91c1c', config:'#ca8a04',
+  internal:'#78716c', mcp:'#1e40af'
+};
+
+CASE.connections.forEach((conn, i) => {
+  const from = actorPos[conn.from], to = actorPos[conn.to];
+  if (!from || !to) return;
+  
+  // Connection points — edge of cards
+  const fx = from.x + from.w, fy = from.y + from.h/2;
+  const tx = to.x, ty = to.y + to.h/2;
+  
+  // Offset parallel edges
+  const samePair = CASE.connections.filter(c => c.from===conn.from && c.to===conn.to);
+  const idx = samePair.indexOf(conn);
+  const offY = (idx - (samePair.length-1)/2) * 14;
+  
+  const color = typeColors[conn.type] || '#78716c';
+  const isErr = conn.type === 'error';
+  
+  // Yarn-like curve — slightly wobbly, sagging
+  const midX = (fx + tx) / 2;
+  const sag = 15 + Math.random() * 10; // natural sag
+  const points = [fx, fy+offY, midX-30, fy+offY+sag, midX+30, ty+offY+sag, tx, ty+offY];
+  
+  // Shadow string (darker, offset)
+  const shadowLine = new Konva.Line({
+    points, stroke:'rgba(0,0,0,0.1)', strokeWidth:isErr?4:3,
+    tension:0.5, lineCap:'round', listening:false, dash:[1,2]
+  });
+  stringLayer.add(shadowLine);
+  
+  // Main yarn
+  const yarn = new Konva.Line({
+    points, stroke:color, strokeWidth:isErr?3:2,
+    tension:0.5, lineCap:'round',
+    shadowColor:color, shadowBlur:isErr?4:0, shadowOpacity:0.4,
+    listening:true
+  });
+  stringLayer.add(yarn);
+  
+  // Arrow tip
+  const arrowSize = 7;
+  const arrow = new Konva.Line({
+    points:[tx-6, ty+offY-4, tx+2, ty+offY, tx-6, ty+offY+4],
+    stroke:color, strokeWidth:2, fill:color, closed:true, listening:true
+  });
+  stringLayer.add(arrow);
+  
+  // Label tag — like a paper tag on the string
+  let labelText = conn.label;
+  if (conn.count) labelText += ` ×${conn.count.toLocaleString()}`;
+  const labelW = Konva.Util._getTextWidth ? labelText.length * 5 + 10 : labelText.length * 5 + 10;
+  
+  const tagGrp = new Konva.Group({ x:midX - labelW/2, y:ty+offY+sag-8, rotation:Math.random()*4-2 });
+  tagGrp.add(new Konva.Rect({
+    width:labelW, height:16, fill:'#f5f0e0', stroke:color,
+    strokeWidth:0.8, cornerRadius:1, listening:true
+  }));
+  tagGrp.add(new Konva.Text({
+    text:labelText, x:5, y:3, fontSize:8, fontFamily:'IBM Plex Mono',
+    fill:color, fontStyle: isErr ? 'bold' : 'normal', listening:false
+  }));
+  // String hole in tag
+  tagGrp.add(new Konva.Circle({ x:labelW-4, y:-3, radius:1.5, fill:'#00000020', listening:false }));
+  stringLayer.add(tagGrp);
+  
+  // Hover
+  [yarn, arrow, ...tagGrp.children].forEach(el => {
+    if (!el.listening) return;
+    el.on('mouseenter', () => {
+      yarn.strokeWidth(isErr?4.5:3.5);
+      yarn.shadowBlur(8);
+      showTooltip(conn);
+    });
+    el.on('mouseleave', () => {
+      yarn.strokeWidth(isErr?3:2);
+      yarn.shadowBlur(isErr?4:0);
+      hideTooltip();
+    });
+  });
+});
+
+// ═══════════ EVIDENCE CARDS — Polaroid style hotspots ═══════════
+const evX = W - 340;
+CASE.evidence.forEach((ev, i) => {
+  const y = 100 + i * 72;
+  const sevColors = { critical:'#b91c1c', high:'#ca8a04', medium:'#78716c' };
+  const color = sevColors[ev.sev];
+  const rot = (Math.random() * 4 - 2);
+  
+  const grp = new Konva.Group({ x:evX + (i%2===0?0:15), y, rotation:rot });
+  
+  // Shadow
+  grp.add(new Konva.Rect({
+    x:5, y:5, width:300, height:62, fill:'rgba(0,0,0,0.2)', cornerRadius:2, listening:false
+  }));
+  
+  // Polaroid white frame
+  grp.add(new Konva.Rect({
+    width:300, height:62, fill:'#fafaf5', stroke:'#d9d2bf',
+    strokeWidth:0.5, cornerRadius:2, listening:true
+  }));
+  
+  // Red marker dot
+  grp.add(new Konva.Circle({ x:16, y:31, radius:5, fill:color, listening:false }));
+  grp.add(new Konva.Circle({ x:16, y:31, radius:8, stroke:color, strokeWidth:1, opacity:0.3, listening:false }));
+  
+  // File name — typewriter
+  grp.add(new Konva.Text({
+    text:ev.file, x:30, y:8, fontSize:10, fontFamily:'Special Elite',
+    fill:'#1c1917', listening:false
+  }));
+  
+  // Cause — handwritten
+  grp.add(new Konva.Text({
+    text:ev.cause, x:30, y:26, fontSize:10, fontFamily:'Caveat',
+    fill:'#57534e', listening:false
+  }));
+  
+  // Count — stamped
+  grp.add(new Konva.Text({
+    text:`${ev.count}×`, x:255, y:10, fontSize:14, fontFamily:'Special Elite',
+    fill:color, fontStyle:'bold', listening:false
+  }));
+  
+  // Severity ribbon
+  grp.add(new Konva.Text({
+    text:ev.sev.toUpperCase(), x:250, y:42, fontSize:7, fontFamily:'Special Elite',
+    fill:color, rotation:-2, listening:false
+  }));
+  
+  // Red string to TUI (the suspect)
+  if (i < 4) {
+    const tuiActor = actorPos['tui'];
+    const sx = 0, sy = 31; // local coord
+    // We'll draw string in absolute coords
+  }
+  
+  grp.on('mouseenter', () => { showTooltip(ev); document.body.style.cursor='pointer'; });
+  grp.on('mouseleave', () => { hideTooltip(); document.body.style.cursor='default'; });
+  
+  evidenceLayer.add(grp);
+});
+
+// Red strings from evidence to TUI (the primary suspect)
+const tuiActor = actorPos['tui'];
+CASE.evidence.forEach((ev, i) => {
+  const evY = 100 + i * 72 + 31;
+  const evXStart = evX + (i%2===0?0:15);
+  
+  const sx = evXStart, sy = evY;
+  const tx = tuiActor.x + tuiActor.w, ty = tuiActor.y + 30;
+  
+  // Sagging red string
+  const midX = (sx + tx) / 2;
+  const sag = 20 + Math.random() * 15;
+  const points = [sx, sy, midX, sy - sag, tx, ty];
+  
+  stringLayer.add(new Konva.Line({
+    points, stroke:'#b91c1c44', strokeWidth:1, tension:0.4,
+    lineCap:'round', dash:[3,3], listening:false
+  }));
+});
+
+// ═══════════ PUSHPINS & TAPE on cards ═══════════
+CASE.actors.forEach(actor => {
+  // Pushpin at top-left
+  pinLayer.add(new Konva.Circle({
+    x:actor.x + 12 + (actor.rotation||0)*2, y:actor.y - 2,
+    radius:4, fill:'#b91c1c', stroke:'#7f1010', strokeWidth:0.5,
+    shadowColor:'#000', shadowBlur:2, shadowOffset:{x:1,y:1}, shadowOpacity:0.3,
+    listening:false
+  }));
+  pinLayer.add(new Konva.Circle({
+    x:actor.x + 12 + (actor.rotation||0)*2 - 1, y:actor.y - 3,
+    radius:1.5, fill:'#dc2626', listening:false
+  }));
+});
+
+// ═══════════ ANIMATIONS — Pulsing error nodes ═══════════
+let frame = 0;
+const errorActors = CASE.actors.filter(a => a.facts && /SUSPECT|LIMITED|Corrupt|Degraded/i.test(a.facts.verdict || ''));
+
+function animate() {
+  animLayer.destroyChildren();
+  
+  // Pulse rings on error actors
+  errorActors.forEach(a => {
+    const pulse = (Math.sin(frame * 0.04) + 1) / 2;
+    animLayer.add(new Konva.Circle({
+      x:a.x + a.w/2, y:a.y + a.h/2,
+      radius: a.w/2 + 5 + pulse * 15,
+      stroke:'#b91c1c', strokeWidth:1.5,
+      opacity: 0.4 - pulse * 0.35,
+      listening:false
+    }));
+  });
+  
+  // Red dots traveling along error connections
+  CASE.connections.filter(c => c.type === 'error').forEach(conn => {
+    const from = actorPos[conn.from], to = actorPos[conn.to];
+    if (!from || !to) return;
+    const fx = from.x + from.w, fy = from.y + from.h/2;
+    const tx = to.x, ty = to.y + to.h/2;
+    
+    for (let p=0; p<4; p++) {
+      const t = ((Date.now() * 0.0006 + p * 0.25) % 1);
+      const x = fx + (tx - fx) * t;
+      const y = fy + (ty - fy) * t + Math.sin(t * Math.PI) * 12;
+      animLayer.add(new Konva.Circle({
+        x, y, radius:3, fill:'#b91c1c',
+        opacity: 0.3 + Math.sin(t * Math.PI) * 0.5,
+        listening:false
+      }));
+    }
+  });
+  
+  // Subtle data dots on high-volume connections
+  CASE.connections.filter(c => c.count && c.count > 5000).forEach(conn => {
+    const from = actorPos[conn.from], to = actorPos[conn.to];
+    if (!from || !to) return;
+    const fx = from.x + from.w, fy = from.y + from.h/2;
+    const tx = to.x, ty = to.y + to.h/2;
+    const color = conn.type === 'error' ? '#b91c1c' : '#1e40af';
+    
+    for (let p=0; p<2; p++) {
+      const t = ((Date.now() * 0.0003 + p * 0.5) % 1);
+      const x = fx + (tx - fx) * t;
+      const y = fy + (ty - fy) * t + Math.sin(t * Math.PI) * 10;
+      animLayer.add(new Konva.Circle({
+        x, y, radius:2, fill:color,
+        opacity: 0.2 + Math.sin(t * Math.PI) * 0.3,
+        listening:false
+      }));
+    }
+  });
+  
+  animLayer.batchDraw();
+  frame++;
+  requestAnimationFrame(animate);
+}
+
+// ═══════════ TOOLTIP ═══════════
+const tooltipEl = document.getElementById('tooltip');
+function showTooltip(data) {
+  let html = '';
+  if (data.label && data.sub && data.facts) {
+    // Actor
+    const verdict = data.facts.verdict || '';
+    const stampClass = /SUSPECT|LIMITED/i.test(verdict) ? 'crit'
+      : /Corrupt|Degraded/i.test(verdict) ? 'warn' : 'ok';
+    html = `<div class="stamp ${stampClass}">${verdict.toUpperCase()}</div>`;
+    html += `<div class="title">${data.label}</div>`;
+    html += `<div class="field">${data.sub}</div>`;
+    Object.entries(data.facts).forEach(([k,v]) => {
+      if (k === 'verdict') return;
+      const isErr = /429|fail|error|corrupt/i.test(k);
+      html += `<div class="field">${k}: <span class="${isErr?'err':'val'}">${v}</span></div>`;
+    });
+  } else if (data.from && data.to) {
+    // Connection
+    html = `<div class="stamp ${data.type==='error'?'crit':'ok'}">${data.type.toUpperCase()}</div>`;
+    html += `<div class="title">${data.from} → ${data.to}</div>`;
+    html += `<div class="field">label: <span class="val">${data.label}</span></div>`;
+    if (data.count) html += `<div class="field">count: <span class="val">${data.count.toLocaleString()}</span></div>`;
+    if (data.detail) html += `<div class="field">detail: <span class="val">${data.detail}</span></div>`;
+  } else if (data.file) {
+    // Evidence
+    const sevClass = data.sev === 'critical' ? 'crit' : 'warn';
+    html = `<div class="stamp ${sevClass}">${data.sev.toUpperCase()}</div>`;
+    html += `<div class="title">${data.file}</div>`;
+    html += `<div class="field">count: <span class="err">${data.count}×</span></div>`;
+    html += `<div class="field">cause: <span class="val">${data.cause}</span></div>`;
+    if (data.fix) html += `<div class="field">fix: <span class="fix">${data.fix}</span></div>`;
+  }
+  tooltipEl.innerHTML = html;
+  tooltipEl.style.display = 'block';
+}
+function hideTooltip() { tooltipEl.style.display = 'none'; }
+stage.on('mousemove', e => {
+  tooltipEl.style.left = Math.min(e.evt.clientX + 20, W - 380) + 'px';
+  tooltipEl.style.top = Math.max(e.evt.clientY - 10, 80) + 'px';
+});
+
+// ═══════════ INITIAL DRAW ═══════════
+[bgLayer, stringLayer, cardLayer, pinLayer, evidenceLayer].forEach(l => l.draw());
+animate();
+
+window.addEventListener('resize', () => stage.width(window.innerWidth).height(window.innerHeight));
+</script>
+</body>
+</html>

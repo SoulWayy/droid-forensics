@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droid Forensics — Complete Triage</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:#050505;color:#e5e5e5;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 50% at 20% 10%,rgba(124,58,237,0.1) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 40% at 80% 30%,rgba(16,185,129,0.06) 0%,transparent 50%),
+  radial-gradient(ellipse 40% 30% at 50% 90%,rgba(244,63,94,0.05) 0%,transparent 40%)}
+.content{position:relative;z-index:2}
+.glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 1px rgba(255,255,255,0.05)}
+.glass:hover{border-color:rgba(255,255,255,0.15)}
+.mono{font-family:'JetBrains Mono',monospace}
+.metric{font-size:2.5rem;font-weight:700;letter-spacing:-0.04em;line-height:1;
+  background:linear-gradient(135deg,#fff,rgba(255,255,255,0.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);filter:blur(6px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.fade-in{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both}
+.d1{animation-delay:0.1s}.d2{animation-delay:0.2s}.d3{animation-delay:0.3s}.d4{animation-delay:0.4s}.d5{animation-delay:0.5s}
+a{text-decoration:none;color:inherit}
+</style>
+</head>
+<body>
+<div class="content max-w-6xl mx-auto px-6 py-16">
+
+  <!-- HERO -->
+  <header class="fade-in mb-16">
+    <div class="inline-block text-[10px] tracking-[0.25em] uppercase font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+      Case File № 0164 — Systems Autopsy
+    </div>
+    <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-6">
+      Droid Performance<br>
+      <span class="font-light text-white/40">Forensics</span>
+    </h1>
+    <p class="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
+      Complete reverse engineering van een coding agent met 56% CPU,
+      31,994 JSON-RPC notifications, en een render death spiral.
+      103,994 logregels. 42 sessies. 3 design artifacts.
+    </p>
+  </header>
+
+  <!-- KEY METRICS -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 fade-in d1">
+    <div class="glass p-6 text-center">
+      <div class="metric text-red-400">56%</div>
+      <div class="text-xs text-white/40 mt-2">CPU Main Thread</div>
+    </div>
+    <div class="glass p-6 text-center">
+      <div class="metric">31.9K</div>
+      <div class="text-xs text-white/40 mt-2">JSON-RPC Notifications</div>
+    </div>
+    <div class="glass p-6 text-center">
+      <div class="metric text-red-400">232</div>
+      <div class="text-xs text-white/40 mt-2">429 Rate Limits</div>
+    </div>
+    <div class="glass p-6 text-center">
+      <div class="metric text-amber-400">2.9K</div>
+      <div class="text-xs text-white/40 mt-2">YAML Errors</div>
+    </div>
+  </div>
+
+  <!-- VISUALIZATION ARTIFACTS -->
+  <section class="mb-16 fade-in d2">
+    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Visualizations</div>
+    <h2 class="text-3xl font-semibold mb-8">Design Artifacts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <a href="droid-ethereal.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3">🌌</div>
+        <div class="font-semibold text-lg mb-1">Ethereal Glass</div>
+        <div class="text-sm text-white/40">OLED black, glass cards, bento grid</div>
+        <div class="mono text-xs text-violet-400 mt-3">→ droid-ethereal.html</div>
+      </a>
+      <a href="droid-editorial.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3">📰</div>
+        <div class="font-semibold text-lg mb-1">Editorial Luxury</div>
+        <div class="text-sm text-white/40">Cream, serif, film grain, editorial split</div>
+        <div class="mono text-xs text-amber-400 mt-3">→ droid-editorial.html</div>
+      </a>
+      <a href="droid-cascade.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3"> cards</div>
+        <div class="font-semibold text-lg mb-1">Soft Structuralism</div>
+        <div class="text-sm text-white/40">White, bold grotesk, z-axis cascade</div>
+        <div class="mono text-xs text-emerald-400 mt-3">→ droid-cascade.html</div>
+      </a>
+      <a href="droid-canvas.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3">🔍</div>
+        <div class="font-semibold text-lg mb-1">Forensic Case File</div>
+        <div class="text-sm text-white/40">Konva canvas, red string detective board</div>
+        <div class="mono text-xs text-rose-400 mt-3">→ droid-canvas.html</div>
+      </a>
+      <a href="droid-architectuur-visualisatie.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3">📋</div>
+        <div class="font-semibold text-lg mb-1">Tabbed Explorer</div>
+        <div class="text-sm text-white/40">7 tabs: architectuur, processen, protocol, hotspots</div>
+        <div class="mono text-xs text-blue-400 mt-3">→ visualisatie.html</div>
+      </a>
+      <a href="bevindingen-canvas.html" class="glass p-6 block transition-all hover:scale-[1.02]">
+        <div class="text-2xl mb-3">📊</div>
+        <div class="font-semibold text-lg mb-1">Bevindingen Canvas</div>
+        <div class="text-sm text-white/40">Eerdere bevindingen visualisatie</div>
+        <div class="mono text-xs text-white/40 mt-3">→ bevindingen-canvas.html</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section class="mb-16 fade-in d3">
+    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Documentation</div>
+    <h2 class="text-3xl font-semibold mb-8">Forensic Reports</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <a href="droid-architectuur-puzzel.md" class="glass p-6 block hover:scale-[1.01] transition-all">
+        <div class="flex justify-between items-start mb-2">
+          <div class="font-semibold text-lg">Architectuur Puzzel</div>
+          <span class="mono text-xs text-white/30">52KB</span>
+        </div>
+        <div class="text-sm text-white/40">Complete reverse-engineered architecture — 1714 regels, 9 appendices, build-it-yourself guide</div>
+      </a>
+      <a href="eindrapport.md" class="glass p-6 block hover:scale-[1.01] transition-all">
+        <div class="flex justify-between items-start mb-2">
+          <div class="font-semibold text-lg">Eindrapport</div>
+          <span class="mono text-xs text-white/30">8KB</span>
+        </div>
+        <div class="text-sm text-white/40">Root causes, evidence, en recommended fixes</div>
+      </a>
+      <a href="onderzoeksmatrix.md" class="glass p-6 block hover:scale-[1.01] transition-all">
+        <div class="flex justify-between items-start mb-2">
+          <div class="font-semibold text-lg">Onderzoeksmatrix</div>
+          <span class="mono text-xs text-white/30">3KB</span>
+        </div>
+        <div class="text-sm text-white/40">Gap analysis — wat wel en niet onderzocht is</div>
+      </a>
+      <a href="actieplan.md" class="glass p-6 block hover:scale-[1.01] transition-all">
+        <div class="flex justify-between items-start mb-2">
+          <div class="font-semibold text-lg">Actieplan</div>
+          <span class="mono text-xs text-white/30">4KB</span>
+        </div>
+        <div class="text-sm text-white/40">Volgende stappen en aanbevelingen</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SUBAGENT ANALYSIS -->
+  <section class="mb-16 fade-in d4">
+    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Subagent Analysis</div>
+    <h2 class="text-3xl font-semibold mb-8">Distilled Log Data</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <a href="subagent-sessies.md" class="glass p-5 block hover:scale-[1.02] transition-all">
+        <div class="text-2xl font-bold text-white mb-1">42</div>
+        <div class="text-xs text-white/40 mb-2">Sessions</div>
+        <div class="mono text-[10px] text-white/30">→ subagent-sessies.md</div>
+      </a>
+      <a href="subagent-timeline.md" class="glass p-5 block hover:scale-[1.02] transition-all">
+        <div class="text-2xl font-bold text-red-400 mb-1">113</div>
+        <div class="text-xs text-white/40 mb-2">Error Timeline</div>
+        <div class="mono text-[10px] text-white/30">→ subagent-timeline.md</div>
+      </a>
+      <a href="subagent-mcp-netwerk.md" class="glass p-5 block hover:scale-[1.02] transition-all">
+        <div class="text-2xl font-bold text-amber-400 mb-1">1.2K</div>
+        <div class="text-xs text-white/40 mb-2">MCP Tool Calls</div>
+        <div class="mono text-[10px] text-white/30">→ subagent-mcp-netwerk.md</div>
+      </a>
+      <a href="subagent-plugins-settings.md" class="glass p-5 block hover:scale-[1.02] transition-all">
+        <div class="text-2xl font-bold text-emerald-400 mb-1">2.6K</div>
+        <div class="text-xs text-white/40 mb-2">Skills Loaded</div>
+        <div class="mono text-[10px] text-white/30">→ subagent-plugins-settings.md</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ROOT CAUSE -->
+  <section class="mb-16 fade-in d5">
+    <div class="glass p-8">
+      <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-red-400 mb-4">Root Cause</div>
+      <h2 class="text-3xl font-semibold mb-6">Render Death Spiral</h2>
+      <div class="mono text-sm text-white/60 leading-relaxed mb-6">
+        <span class="text-red-400">429 Rate Limit</span> (232×)
+        → error notification to TUI
+        → <span class="text-white">Header.tsx</span> re-renders (useMemo)
+        → <span class="text-white">getReadinessHint</span> → <span class="text-red-400">statSync</span> (477×)
+        → event loop blocked → <span class="text-red-400">CPU 56%</span>
+        → React <span class="text-amber-400">duplicate keys</span> (70×) → full re-render
+        → <span class="text-amber-400">maximum update depth</span> (8×) → crash
+        → worker retry without backoff → back to start
+      </div>
+      <div class="text-sm text-white/40">
+        <strong class="text-white/80">Verdict:</strong> Sync I/O (statSync) in the React render path (useMemo) is the root cause.
+        Rate limits are an external trigger, not the bug.
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="pt-8 border-t border-white/5 fade-in d5">
+    <div class="flex justify-between items-center text-xs text-white/30">
+      <div class="mono">droid v0.164.1 • 103,994 log lines • 42 sessions</div>
+      <div class="mono">Reverse engineered 2026-07-07</div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

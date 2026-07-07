@@ -1,0 +1,44 @@
+# Large binary files (reverse engineering artifacts, too big for git)
+bun-section-raw.bin
+droid-bun-section-full.bin
+droid-full-source.js
+droid-full-source-beautified.js
+droid-bundle.js
+droid-strings.txt
+droid_openat.txt
+droid_strace_profile.txt
+
+# Memory dumps
+memfd_dumps/
+
+# Node projects
+droid-forensics/node_modules/
+droid-forensics/dist/
+droid-forensics/.parcel-cache/
+rebuild-poc/node_modules/
+rebuild-poc/bun.lock
+
+# Extracted source (regenerable from binary)
+extracted-source/
+
+# React project (keep only our custom code, not shadcn pre-installed components)
+droid-forensics/node_modules/
+droid-forensics/src/components/ui/
+droid-forensics/src/lib/
+droid-forensics/src/hooks/
+droid-forensics/dist/
+droid-forensics/.parcel-cache/
+droid-forensics/pnpm-lock.yaml
+droid-forensics/components.json
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

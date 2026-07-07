@@ -1,0 +1,1907 @@
+# MCP en Netwerk Analyse - Droid Log
+
+**Log bestand:** `/home/jan/.factory/logs/droid-log-single.log`
+**Aantal entries:** 82033
+**Analyse datum:** 2026-07-07
+
+## 1. MCP Tool Calls
+
+Aantal `droid_mode_tool_execution_latency` entries: **1182**
+
+| Tool ID | Aantal | Gem. latency (ms) | Min (ms) | Max (ms) |
+|---------|--------|--------------------|----------|----------|
+| AskUser | 1 | 136.209 | 136.209 | 136.209 |
+| Create | 13 | 0.091 | 0.045 | 0.264 |
+| Edit | 65 | 0.175 | 0.007 | 3.105 |
+| Execute | 667 | 2.730 | 0.064 | 155.848 |
+| FetchUrl | 9 | 1.779 | 0.635 | 5.713 |
+| Glob | 31 | 0.104 | 0.036 | 0.319 |
+| Grep | 41 | 0.120 | 0.015 | 0.359 |
+| LS | 19 | 0.122 | 0.030 | 0.765 |
+| Read | 211 | 0.109 | 0.011 | 2.449 |
+| Skill | 2 | 0.023 | 0.012 | 0.034 |
+| Task | 9 | 648.727 | 204.338 | 1524.361 |
+| TodoWrite | 79 | 0.021 | 0.006 | 0.134 |
+| ToolSearch | 17 | 0.011 | 0.005 | 0.038 |
+| WebSearch | 1 | 2.666 | 2.666 | 2.666 |
+| linear___list_teams | 2 | 0.488 | 0.301 | 0.674 |
+| linear___save_comment | 1 | 0.740 | 0.740 | 0.740 |
+| linear___save_issue | 10 | 1.412 | 0.833 | 1.914 |
+| notion___API-get-self | 1 | 0.501 | 0.501 | 0.501 |
+| store_agent_readiness_report | 3 | 0.007 | 0.006 | 0.008 |
+
+### Tool calls per runtime
+
+- **Local**: 1182 calls
+
+### Tool errors
+
+Aantal errors: 71
+- `Execute` op 2026-07-07T08:13:07.129Z
+- `Execute` op 2026-07-07T08:13:24.583Z
+- `Execute` op 2026-07-07T08:16:27.499Z
+- `Execute` op 2026-07-07T08:16:55.482Z
+- `Execute` op 2026-07-07T08:23:14.832Z
+- `Execute` op 2026-07-07T08:24:54.210Z
+- `Execute` op 2026-07-07T08:25:04.747Z
+- `Execute` op 2026-07-07T08:28:14.623Z
+- `Execute` op 2026-07-07T08:29:43.776Z
+- `Execute` op 2026-07-07T08:29:44.862Z
+
+### P95 latency per tool (top 10)
+
+- **Task**: 1524.361 ms
+- **AskUser**: 136.209 ms
+- **Execute**: 8.407 ms
+- **FetchUrl**: 5.713 ms
+- **WebSearch**: 2.666 ms
+- **linear___save_issue**: 1.914 ms
+- **LS**: 0.765 ms
+- **linear___save_comment**: 0.740 ms
+- **linear___list_teams**: 0.674 ms
+- **notion___API-get-self**: 0.501 ms
+
+### Tool call notifications (JSON-RPC)
+
+Aantal `tool_call` type notifications: **1250**
+
+---
+## 2. MCP Status Changes
+
+Aantal status changes: **291**
+
+| Status | Aantal |
+|--------|--------|
+| Disconnected | 138 |
+| Connected | 120 |
+| Changed | 33 |
+
+### Verbindingen (Connected)
+
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T05:26:43.419Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T05:26:58.500Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T05:26:58.774Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T07:10:05.075Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T07:10:14.470Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T07:10:15.147Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:03:40.197Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:03:48.476Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:03:48.885Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:05:44.849Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:05:53.115Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:05:53.553Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:06:47.780Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:06:56.956Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:06:57.434Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:07:24.636Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:07:33.580Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:07:33.902Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:07:45.547Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:07:54.665Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:07:55.213Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:08:26.380Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:08:34.608Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:08:35.052Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:09:01.280Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:09:10.256Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:09:10.586Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:11:27.898Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:11:35.904Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:11:36.367Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:12:12.302Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:12:21.405Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:12:22.039Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:12:43.197Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:12:51.287Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:12:51.691Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:13:59.854Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:14:07.467Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:14:07.958Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:15:06.690Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:15:19.932Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:15:20.380Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:18:20.299Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:18:29.144Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:18:29.463Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:20:04.187Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:20:19.833Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:20:20.560Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:21:09.098Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:21:18.955Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:21:19.476Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:22:01.883Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:22:02.197Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:22:02.811Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:26.159Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:27.077Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:27.113Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:28.040Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:27.315Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:22:27.484Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:25:23.431Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:25:39.565Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:25:40.570Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:30:54.180Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:30:54.613Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:30:55.153Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:16.008Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:16.481Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:16.276Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:17.343Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:17.092Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:31:17.625Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:34:46.174Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:34:56.041Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:34:56.528Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:38:54.376Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:39:03.864Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:39:04.522Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T08:48:55.419Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:49:03.623Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T08:49:04.024Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T09:05:12.778Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T09:05:25.226Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T09:05:26.242Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T09:23:18.104Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T09:23:26.317Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T09:23:26.436Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T11:18:13.094Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T11:18:13.041Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T11:18:13.175Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:42.756Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:44.671Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:43.995Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:45.007Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:44.528Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:18:45.459Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T11:50:25.896Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:50:34.090Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:50:34.592Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T11:57:43.014Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:57:55.201Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T11:57:55.250Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T12:28:05.603Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:28:17.614Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:28:18.565Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T12:49:32.210Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:49:42.990Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:49:43.722Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T12:57:39.253Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T12:57:40.217Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T12:57:39.723Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:06.221Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:09.146Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:07.494Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:09.115Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:06.425Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T12:58:07.711Z
+- **linear** | type: http | url: https://mcp.linear.app/mcp | proto: 2025-11-25 | op 2026-07-07T13:31:34.011Z
+- **notion** | type: stdio | url: ? | proto: ? | op 2026-07-07T13:31:44.697Z
+- **playwright** | type: stdio | url: ? | proto: ? | op 2026-07-07T13:31:45.354Z
+
+### Disconnects
+
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-06T22:44:17.445Z
+- **?** | url: ? | op 2026-07-06T22:44:17.453Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:05:34.412Z
+- **notion** | url: ? | op 2026-07-07T08:05:34.470Z
+- **playwright** | url: ? | op 2026-07-07T08:05:34.472Z
+- **?** | url: ? | op 2026-07-07T08:05:34.473Z
+- **notion** | url: ? | op 2026-07-07T08:07:34.950Z
+- **playwright** | url: ? | op 2026-07-07T08:07:34.954Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:07:35.686Z
+- **?** | url: ? | op 2026-07-07T08:07:35.689Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:08:01.201Z
+- **notion** | url: ? | op 2026-07-07T08:08:01.279Z
+- **playwright** | url: ? | op 2026-07-07T08:08:01.281Z
+- **?** | url: ? | op 2026-07-07T08:08:01.282Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:08:50.697Z
+- **notion** | url: ? | op 2026-07-07T08:08:50.771Z
+- **playwright** | url: ? | op 2026-07-07T08:08:50.782Z
+- **?** | url: ? | op 2026-07-07T08:08:50.783Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:09:56.563Z
+- **playwright** | url: ? | op 2026-07-07T08:09:56.590Z
+- **notion** | url: ? | op 2026-07-07T08:09:56.592Z
+- **?** | url: ? | op 2026-07-07T08:09:56.593Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:11:39.110Z
+- **notion** | url: ? | op 2026-07-07T08:11:39.171Z
+- **playwright** | url: ? | op 2026-07-07T08:11:39.181Z
+- **?** | url: ? | op 2026-07-07T08:11:39.182Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:12:27.577Z
+- **notion** | url: ? | op 2026-07-07T08:12:27.645Z
+- **playwright** | url: ? | op 2026-07-07T08:12:27.650Z
+- **?** | url: ? | op 2026-07-07T08:12:27.651Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:13:44.036Z
+- **notion** | url: ? | op 2026-07-07T08:13:44.255Z
+- **playwright** | url: ? | op 2026-07-07T08:13:44.266Z
+- **?** | url: ? | op 2026-07-07T08:13:44.266Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:14:49.971Z
+- **notion** | url: ? | op 2026-07-07T08:14:50.026Z
+- **playwright** | url: ? | op 2026-07-07T08:14:50.043Z
+- **?** | url: ? | op 2026-07-07T08:14:50.044Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:18:00.450Z
+- **notion** | url: ? | op 2026-07-07T08:18:00.467Z
+- **playwright** | url: ? | op 2026-07-07T08:18:00.477Z
+- **?** | url: ? | op 2026-07-07T08:18:00.478Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:19:49.955Z
+- **notion** | url: ? | op 2026-07-07T08:19:50.024Z
+- **playwright** | url: ? | op 2026-07-07T08:19:50.044Z
+- **?** | url: ? | op 2026-07-07T08:19:50.046Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:25:02.438Z
+- **notion** | url: ? | op 2026-07-07T08:25:02.480Z
+- **playwright** | url: ? | op 2026-07-07T08:25:02.508Z
+- **?** | url: ? | op 2026-07-07T08:25:02.509Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:27:59.903Z
+- **playwright** | url: ? | op 2026-07-07T08:28:00.021Z
+- **notion** | url: ? | op 2026-07-07T08:28:00.023Z
+- **?** | url: ? | op 2026-07-07T08:28:00.024Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:30:13.865Z
+- **notion** | url: ? | op 2026-07-07T08:30:13.879Z
+- **playwright** | url: ? | op 2026-07-07T08:30:13.885Z
+- **?** | url: ? | op 2026-07-07T08:30:13.886Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:32:57.640Z
+- **notion** | url: ? | op 2026-07-07T08:32:57.703Z
+- **playwright** | url: ? | op 2026-07-07T08:32:57.880Z
+- **?** | url: ? | op 2026-07-07T08:32:57.881Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:34:16.201Z
+- **playwright** | url: ? | op 2026-07-07T08:34:16.267Z
+- **notion** | url: ? | op 2026-07-07T08:34:16.275Z
+- **?** | url: ? | op 2026-07-07T08:34:16.276Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:34:21.627Z
+- **playwright** | url: ? | op 2026-07-07T08:34:21.695Z
+- **notion** | url: ? | op 2026-07-07T08:34:21.702Z
+- **?** | url: ? | op 2026-07-07T08:34:21.703Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:38:40.233Z
+- **playwright** | url: ? | op 2026-07-07T08:38:40.259Z
+- **notion** | url: ? | op 2026-07-07T08:38:40.262Z
+- **?** | url: ? | op 2026-07-07T08:38:40.263Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:39:45.218Z
+- **notion** | url: ? | op 2026-07-07T08:39:45.392Z
+- **playwright** | url: ? | op 2026-07-07T08:39:45.394Z
+- **?** | url: ? | op 2026-07-07T08:39:45.396Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:40:20.243Z
+- **notion** | url: ? | op 2026-07-07T08:40:20.368Z
+- **playwright** | url: ? | op 2026-07-07T08:40:20.376Z
+- **?** | url: ? | op 2026-07-07T08:40:20.377Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:47:43.890Z
+- **notion** | url: ? | op 2026-07-07T08:47:43.894Z
+- **playwright** | url: ? | op 2026-07-07T08:47:43.907Z
+- **?** | url: ? | op 2026-07-07T08:47:43.908Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T08:47:50.439Z
+- **?** | url: ? | op 2026-07-07T08:47:50.446Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T09:18:48.884Z
+- **notion** | url: ? | op 2026-07-07T09:18:48.942Z
+- **playwright** | url: ? | op 2026-07-07T09:18:48.949Z
+- **?** | url: ? | op 2026-07-07T09:18:48.950Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T09:30:49.363Z
+- **notion** | url: ? | op 2026-07-07T09:30:49.468Z
+- **playwright** | url: ? | op 2026-07-07T09:30:49.478Z
+- **?** | url: ? | op 2026-07-07T09:30:49.479Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T11:24:40.871Z
+- **notion** | url: ? | op 2026-07-07T11:24:40.956Z
+- **playwright** | url: ? | op 2026-07-07T11:24:40.971Z
+- **?** | url: ? | op 2026-07-07T11:24:40.972Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T11:29:38.273Z
+- **notion** | url: ? | op 2026-07-07T11:29:38.368Z
+- **playwright** | url: ? | op 2026-07-07T11:29:38.376Z
+- **?** | url: ? | op 2026-07-07T11:29:38.377Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T11:29:44.706Z
+- **playwright** | url: ? | op 2026-07-07T11:29:44.796Z
+- **notion** | url: ? | op 2026-07-07T11:29:44.799Z
+- **?** | url: ? | op 2026-07-07T11:29:44.800Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T11:49:43.807Z
+- **?** | url: ? | op 2026-07-07T11:49:43.817Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T11:58:28.803Z
+- **?** | url: ? | op 2026-07-07T11:58:28.814Z
+- **notion** | url: ? | op 2026-07-07T11:58:28.871Z
+- **playwright** | url: ? | op 2026-07-07T11:58:28.876Z
+- **?** | url: ? | op 2026-07-07T11:58:28.878Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T12:28:27.009Z
+- **?** | url: ? | op 2026-07-07T12:28:27.032Z
+- **playwright** | url: ? | op 2026-07-07T12:28:27.059Z
+- **notion** | url: ? | op 2026-07-07T12:28:27.062Z
+- **?** | url: ? | op 2026-07-07T12:28:27.063Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T12:49:32.887Z
+- **?** | url: ? | op 2026-07-07T12:49:32.907Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T13:00:46.390Z
+- **playwright** | url: ? | op 2026-07-07T13:00:47.609Z
+- **notion** | url: ? | op 2026-07-07T13:00:47.629Z
+- **?** | url: ? | op 2026-07-07T13:00:47.630Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T13:04:32.718Z
+- **playwright** | url: ? | op 2026-07-07T13:04:32.856Z
+- **notion** | url: ? | op 2026-07-07T13:04:32.887Z
+- **?** | url: ? | op 2026-07-07T13:04:32.888Z
+- **playwright** | url: ? | op 2026-07-07T13:11:14.775Z
+- **playwright** | url: ? | op 2026-07-07T13:11:14.782Z
+- **notion** | url: ? | op 2026-07-07T13:11:14.827Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T13:22:54.096Z
+- **notion** | url: ? | op 2026-07-07T13:22:54.186Z
+- **?** | url: ? | op 2026-07-07T13:22:54.189Z
+- **linear** | url: https://mcp.linear.app/mcp | op 2026-07-07T13:34:58.671Z
+- **?** | url: ? | op 2026-07-07T13:34:58.679Z
+
+### Status change timeline
+
+- 2026-07-06T22:44:17.445Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-06T22:44:17.453Z | **?** → Disconnected | ? | ?
+- 2026-07-07T05:26:43.419Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T05:26:43.899Z | Changed (notification, trace: 06f40f12bd5745f72b41c2c66880cb11)
+- 2026-07-07T05:26:58.500Z | **notion** → Connected | stdio | ?
+- 2026-07-07T05:26:58.664Z | Changed (notification, trace: 06f40f12bd5745f72b41c2c66880cb11)
+- 2026-07-07T05:26:58.774Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T05:26:58.879Z | Changed (notification, trace: 06f40f12bd5745f72b41c2c66880cb11)
+- 2026-07-07T05:26:59.313Z | Changed (notification, trace: 06f40f12bd5745f72b41c2c66880cb11)
+- 2026-07-07T07:10:05.075Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T07:10:05.483Z | Changed (notification, trace: 63ca8529ddf1129ea1778b7f32d0f125)
+- 2026-07-07T07:10:14.470Z | **notion** → Connected | stdio | ?
+- 2026-07-07T07:10:14.599Z | Changed (notification, trace: 63ca8529ddf1129ea1778b7f32d0f125)
+- 2026-07-07T07:10:15.147Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T07:10:15.449Z | Changed (notification, trace: 63ca8529ddf1129ea1778b7f32d0f125)
+- 2026-07-07T07:10:15.636Z | Changed (notification, trace: 63ca8529ddf1129ea1778b7f32d0f125)
+- 2026-07-07T08:03:40.197Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:03:48.476Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:03:48.885Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:05:34.412Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:05:34.470Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:05:34.472Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:05:34.473Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:05:44.849Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:05:53.115Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:05:53.553Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:06:47.780Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:06:56.956Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:06:57.434Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:07:24.636Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:07:33.580Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:07:33.902Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:07:34.950Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:07:34.954Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:07:35.686Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:07:35.689Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:07:45.547Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:07:54.665Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:07:55.213Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:08:01.201Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:08:01.279Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:08:01.281Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:08:01.282Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:08:26.380Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:08:34.608Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:08:35.052Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:08:50.697Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:08:50.771Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:08:50.782Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:08:50.783Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:09:01.280Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:09:10.256Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:09:10.586Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:09:56.563Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:09:56.590Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:09:56.592Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:09:56.593Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:11:27.898Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:11:35.904Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:11:36.367Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:11:39.110Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:11:39.171Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:11:39.181Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:11:39.182Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:12:12.302Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:12:21.405Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:12:22.039Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:12:27.577Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:12:27.645Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:12:27.650Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:12:27.651Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:12:43.197Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:12:51.287Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:12:51.691Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:13:44.036Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:13:44.255Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:13:44.266Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:13:44.266Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:13:59.854Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:14:07.467Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:14:07.958Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:14:49.971Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:14:50.026Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:14:50.043Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:14:50.044Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:15:06.690Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:15:19.932Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:15:20.380Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:18:00.450Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:18:00.467Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:18:00.477Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:18:00.478Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:18:20.299Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:18:29.144Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:18:29.463Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:19:49.955Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:19:50.024Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:19:50.044Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:19:50.046Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:20:04.187Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:20:19.833Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:20:20.560Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:21:09.098Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:21:18.955Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:21:19.476Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:22:01.883Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:22:02.197Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:22:02.811Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:22:26.159Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:22:27.077Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:22:27.113Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:22:27.315Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:22:27.484Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:22:28.040Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:25:02.438Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:25:02.480Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:25:02.508Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:25:02.509Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:25:23.431Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:25:39.565Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:25:40.570Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:27:59.903Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:28:00.021Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:28:00.023Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:28:00.024Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:30:13.865Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:30:13.879Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:30:13.885Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:30:13.886Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:30:54.180Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:30:54.613Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:30:55.153Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:31:16.008Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:31:16.276Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:31:16.481Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:31:17.092Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:31:17.343Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:31:17.625Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:32:57.640Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:32:57.703Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:32:57.880Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:32:57.881Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:34:16.201Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:34:16.267Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:34:16.275Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:34:16.276Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:34:21.627Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:34:21.695Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:34:21.702Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:34:21.703Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:34:46.174Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:34:56.041Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:34:56.528Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:38:40.233Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:38:40.259Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:38:40.262Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:38:40.263Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:38:54.376Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:39:03.864Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:39:04.522Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:39:45.218Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:39:45.392Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:39:45.394Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:39:45.396Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:40:20.243Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:40:20.368Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:40:20.376Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:40:20.377Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:47:43.890Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:47:43.894Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T08:47:43.907Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T08:47:43.908Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:47:50.439Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:47:50.446Z | **?** → Disconnected | ? | ?
+- 2026-07-07T08:48:55.419Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T08:48:55.836Z | Changed (notification, trace: aaf92d1164a37c1b41e47480cd00e350)
+- 2026-07-07T08:49:03.623Z | **notion** → Connected | stdio | ?
+- 2026-07-07T08:49:03.687Z | Changed (notification, trace: aaf92d1164a37c1b41e47480cd00e350)
+- 2026-07-07T08:49:04.024Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T08:49:04.090Z | Changed (notification, trace: aaf92d1164a37c1b41e47480cd00e350)
+- 2026-07-07T08:49:05.268Z | Changed (notification, trace: aaf92d1164a37c1b41e47480cd00e350)
+- 2026-07-07T09:05:12.778Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T09:05:25.226Z | **notion** → Connected | stdio | ?
+- 2026-07-07T09:05:26.242Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T09:18:48.884Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T09:18:48.942Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T09:18:48.949Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T09:18:48.950Z | **?** → Disconnected | ? | ?
+- 2026-07-07T09:23:18.104Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T09:23:26.317Z | **notion** → Connected | stdio | ?
+- 2026-07-07T09:23:26.436Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T09:30:49.363Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T09:30:49.468Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T09:30:49.478Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T09:30:49.479Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:18:13.041Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:18:13.094Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:18:13.175Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:18:42.756Z | **notion** → Connected | stdio | ?
+- 2026-07-07T11:18:43.995Z | **notion** → Connected | stdio | ?
+- 2026-07-07T11:18:44.528Z | **notion** → Connected | stdio | ?
+- 2026-07-07T11:18:44.671Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T11:18:45.007Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T11:18:45.459Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T11:24:40.871Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:24:40.956Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T11:24:40.971Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T11:24:40.972Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:29:38.273Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:29:38.368Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T11:29:38.376Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T11:29:38.377Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:29:44.706Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:29:44.796Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T11:29:44.799Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T11:29:44.800Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:49:43.807Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:49:43.817Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:50:25.896Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:50:26.636Z | Changed (notification, trace: ff55597139235c18141af167d4504bf2)
+- 2026-07-07T11:50:34.090Z | **notion** → Connected | stdio | ?
+- 2026-07-07T11:50:34.148Z | Changed (notification, trace: ff55597139235c18141af167d4504bf2)
+- 2026-07-07T11:50:34.592Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T11:50:34.659Z | Changed (notification, trace: ff55597139235c18141af167d4504bf2)
+- 2026-07-07T11:50:35.266Z | Changed (notification, trace: ff55597139235c18141af167d4504bf2)
+- 2026-07-07T11:57:43.014Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:57:43.330Z | Changed (notification, trace: b61f525f98253f186efe4f7f68d8b242)
+- 2026-07-07T11:57:55.201Z | **notion** → Connected | stdio | ?
+- 2026-07-07T11:57:55.250Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T11:57:55.360Z | Changed (notification, trace: b61f525f98253f186efe4f7f68d8b242)
+- 2026-07-07T11:57:55.744Z | Changed (notification, trace: b61f525f98253f186efe4f7f68d8b242)
+- 2026-07-07T11:58:28.803Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T11:58:28.814Z | **?** → Disconnected | ? | ?
+- 2026-07-07T11:58:28.871Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T11:58:28.876Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T11:58:28.878Z | **?** → Disconnected | ? | ?
+- 2026-07-07T12:28:05.603Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:28:06.049Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:17.614Z | **notion** → Connected | stdio | ?
+- 2026-07-07T12:28:17.929Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:17.930Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:18.565Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T12:28:18.704Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:19.903Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:19.903Z | Changed (notification, trace: 7500686fe6a17c388b08b67a85107b5f)
+- 2026-07-07T12:28:27.009Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:28:27.032Z | **?** → Disconnected | ? | ?
+- 2026-07-07T12:28:27.059Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T12:28:27.062Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T12:28:27.063Z | **?** → Disconnected | ? | ?
+- 2026-07-07T12:49:32.210Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:49:32.887Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:49:32.907Z | **?** → Disconnected | ? | ?
+- 2026-07-07T12:49:34.282Z | Changed (notification, trace: 372610b8caf6d449807383868d9afb67)
+- 2026-07-07T12:49:42.990Z | **notion** → Connected | stdio | ?
+- 2026-07-07T12:49:43.140Z | Changed (notification, trace: 372610b8caf6d449807383868d9afb67)
+- 2026-07-07T12:49:43.722Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T12:49:43.947Z | Changed (notification, trace: 372610b8caf6d449807383868d9afb67)
+- 2026-07-07T12:49:44.307Z | Changed (notification, trace: 372610b8caf6d449807383868d9afb67)
+- 2026-07-07T12:57:39.253Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:57:39.723Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:57:40.217Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T12:58:06.221Z | **notion** → Connected | stdio | ?
+- 2026-07-07T12:58:06.425Z | **notion** → Connected | stdio | ?
+- 2026-07-07T12:58:07.494Z | **notion** → Connected | stdio | ?
+- 2026-07-07T12:58:07.711Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T12:58:09.115Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T12:58:09.146Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T13:00:46.390Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T13:00:47.609Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T13:00:47.629Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T13:00:47.630Z | **?** → Disconnected | ? | ?
+- 2026-07-07T13:04:32.718Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T13:04:32.856Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T13:04:32.887Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T13:04:32.888Z | **?** → Disconnected | ? | ?
+- 2026-07-07T13:11:14.775Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T13:11:14.782Z | **playwright** → Disconnected | stdio | ?
+- 2026-07-07T13:11:14.827Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T13:22:54.096Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T13:22:54.186Z | **notion** → Disconnected | stdio | ?
+- 2026-07-07T13:22:54.189Z | **?** → Disconnected | ? | ?
+- 2026-07-07T13:31:34.011Z | **linear** → Connected | http | https://mcp.linear.app/mcp
+- 2026-07-07T13:31:34.426Z | Changed (notification, trace: edaaf288a96fbfd0f778e82576d6e7db)
+- 2026-07-07T13:31:44.697Z | **notion** → Connected | stdio | ?
+- 2026-07-07T13:31:44.762Z | Changed (notification, trace: edaaf288a96fbfd0f778e82576d6e7db)
+- 2026-07-07T13:31:45.354Z | **playwright** → Connected | stdio | ?
+- 2026-07-07T13:31:45.435Z | Changed (notification, trace: edaaf288a96fbfd0f778e82576d6e7db)
+- 2026-07-07T13:31:45.960Z | Changed (notification, trace: edaaf288a96fbfd0f778e82576d6e7db)
+- 2026-07-07T13:34:58.671Z | **linear** → Disconnected | http | https://mcp.linear.app/mcp
+- 2026-07-07T13:34:58.679Z | **?** → Disconnected | ? | ?
+
+---
+## 3. MCP Server Startup Latency
+
+Aantal startup metrics: **199**
+
+| Server | Aantal | Gem (ms) | Min (ms) | Max (ms) |
+|--------|--------|----------|----------|----------|
+| callback | 40 | 82.0 | 18.4 | 281.8 |
+| linear | 40 | 840.3 | 493.3 | 1761.5 |
+| notion | 40 | 14290.6 | 7163.8 | 30305.3 |
+| playwright | 40 | 14986.4 | 7624.8 | 31233.9 |
+| reload | 39 | 17087.7 | 9167.2 | 33615.8 |
+
+### Details
+
+- **reload** (reload): 33615.8 ms | outcome=success | 2026-07-07T11:18:46.137Z
+- **reload** (reload): 33337.2 ms | outcome=success | 2026-07-07T11:18:45.529Z
+- **reload** (reload): 32837.3 ms | outcome=success | 2026-07-07T11:18:45.300Z
+- **reload** (reload): 32488.1 ms | outcome=success | 2026-07-07T12:58:11.047Z
+- **playwright** (stdio): 31233.9 ms | outcome=success | 2026-07-07T11:18:45.459Z
+- **playwright** (stdio): 31223.6 ms | outcome=success | 2026-07-07T11:18:44.672Z
+- **playwright** (stdio): 31169.4 ms | outcome=success | 2026-07-07T11:18:45.008Z
+- **reload** (reload): 30506.3 ms | outcome=success | 2026-07-07T12:58:09.730Z
+- **notion** (stdio): 30305.3 ms | outcome=success | 2026-07-07T11:18:44.529Z
+- **notion** (stdio): 30160.6 ms | outcome=success | 2026-07-07T11:18:43.996Z
+- **notion** (stdio): 29330.2 ms | outcome=success | 2026-07-07T11:18:42.777Z
+- **reload** (reload): 29322.9 ms | outcome=success | 2026-07-07T12:58:08.425Z
+- **playwright** (stdio): 29223.1 ms | outcome=success | 2026-07-07T12:58:09.167Z
+- **playwright** (stdio): 28296.1 ms | outcome=success | 2026-07-07T12:58:09.116Z
+- **reload** (reload): 27734.9 ms | outcome=success | 2026-07-07T08:22:28.555Z
+- **playwright** (stdio): 27504.2 ms | outcome=success | 2026-07-07T12:58:07.712Z
+- **reload** (reload): 26785.5 ms | outcome=success | 2026-07-07T08:22:28.514Z
+- **notion** (stdio): 26691.5 ms | outcome=success | 2026-07-07T12:58:07.494Z
+- **notion** (stdio): 26305.0 ms | outcome=success | 2026-07-07T12:58:06.222Z
+- **notion** (stdio): 26223.2 ms | outcome=success | 2026-07-07T12:58:06.425Z
+- **reload** (reload): 25959.5 ms | outcome=success | 2026-07-07T08:22:27.579Z
+- **playwright** (stdio): 25187.4 ms | outcome=success | 2026-07-07T08:22:28.041Z
+- **reload** (reload): 24810.3 ms | outcome=success | 2026-07-07T08:31:19.198Z
+- **reload** (reload): 24509.3 ms | outcome=success | 2026-07-07T08:31:17.960Z
+- **playwright** (stdio): 24504.1 ms | outcome=success | 2026-07-07T08:22:27.077Z
+- **notion** (stdio): 24261.8 ms | outcome=success | 2026-07-07T08:22:27.114Z
+- **notion** (stdio): 24068.4 ms | outcome=success | 2026-07-07T08:22:27.485Z
+- **playwright** (stdio): 23898.0 ms | outcome=success | 2026-07-07T08:22:27.315Z
+- **reload** (reload): 23605.2 ms | outcome=success | 2026-07-07T08:31:17.188Z
+- **notion** (stdio): 23588.0 ms | outcome=success | 2026-07-07T08:22:26.160Z
+- **playwright** (stdio): 22545.7 ms | outcome=success | 2026-07-07T08:31:17.625Z
+- **notion** (stdio): 22014.8 ms | outcome=success | 2026-07-07T08:31:17.093Z
+- **playwright** (stdio): 21537.8 ms | outcome=success | 2026-07-07T08:31:16.482Z
+- **playwright** (stdio): 21495.1 ms | outcome=success | 2026-07-07T08:31:17.344Z
+- **reload** (reload): 21199.9 ms | outcome=success | 2026-07-07T08:25:42.871Z
+- **notion** (stdio): 21068.9 ms | outcome=success | 2026-07-07T08:31:16.009Z
+- **notion** (stdio): 20428.7 ms | outcome=success | 2026-07-07T08:31:16.276Z
+- **playwright** (stdio): 16607.5 ms | outcome=success | 2026-07-07T08:25:40.570Z
+- **reload** (reload): 16480.0 ms | outcome=success | 2026-07-07T05:26:59.106Z
+- **playwright** (stdio): 15722.3 ms | outcome=success | 2026-07-07T08:20:20.560Z
+- **notion** (stdio): 15604.6 ms | outcome=success | 2026-07-07T08:25:39.566Z
+- **notion** (stdio): 14997.4 ms | outcome=success | 2026-07-07T08:20:19.834Z
+- **reload** (reload): 14932.2 ms | outcome=success | 2026-07-07T08:15:21.005Z
+- **playwright** (stdio): 14796.5 ms | outcome=success | 2026-07-07T05:26:58.775Z
+- **reload** (reload): 14786.1 ms | outcome=success | 2026-07-07T12:28:19.638Z
+- **reload** (reload): 14696.1 ms | outcome=success | 2026-07-07T09:05:26.650Z
+- **notion** (stdio): 14523.7 ms | outcome=success | 2026-07-07T05:26:58.501Z
+- **reload** (reload): 13283.9 ms | outcome=success | 2026-07-07T11:57:55.604Z
+- **playwright** (stdio): 13162.8 ms | outcome=success | 2026-07-07T08:15:20.380Z
+- **playwright** (stdio): 12886.0 ms | outcome=success | 2026-07-07T09:05:26.242Z
+- **reload** (reload): 12759.0 ms | outcome=success | 2026-07-07T13:31:45.863Z
+- **notion** (stdio): 12716.0 ms | outcome=success | 2026-07-07T08:15:19.932Z
+- **reload** (reload): 12613.2 ms | outcome=success | 2026-07-07T12:49:44.210Z
+- **reload** (reload): 12211.7 ms | outcome=success | 2026-07-07T08:21:20.088Z
+- **playwright** (stdio): 11936.1 ms | outcome=success | 2026-07-07T12:28:18.565Z
+- **notion** (stdio): 11871.2 ms | outcome=success | 2026-07-07T09:05:25.236Z
+- **reload** (reload): 11810.1 ms | outcome=success | 2026-07-07T08:34:56.848Z
+- **playwright** (stdio): 11251.9 ms | outcome=success | 2026-07-07T11:57:55.250Z
+- **notion** (stdio): 11205.0 ms | outcome=success | 2026-07-07T11:57:55.202Z
+- **reload** (reload): 11158.2 ms | outcome=success | 2026-07-07T07:10:15.442Z
+- **reload** (reload): 11044.1 ms | outcome=success | 2026-07-07T08:39:04.825Z
+- **notion** (stdio): 10986.3 ms | outcome=success | 2026-07-07T12:28:17.614Z
+- **playwright** (stdio): 10890.8 ms | outcome=success | 2026-07-07T12:49:43.723Z
+- **reload** (reload): 10827.8 ms | outcome=success | 2026-07-07T08:12:22.423Z
+- **playwright** (stdio): 10728.2 ms | outcome=success | 2026-07-07T13:31:45.355Z
+- **reload** (reload): 10677.7 ms | outcome=success | 2026-07-07T08:03:49.288Z
+- **reload** (reload): 10640.5 ms | outcome=success | 2026-07-07T08:06:57.912Z
+- **reload** (reload): 10591.7 ms | outcome=success | 2026-07-07T08:07:55.615Z
+- **reload** (reload): 10557.6 ms | outcome=success | 2026-07-07T08:05:54.423Z
+- **reload** (reload): 10521.6 ms | outcome=success | 2026-07-07T08:49:05.176Z
+- **reload** (reload): 10516.6 ms | outcome=success | 2026-07-07T11:50:35.190Z
+- **reload** (reload): 10445.2 ms | outcome=success | 2026-07-07T08:09:11.231Z
+- **reload** (reload): 10426.4 ms | outcome=success | 2026-07-07T08:18:29.843Z
+- **reload** (reload): 10262.2 ms | outcome=success | 2026-07-07T08:08:35.888Z
+- **reload** (reload): 10213.4 ms | outcome=success | 2026-07-07T08:07:34.215Z
+- **notion** (stdio): 10159.4 ms | outcome=success | 2026-07-07T12:49:42.991Z
+- **notion** (stdio): 10072.1 ms | outcome=success | 2026-07-07T13:31:44.698Z
+- **playwright** (stdio): 9864.5 ms | outcome=success | 2026-07-07T08:34:56.529Z
+- **playwright** (stdio): 9818.9 ms | outcome=success | 2026-07-07T08:39:04.522Z
+- **reload** (reload): 9770.3 ms | outcome=success | 2026-07-07T08:12:52.293Z
+- **reload** (reload): 9708.6 ms | outcome=success | 2026-07-07T08:14:08.227Z
+- **playwright** (stdio): 9659.7 ms | outcome=success | 2026-07-07T08:21:19.477Z
+- **playwright** (stdio): 9631.1 ms | outcome=success | 2026-07-07T07:10:15.147Z
+- **reload** (reload): 9608.9 ms | outcome=success | 2026-07-07T08:11:36.876Z
+- **notion** (stdio): 9379.1 ms | outcome=success | 2026-07-07T08:34:56.042Z
+- **playwright** (stdio): 9296.5 ms | outcome=success | 2026-07-07T08:06:57.435Z
+- **reload** (reload): 9167.2 ms | outcome=success | 2026-07-07T09:23:26.759Z
+- **notion** (stdio): 9162.3 ms | outcome=success | 2026-07-07T08:39:03.865Z
+- **notion** (stdio): 9140.0 ms | outcome=success | 2026-07-07T08:21:18.955Z
+- **playwright** (stdio): 9126.4 ms | outcome=success | 2026-07-07T08:07:55.213Z
+- **playwright** (stdio): 8984.7 ms | outcome=success | 2026-07-07T08:09:10.586Z
+- **notion** (stdio): 8956.2 ms | outcome=success | 2026-07-07T07:10:14.475Z
+- **playwright** (stdio): 8952.6 ms | outcome=success | 2026-07-07T08:07:33.903Z
+- **notion** (stdio): 8820.3 ms | outcome=success | 2026-07-07T08:06:56.957Z
+- **notion** (stdio): 8656.8 ms | outcome=success | 2026-07-07T08:09:10.257Z
+- **notion** (stdio): 8632.2 ms | outcome=success | 2026-07-07T08:07:33.581Z
+- **notion** (stdio): 8580.2 ms | outcome=success | 2026-07-07T08:07:54.666Z
+- **playwright** (stdio): 8442.3 ms | outcome=success | 2026-07-07T08:18:29.464Z
+- **playwright** (stdio): 8309.9 ms | outcome=success | 2026-07-07T08:03:48.886Z
+- **playwright** (stdio): 8281.3 ms | outcome=success | 2026-07-07T08:49:04.024Z
+- **playwright** (stdio): 8134.9 ms | outcome=success | 2026-07-07T08:05:53.554Z
+- **playwright** (stdio): 8130.7 ms | outcome=success | 2026-07-07T11:50:34.592Z
+- **notion** (stdio): 8124.2 ms | outcome=success | 2026-07-07T08:18:29.144Z
+- **playwright** (stdio): 7979.9 ms | outcome=success | 2026-07-07T09:23:26.437Z
+- **playwright** (stdio): 7972.3 ms | outcome=success | 2026-07-07T08:12:22.040Z
+- **playwright** (stdio): 7918.6 ms | outcome=success | 2026-07-07T08:08:35.052Z
+- **notion** (stdio): 7901.8 ms | outcome=success | 2026-07-07T08:03:48.477Z
+- **notion** (stdio): 7881.8 ms | outcome=success | 2026-07-07T08:49:03.624Z
+- **notion** (stdio): 7861.7 ms | outcome=success | 2026-07-07T09:23:26.317Z
+- **playwright** (stdio): 7798.0 ms | outcome=success | 2026-07-07T08:14:07.959Z
+- **playwright** (stdio): 7729.1 ms | outcome=success | 2026-07-07T08:12:51.691Z
+- **notion** (stdio): 7698.0 ms | outcome=success | 2026-07-07T08:05:53.116Z
+- **notion** (stdio): 7630.3 ms | outcome=success | 2026-07-07T11:50:34.091Z
+- **playwright** (stdio): 7624.8 ms | outcome=success | 2026-07-07T08:11:36.367Z
+- **notion** (stdio): 7475.9 ms | outcome=success | 2026-07-07T08:08:34.608Z
+- **notion** (stdio): 7340.9 ms | outcome=success | 2026-07-07T08:12:21.406Z
+- **notion** (stdio): 7328.3 ms | outcome=success | 2026-07-07T08:12:51.288Z
+- **notion** (stdio): 7309.0 ms | outcome=success | 2026-07-07T08:14:07.468Z
+- **notion** (stdio): 7163.8 ms | outcome=success | 2026-07-07T08:11:35.905Z
+- **linear** (remote): 1761.5 ms | outcome=success | 2026-07-07T08:25:23.432Z
+- **linear** (remote): 1586.3 ms | outcome=success | 2026-07-07T08:03:40.198Z
+- **linear** (remote): 1326.8 ms | outcome=success | 2026-07-07T08:13:59.855Z
+- **linear** (remote): 1221.9 ms | outcome=success | 2026-07-07T08:21:09.099Z
+- **linear** (remote): 1221.1 ms | outcome=success | 2026-07-07T11:50:25.897Z
+- **linear** (remote): 1135.1 ms | outcome=success | 2026-07-07T08:34:46.175Z
+- **linear** (remote): 1082.5 ms | outcome=success | 2026-07-07T08:22:02.812Z
+- **linear** (remote): 1065.4 ms | outcome=success | 2026-07-07T08:20:04.187Z
+- **linear** (remote): 1065.3 ms | outcome=success | 2026-07-07T08:22:01.885Z
+- **linear** (remote): 1011.5 ms | outcome=success | 2026-07-07T08:30:54.614Z
+- **linear** (remote): 992.6 ms | outcome=success | 2026-07-07T12:57:40.218Z
+- **linear** (remote): 982.5 ms | outcome=success | 2026-07-07T08:05:44.850Z
+- **linear** (remote): 912.8 ms | outcome=success | 2026-07-07T13:31:34.012Z
+- **linear** (remote): 881.7 ms | outcome=success | 2026-07-07T08:18:20.300Z
+- **linear** (remote): 823.7 ms | outcome=success | 2026-07-07T09:05:12.779Z
+- **linear** (remote): 812.8 ms | outcome=success | 2026-07-07T11:18:13.041Z
+- **linear** (remote): 792.6 ms | outcome=success | 2026-07-07T05:26:43.419Z
+- **linear** (remote): 791.2 ms | outcome=success | 2026-07-07T07:10:05.076Z
+- **linear** (remote): 762.4 ms | outcome=success | 2026-07-07T08:48:55.420Z
+- **linear** (remote): 759.8 ms | outcome=success | 2026-07-07T12:28:05.604Z
+- **linear** (remote): 753.0 ms | outcome=success | 2026-07-07T08:08:26.381Z
+- **linear** (remote): 752.7 ms | outcome=success | 2026-07-07T08:30:55.153Z
+- **linear** (remote): 717.4 ms | outcome=success | 2026-07-07T08:30:54.181Z
+- **linear** (remote): 706.3 ms | outcome=success | 2026-07-07T08:12:12.302Z
+- **linear** (remote): 698.8 ms | outcome=success | 2026-07-07T11:57:43.014Z
+- **linear** (remote): 696.3 ms | outcome=success | 2026-07-07T12:57:39.254Z
+- **linear** (remote): 673.6 ms | outcome=success | 2026-07-07T08:12:43.197Z
+- **linear** (remote): 667.6 ms | outcome=success | 2026-07-07T11:18:13.175Z
+- **linear** (remote): 634.0 ms | outcome=success | 2026-07-07T08:07:24.636Z
+- **linear** (remote): 629.8 ms | outcome=success | 2026-07-07T08:11:27.898Z
+- **linear** (remote): 628.5 ms | outcome=success | 2026-07-07T12:57:39.724Z
+- **linear** (remote): 626.2 ms | outcome=success | 2026-07-07T11:18:13.095Z
+- **linear** (remote): 618.7 ms | outcome=success | 2026-07-07T08:15:06.691Z
+- **linear** (remote): 612.1 ms | outcome=success | 2026-07-07T12:49:32.211Z
+- **linear** (remote): 590.5 ms | outcome=success | 2026-07-07T08:38:54.377Z
+- **linear** (remote): 578.8 ms | outcome=success | 2026-07-07T08:22:02.198Z
+- **linear** (remote): 523.5 ms | outcome=success | 2026-07-07T08:07:45.548Z
+- **linear** (remote): 511.3 ms | outcome=success | 2026-07-07T09:23:18.105Z
+- **linear** (remote): 508.9 ms | outcome=success | 2026-07-07T08:06:47.783Z
+- **linear** (remote): 493.3 ms | outcome=success | 2026-07-07T08:09:01.281Z
+- **callback** (callback): 281.8 ms | outcome=success | 2026-07-07T12:28:04.838Z
+- **callback** (callback): 213.0 ms | outcome=success | 2026-07-07T11:57:42.308Z
+- **callback** (callback): 165.9 ms | outcome=success | 2026-07-07T05:26:42.620Z
+- **callback** (callback): 149.3 ms | outcome=success | 2026-07-07T11:18:12.183Z
+- **callback** (callback): 131.4 ms | outcome=success | 2026-07-07T12:57:39.218Z
+- **callback** (callback): 130.3 ms | outcome=success | 2026-07-07T08:30:53.577Z
+- **callback** (callback): 125.4 ms | outcome=success | 2026-07-07T08:30:53.444Z
+- **callback** (callback): 103.5 ms | outcome=success | 2026-07-07T08:18:19.412Z
+- **callback** (callback): 98.1 ms | outcome=success | 2026-07-07T08:30:54.382Z
+- **callback** (callback): 96.1 ms | outcome=success | 2026-07-07T07:10:04.278Z
+- **callback** (callback): 95.3 ms | outcome=success | 2026-07-07T08:22:01.723Z
+- **callback** (callback): 93.9 ms | outcome=success | 2026-07-07T11:50:24.670Z
+- **callback** (callback): 93.2 ms | outcome=success | 2026-07-07T08:25:21.659Z
+- **callback** (callback): 91.1 ms | outcome=success | 2026-07-07T08:21:07.869Z
+- **callback** (callback): 88.3 ms | outcome=success | 2026-07-07T08:34:45.033Z
+- **callback** (callback): 85.4 ms | outcome=success | 2026-07-07T08:05:43.861Z
+- **callback** (callback): 84.5 ms | outcome=success | 2026-07-07T08:03:38.606Z
+- **callback** (callback): 81.2 ms | outcome=success | 2026-07-07T08:11:27.263Z
+- **callback** (callback): 76.5 ms | outcome=success | 2026-07-07T08:38:53.777Z
+- **callback** (callback): 75.4 ms | outcome=success | 2026-07-07T08:22:01.613Z
+- **callback** (callback): 75.2 ms | outcome=success | 2026-07-07T08:08:25.621Z
+- **callback** (callback): 69.2 ms | outcome=success | 2026-07-07T12:57:39.089Z
+- **callback** (callback): 67.6 ms | outcome=success | 2026-07-07T12:49:31.590Z
+- **callback** (callback): 67.1 ms | outcome=success | 2026-07-07T11:18:12.501Z
+- **callback** (callback): 63.5 ms | outcome=success | 2026-07-07T11:18:12.458Z
+- **callback** (callback): 62.1 ms | outcome=success | 2026-07-07T08:20:03.116Z
+- **callback** (callback): 50.3 ms | outcome=success | 2026-07-07T09:05:11.947Z
+- **callback** (callback): 48.9 ms | outcome=success | 2026-07-07T08:13:58.514Z
+- **callback** (callback): 47.2 ms | outcome=success | 2026-07-07T13:31:33.093Z
+- **callback** (callback): 45.0 ms | outcome=success | 2026-07-07T08:22:00.808Z
+- **callback** (callback): 39.6 ms | outcome=success | 2026-07-07T12:57:38.549Z
+- **callback** (callback): 38.3 ms | outcome=success | 2026-07-07T08:12:42.518Z
+- **callback** (callback): 36.7 ms | outcome=success | 2026-07-07T08:48:54.651Z
+- **callback** (callback): 35.1 ms | outcome=success | 2026-07-07T09:23:17.588Z
+- **callback** (callback): 35.0 ms | outcome=success | 2026-07-07T08:15:06.067Z
+- **callback** (callback): 33.2 ms | outcome=success | 2026-07-07T08:12:11.591Z
+- **callback** (callback): 31.8 ms | outcome=success | 2026-07-07T08:07:23.998Z
+- **callback** (callback): 31.1 ms | outcome=success | 2026-07-07T08:06:47.267Z
+- **callback** (callback): 23.7 ms | outcome=success | 2026-07-07T08:07:45.019Z
+- **callback** (callback): 18.4 ms | outcome=success | 2026-07-07T08:09:00.781Z
+
+---
+## 4. MCP Token Usage
+
+### Context Tokens (`mcp_tool_search_context_tokens`)
+
+Aantal entries: 3292
+
+| Token Kind | Aantal | Gem | Min | Max |
+|------------|--------|-----|-----|-----|
+| baseline_full_tools | 823 | 48160 | 0 | 53159 |
+| deferred_reminder | 823 | 9299 | 0 | 9490 |
+| estimated_net_tool_context | 823 | 21083 | 0 | 30919 |
+| exposed_tools | 823 | 11784 | 0 | 21429 |
+
+### Estimated Token Savings (`mcp_tool_search_estimated_token_savings`)
+
+Aantal entries: 823
+
+Gemiddelde savings: **27077** tokens
+Totaal: 22284060 tokens
+
+### Cache Hit Rate (`mcp_tool_search_cache_hit_rate`)
+
+Aantal entries: 823
+
+Gemiddelde: **92.5%**
+Min: 0.0% | Max: 100.0%
+
+Per model:
+- deepseek-v4-flash: gem=82.3% (n=23)
+- deepseek-v4-pro: gem=88.6% (n=34)
+- glm-5.2: gem=88.1% (n=180)
+- kimi-k2.7-code: gem=95.4% (n=460)
+- mimo-v2.5: gem=92.2% (n=39)
+- minimax-m2.7: gem=93.8% (n=16)
+- minimax-m3: gem=89.9% (n=71)
+
+
+---
+## 5. Netwerk - IPs en Domains
+
+### Alle gevonden URLs
+
+**Factory API** (1):
+- `https://downloads.factory.ai`
+
+**GitHub** (1):
+- `https://github.com`
+
+**Linear MCP** (1):
+- `https://mcp.linear.app`
+
+**OpenCode AI** (1):
+- `https://opencode.ai`
+
+**Z.AI API** (1):
+- `https://api.z.ai`
+
+### Factory API endpoints
+
+- `https://downloads.factory.ai`
+
+### Update checks (downloads.factory.ai)
+
+Aantal update checks: **9**
+- 2026-07-07T05:08:45.439Z | version=0.164.0 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T05:26:35.737Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T07:09:56.805Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T08:48:43.756Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T11:50:03.715Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T11:50:16.352Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T11:57:32.675Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T12:27:57.343Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+- 2026-07-07T13:31:04.984Z | version=0.164.1 | url=https://downloads.factory.ai/factory-cli/LATEST
+
+---
+## 6. LLM Endpoints
+
+Aantal `chat_client_time_to_first_token` entries: **820**
+
+### API Endpoints
+
+- `https://api.z.ai/api/anthropic`
+- `https://api.z.ai/api/coding/paas/v4`
+- `https://opencode.ai/zen/go/v1`
+
+### Models
+
+| Model | Provider | Aantal | Gem TTFB (ms) | Min (ms) | Max (ms) | Stdev |
+|-------|----------|--------|---------------|----------|----------|-------|
+| kimi-k2.7-code | generic-chat-completion-api | 460 | 3.4 | 1.8 | 30.7 | 2.0 |
+| glm-5.2 | generic-chat-completion-api | 107 | 9.8 | 3.1 | 105.0 | 10.4 |
+| glm-5.2 | anthropic | 73 | 10.1 | 4.0 | 37.6 | 5.5 |
+| minimax-m3 | generic-chat-completion-api | 69 | 2.7 | 1.7 | 6.1 | 0.8 |
+| mimo-v2.5 | generic-chat-completion-api | 39 | 3.5 | 2.5 | 7.3 | 1.1 |
+| deepseek-v4-pro | generic-chat-completion-api | 33 | 2.8 | 1.5 | 9.8 | 1.6 |
+| deepseek-v4-flash | generic-chat-completion-api | 23 | 2.3 | 1.3 | 10.7 | 2.0 |
+| minimax-m2.7 | generic-chat-completion-api | 16 | 6.3 | 3.9 | 11.4 | 2.5 |
+
+### Streaming vs Non-streaming
+
+- **factory-cli**: 820 calls, gem=4.8 ms
+
+### Time-to-first-token per model (sequentieel)
+
+- 2026-07-07T05:26:47.473Z | glm-5.2 | 3.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:26:50.609Z | glm-5.2 | 6.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:27:10.369Z | glm-5.2 | 10.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:27:20.608Z | glm-5.2 | 10.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:27:30.820Z | glm-5.2 | 9.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:27:44.841Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:27:54.280Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:28:01.332Z | glm-5.2 | 6.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:28:20.161Z | glm-5.2 | 3.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T05:28:25.681Z | glm-5.2 | 5.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T07:22:46.600Z | kimi-k2.7-code | 9.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:08:50.227Z | glm-5.2 | 13.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T08:12:26.523Z | deepseek-v4-flash | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:12:56.863Z | deepseek-v4-flash | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:01.929Z | deepseek-v4-flash | 1.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:08.795Z | deepseek-v4-flash | 1.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:12.933Z | deepseek-v4-flash | 1.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:16.959Z | deepseek-v4-flash | 1.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:22.016Z | deepseek-v4-flash | 1.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:26.480Z | deepseek-v4-flash | 1.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:31.789Z | deepseek-v4-flash | 1.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:36.352Z | deepseek-v4-flash | 1.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:40.401Z | deepseek-v4-flash | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:13:42.974Z | deepseek-v4-flash | 1.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:14:25.695Z | glm-5.2 | 16.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:14:36.118Z | glm-5.2 | 10.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:14:42.508Z | glm-5.2 | 6.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:14:49.291Z | glm-5.2 | 6.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:15:38.456Z | glm-5.2 | 15.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:15:51.864Z | glm-5.2 | 13.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:15:58.922Z | glm-5.2 | 6.7 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:16:08.740Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:16:15.548Z | glm-5.2 | 6.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:16:25.052Z | glm-5.2 | 9.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:16:33.977Z | glm-5.2 | 6.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:07.436Z | glm-5.2 | 11.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:13.929Z | glm-5.2 | 6.3 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:21.788Z | glm-5.2 | 7.7 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:31.090Z | glm-5.2 | 6.7 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:38.580Z | glm-5.2 | 7.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:17:49.764Z | glm-5.2 | 10.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:18:35.201Z | mimo-v2.5 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:18:39.838Z | mimo-v2.5 | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:18:45.114Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:18:49.580Z | mimo-v2.5 | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:18:51.600Z | kimi-k2.7-code | 10.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:18:54.776Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:00.669Z | mimo-v2.5 | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:04.762Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:07.088Z | mimo-v2.5 | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:12.619Z | mimo-v2.5 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:22.525Z | mimo-v2.5 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:25.072Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:30.540Z | mimo-v2.5 | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:37.690Z | mimo-v2.5 | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:44.741Z | mimo-v2.5 | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:19:47.955Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:20:21.590Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:20:52.949Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:21:02.072Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:21:31.735Z | glm-5.2 | 10.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:21:40.657Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:21:48.288Z | glm-5.2 | 7.3 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:21:55.235Z | glm-5.2 | 6.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:03.234Z | glm-5.2 | 7.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:12.506Z | glm-5.2 | 5.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:23.691Z | glm-5.2 | 10.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:36.522Z | glm-5.2 | 10.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:40.081Z | kimi-k2.7-code | 10.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:40.082Z | kimi-k2.7-code | 10.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:40.229Z | kimi-k2.7-code | 11.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:47.764Z | glm-5.2 | 9.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:22:47.840Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:54.235Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:54.944Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:22:58.671Z | glm-5.2 | 9.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:23:03.407Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:04.537Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:07.893Z | glm-5.2 | 9.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:23:15.988Z | glm-5.2 | 7.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:23:17.333Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:18.816Z | kimi-k2.7-code | 5.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:25.377Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:26.806Z | glm-5.2 | 10.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:23:29.283Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:35.435Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:23:42.318Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:01.244Z | glm-5.2 | 31.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:24:04.504Z | kimi-k2.7-code | 5.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:07.900Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:14.035Z | glm-5.2 | 10.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:24:16.785Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:21.890Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:23.460Z | kimi-k2.7-code | 4.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:26.553Z | glm-5.2 | 10.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:24:31.225Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:37.953Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:47.576Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:47.714Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:24:52.694Z | glm-5.2 | 24.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:25:00.547Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:07.194Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:09.012Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:12.758Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:22.791Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:24.831Z | kimi-k2.7-code | 6.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:39.027Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:41.895Z | kimi-k2.7-code | 4.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:45.913Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:47.698Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:53.172Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:25:55.112Z | glm-5.2 | 8.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:26:00.940Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:10.480Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:12.189Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:20.885Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:28.252Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:33.417Z | glm-5.2 | 37.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:26:40.387Z | glm-5.2 | 6.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:26:41.978Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:26:52.504Z | glm-5.2 | 11.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:26:56.730Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:01.234Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:27:03.825Z | kimi-k2.7-code | 4.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:06.988Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:08.202Z | glm-5.2 | 6.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:27:14.308Z | kimi-k2.7-code | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:17.755Z | glm-5.2 | 8.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:27:24.751Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:27.603Z | glm-5.2 | 9.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:27:29.778Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:42.201Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:52.269Z | kimi-k2.7-code | 4.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:27:53.761Z | glm-5.2 | 24.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:01.242Z | glm-5.2 | 7.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:06.279Z | glm-5.2 | 4.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:14.418Z | glm-5.2 | 6.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:15.881Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:28:20.842Z | glm-5.2 | 6.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:21.302Z | kimi-k2.7-code | 5.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:28:27.286Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:28:31.233Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:39.226Z | glm-5.2 | 7.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:43.184Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:28:49.795Z | glm-5.2 | 10.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:28:52.930Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:02.478Z | glm-5.2 | 12.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:29:06.092Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:12.295Z | glm-5.2 | 9.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:29:12.587Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:18.813Z | glm-5.2 | 6.2 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:29:22.133Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:29.162Z | glm-5.2 | 10.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:29:39.508Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:29:49.005Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:52.861Z | kimi-k2.7-code | 5.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:53.744Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:29:55.700Z | glm-5.2 | 16.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:30:02.483Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:03.859Z | glm-5.2 | 7.9 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:30:12.300Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:19.084Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:23.073Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:34.730Z | kimi-k2.7-code | 4.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:38.433Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:43.532Z | kimi-k2.7-code | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:30:57.493Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:05.189Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:19.874Z | kimi-k2.7-code | 5.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:20.357Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:24.076Z | minimax-m2.7 | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:24.462Z | mimo-v2.5 | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:25.717Z | deepseek-v4-flash | 4.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:28.568Z | mimo-v2.5 | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:29.733Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:32.801Z | mimo-v2.5 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:34.510Z | deepseek-v4-flash | 1.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:35.256Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:36.625Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:37.869Z | minimax-m2.7 | 6.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:38.016Z | mimo-v2.5 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:41.480Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:43.945Z | mimo-v2.5 | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:48.880Z | mimo-v2.5 | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:49.114Z | minimax-m2.7 | 6.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:50.511Z | deepseek-v4-flash | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:52.984Z | kimi-k2.7-code | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:53.792Z | mimo-v2.5 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:56.510Z | minimax-m2.7 | 4.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:31:59.862Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:01.623Z | deepseek-v4-flash | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:05.853Z | minimax-m2.7 | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:09.427Z | mimo-v2.5 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:13.590Z | minimax-m2.7 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:14.242Z | deepseek-v4-flash | 1.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:15.060Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:15.867Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:17.632Z | mimo-v2.5 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:20.913Z | minimax-m2.7 | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:23.060Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:25.824Z | deepseek-v4-flash | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:27.565Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:28.735Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:30.231Z | minimax-m2.7 | 4.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:35.255Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:35.430Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:36.112Z | mimo-v2.5 | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:36.825Z | deepseek-v4-flash | 1.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:41.401Z | deepseek-v4-flash | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:43.532Z | mimo-v2.5 | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:43.877Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:45.092Z | minimax-m2.7 | 8.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:48.659Z | deepseek-v4-flash | 1.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:49.906Z | kimi-k2.7-code | 4.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:52.516Z | mimo-v2.5 | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:56.691Z | deepseek-v4-flash | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:57.546Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:58.348Z | mimo-v2.5 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:32:59.605Z | minimax-m2.7 | 8.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:03.645Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:04.192Z | mimo-v2.5 | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:11.266Z | minimax-m2.7 | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:12.154Z | mimo-v2.5 | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:14.220Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:19.885Z | minimax-m2.7 | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:22.294Z | mimo-v2.5 | 5.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:28.608Z | mimo-v2.5 | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:30.777Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:33.505Z | kimi-k2.7-code | 7.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:35.547Z | mimo-v2.5 | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:37.936Z | minimax-m2.7 | 11.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:40.286Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:42.363Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:42.445Z | mimo-v2.5 | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:50.321Z | mimo-v2.5 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:50.806Z | minimax-m2.7 | 7.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:53.332Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:59.223Z | mimo-v2.5 | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:33:59.291Z | minimax-m2.7 | 7.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:34:06.601Z | mimo-v2.5 | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:34:17.136Z | minimax-m2.7 | 10.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:34:21.902Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:34:42.283Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:10.009Z | glm-5.2 | 11.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:35:12.837Z | kimi-k2.7-code | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:22.044Z | glm-5.2 | 11.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:35:24.647Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:29.384Z | glm-5.2 | 6.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:35:33.899Z | kimi-k2.7-code | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:35.710Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:39.622Z | glm-5.2 | 9.8 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:35:47.344Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:49.365Z | glm-5.2 | 8.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:35:52.855Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:35:55.721Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:00.865Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:02.002Z | glm-5.2 | 11.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:36:04.943Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:09.427Z | kimi-k2.7-code | 4.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:11.336Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:14.989Z | glm-5.2 | 8.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:36:16.696Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:20.568Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:22.610Z | glm-5.2 | 7.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:36:26.594Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:28.385Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:30.243Z | glm-5.2 | 6.5 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:36:37.246Z | glm-5.2 | 6.6 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:36:43.835Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:46.924Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:52.610Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:36:59.316Z | glm-5.2 | 10.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:37:01.010Z | kimi-k2.7-code | 5.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:08.733Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:09.028Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:37:17.778Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:18.780Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:37:18.919Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:28.847Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:33.195Z | glm-5.2 | 14.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:37:38.107Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:37:42.679Z | glm-5.2 | 9.0 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:37:47.218Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:10.456Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:12.038Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:18.308Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:21.685Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:24.175Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:29.599Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:31.898Z | glm-5.2 | 13.1 ms | https://api.z.ai/api/anthropic
+- 2026-07-07T08:38:32.262Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:44.154Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:48.829Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:51.592Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:38:55.569Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:00.955Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:05.786Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:09.138Z | kimi-k2.7-code | 5.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:10.919Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:11.205Z | deepseek-v4-pro | 4.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:13.550Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:18.919Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:20.927Z | deepseek-v4-pro | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:22.989Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:24.151Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:33.429Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:36.826Z | deepseek-v4-pro | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:37.844Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:43.990Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:44.248Z | deepseek-v4-pro | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:51.135Z | kimi-k2.7-code | 5.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:39:58.601Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:03.640Z | deepseek-v4-pro | 1.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:04.842Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:08.305Z | deepseek-v4-pro | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:13.865Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:15.138Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:20.081Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:31.582Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:38.081Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:42.747Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:40:53.213Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:41:00.946Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:41:15.928Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:41:23.814Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:41:46.486Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:42:52.907Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:43:00.750Z | kimi-k2.7-code | 5.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:07.253Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:14.923Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:22.111Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:29.891Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:45.889Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:44:53.201Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:45:01.313Z | kimi-k2.7-code | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:51:40.950Z | kimi-k2.7-code | 16.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:52:20.243Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:52:42.869Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:52:53.215Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:53:20.456Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:53:26.419Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:02.181Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:23.024Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:39.238Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:47.365Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:52.230Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:54:58.373Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:55:04.120Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:55:09.841Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:59:17.731Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:59:35.435Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T08:59:45.669Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:00:04.463Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:02:39.754Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:02:58.830Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:03:19.876Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:04:20.385Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:05:39.135Z | kimi-k2.7-code | 11.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:05:49.643Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:06:04.940Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:06:34.096Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:06:45.991Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:07:27.541Z | kimi-k2.7-code | 5.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:07:52.417Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:08:24.637Z | kimi-k2.7-code | 4.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:08:37.009Z | kimi-k2.7-code | 5.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:09:14.293Z | kimi-k2.7-code | 5.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:09:39.288Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:10:14.719Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:10:44.886Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:11:45.578Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:12:11.014Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:12:30.119Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:13:15.950Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:13:27.196Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:13:35.122Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:13:39.963Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:13:49.160Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:14:29.995Z | kimi-k2.7-code | 4.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:14:40.981Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:14:47.346Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:14:56.944Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:02.776Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:10.182Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:16.269Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:24.683Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:30.969Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:38.057Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:44.637Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:53.025Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:15:59.213Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:16:08.231Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:16:14.651Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:16:24.182Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:16:30.203Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:16:46.020Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:17:36.191Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:17:48.927Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:17:59.959Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:18:39.875Z | kimi-k2.7-code | 8.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:18:54.991Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:01.353Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:11.736Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:27.890Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:37.486Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:48.428Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:19:58.622Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:20:11.585Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:20:15.995Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:20:33.316Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:20:43.512Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:20:54.864Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:21:12.994Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:21:31.812Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:21:38.419Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:21:50.192Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:21:56.391Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:06.154Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:20.437Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:25.249Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:39.703Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:44.731Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:22:54.513Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:23:38.783Z | kimi-k2.7-code | 11.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:23:49.063Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:24:03.369Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:24:37.356Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:24:55.487Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:25:14.834Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:25:29.015Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:25:55.490Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:26:13.632Z | kimi-k2.7-code | 4.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:26:33.543Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:27:05.611Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:27:43.202Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:27:53.618Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:02.007Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:08.936Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:17.335Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:24.298Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:32.810Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:42.734Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:28:54.589Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:29:03.912Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:29:09.799Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:29:17.337Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:29:34.911Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:30:29.721Z | kimi-k2.7-code | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:30:36.618Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:30:53.728Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:31:03.640Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:31:20.932Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:31:28.324Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T09:31:35.076Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:15:13.894Z | kimi-k2.7-code | 30.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:15:27.158Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:15:47.559Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:15:59.818Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:16:13.827Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:16:19.466Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:16:41.692Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:16:46.171Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:16:52.593Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:17:13.290Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:17:20.654Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:17:40.241Z | kimi-k2.7-code | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:18:57.416Z | kimi-k2.7-code | 9.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:18:57.842Z | kimi-k2.7-code | 11.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:18:58.052Z | kimi-k2.7-code | 11.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:03.967Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:05.006Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:05.923Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:07.724Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:10.481Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:14.987Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:19.783Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:20.528Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:23.764Z | kimi-k2.7-code | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:27.741Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:27.752Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:28.117Z | kimi-k2.7-code | 5.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:33.864Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:39.631Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:40.423Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:48.758Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:48.814Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:56.606Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:19:58.328Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:01.944Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:03.010Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:08.773Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:10.238Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:13.542Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:20.136Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:22.728Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:24.253Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:29.208Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:29.383Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:34.301Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:38.257Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:39.926Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:40.479Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:43.640Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:45.066Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:46.452Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:48.691Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:53.018Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:20:57.488Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:01.282Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:02.192Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:03.576Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:05.057Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:06.211Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:09.569Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:13.737Z | kimi-k2.7-code | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:14.209Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:15.975Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:17.348Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:20.396Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:20.522Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:21.978Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:24.727Z | kimi-k2.7-code | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:25.275Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:30.162Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:31.877Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:35.145Z | kimi-k2.7-code | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:36.634Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:38.986Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:42.694Z | kimi-k2.7-code | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:43.930Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:47.036Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:48.272Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:49.378Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:52.900Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:53.587Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:58.836Z | kimi-k2.7-code | 4.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:21:59.428Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:01.968Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:05.144Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:05.849Z | kimi-k2.7-code | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:06.479Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:08.960Z | kimi-k2.7-code | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:09.840Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:10.827Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:13.901Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:15.033Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:18.112Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:20.032Z | kimi-k2.7-code | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:22.311Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:24.374Z | kimi-k2.7-code | 4.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:26.609Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:28.016Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:30.223Z | kimi-k2.7-code | 5.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:36.535Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:43.852Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:45.873Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:50.087Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:53.443Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:54.296Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:22:59.628Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:00.129Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:00.779Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:03.827Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:05.856Z | kimi-k2.7-code | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:10.883Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:18.067Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:19.957Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:26.209Z | kimi-k2.7-code | 3.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:27.656Z | kimi-k2.7-code | 3.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:30.032Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:33.838Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:34.863Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:36.920Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:38.195Z | kimi-k2.7-code | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:38.850Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:41.196Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:46.249Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:46.443Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:48.000Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:51.805Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:23:54.512Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:00.060Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:01.049Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:05.628Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:06.368Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:10.994Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:11.118Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:14.925Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:20.330Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:23.541Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:24.666Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:27.849Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:28.671Z | kimi-k2.7-code | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:32.442Z | kimi-k2.7-code | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:32.725Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:33.694Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:37.348Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:43.058Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:47.374Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:53.697Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:24:57.754Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:00.044Z | kimi-k2.7-code | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:12.124Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:15.978Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:20.281Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:44.445Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:51.605Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:25:57.140Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:05.457Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:12.242Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:26.574Z | kimi-k2.7-code | 4.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:30.521Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:37.345Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:44.108Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:50.556Z | kimi-k2.7-code | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:26:56.034Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:05.487Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:15.228Z | kimi-k2.7-code | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:20.960Z | kimi-k2.7-code | 3.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:21.987Z | kimi-k2.7-code | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:28.318Z | kimi-k2.7-code | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:28.860Z | kimi-k2.7-code | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:34.140Z | kimi-k2.7-code | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:37.242Z | kimi-k2.7-code | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:40.838Z | kimi-k2.7-code | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:27:47.577Z | kimi-k2.7-code | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:57:06.327Z | deepseek-v4-pro | 6.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:57:18.410Z | deepseek-v4-pro | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:57:47.756Z | glm-5.2 | 3.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T11:57:48.513Z | glm-5.2 | 4.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T11:57:53.973Z | glm-5.2 | 5.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T11:57:57.920Z | glm-5.2 | 3.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T11:58:03.618Z | glm-5.2 | 5.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T11:58:32.337Z | deepseek-v4-pro | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:58:40.520Z | deepseek-v4-pro | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:59:00.226Z | deepseek-v4-pro | 1.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:59:03.899Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:59:16.036Z | deepseek-v4-pro | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:59:51.955Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T11:59:55.961Z | deepseek-v4-pro | 1.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:05:13.356Z | deepseek-v4-pro | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:06:06.375Z | deepseek-v4-pro | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:13:36.769Z | deepseek-v4-pro | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:13:48.632Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:14:04.234Z | deepseek-v4-pro | 4.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:14:19.820Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:14:22.922Z | deepseek-v4-pro | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:21:57.538Z | deepseek-v4-pro | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:22:20.768Z | deepseek-v4-pro | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:22:30.352Z | deepseek-v4-pro | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:22:58.744Z | deepseek-v4-pro | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:23:17.924Z | deepseek-v4-pro | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:23:34.956Z | deepseek-v4-pro | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:23:42.038Z | deepseek-v4-pro | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:23:47.386Z | deepseek-v4-pro | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:23:52.191Z | deepseek-v4-pro | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:24:04.371Z | deepseek-v4-pro | 9.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:24:54.279Z | minimax-m3 | 4.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:02.014Z | minimax-m3 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:06.105Z | minimax-m3 | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:10.237Z | minimax-m3 | 2.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:14.634Z | minimax-m3 | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:19.589Z | minimax-m3 | 3.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:24.664Z | minimax-m3 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:30.966Z | minimax-m3 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:38.233Z | minimax-m3 | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:43.274Z | minimax-m3 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:48.975Z | minimax-m3 | 2.6 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:25:54.692Z | minimax-m3 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:26:00.742Z | minimax-m3 | 4.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:26:08.397Z | minimax-m3 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:26:15.017Z | minimax-m3 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:26:20.178Z | minimax-m3 | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:26:26.346Z | minimax-m3 | 3.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:27:29.188Z | minimax-m3 | 3.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:28:08.686Z | minimax-m3 | 3.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:28:12.993Z | glm-5.2 | 6.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:28:17.277Z | glm-5.2 | 10.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:32:26.714Z | minimax-m3 | 4.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:32:39.959Z | deepseek-v4-flash | 10.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:33:07.622Z | minimax-m3 | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:33:11.737Z | minimax-m3 | 1.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:35:09.100Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:35:26.235Z | minimax-m3 | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:35:35.781Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:35:53.925Z | minimax-m3 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:35:59.220Z | minimax-m3 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:03.940Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:09.503Z | minimax-m3 | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:13.651Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:20.068Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:24.173Z | minimax-m3 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:27.524Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:32.350Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:38.302Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:46.913Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:36:53.944Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:37:00.009Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:37:04.900Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:37:26.067Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:37:36.247Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:38:08.182Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:38:47.174Z | minimax-m3 | 1.9 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:39:23.702Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:39:33.383Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:39:37.156Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:39:49.611Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:40:45.180Z | minimax-m3 | 3.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:41:33.236Z | minimax-m3 | 3.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:41:39.657Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:42:15.675Z | minimax-m3 | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:42:58.872Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:43:16.226Z | minimax-m3 | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:43:23.670Z | minimax-m3 | 2.0 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:43:36.709Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:43:41.756Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:43:53.095Z | minimax-m3 | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:44:24.180Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:45:07.131Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:45:57.515Z | minimax-m3 | 2.1 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:46:03.653Z | minimax-m3 | 2.5 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:46:07.471Z | minimax-m3 | 2.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:46:23.278Z | minimax-m3 | 2.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:47:13.548Z | minimax-m3 | 2.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:47:21.943Z | minimax-m3 | 2.8 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:47:28.568Z | minimax-m3 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:48:10.562Z | minimax-m3 | 3.2 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:48:22.025Z | minimax-m3 | 2.4 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T12:52:01.444Z | glm-5.2 | 4.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:52:09.883Z | glm-5.2 | 12.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:52:21.370Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:52:28.153Z | glm-5.2 | 4.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:52:51.656Z | glm-5.2 | 6.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:53:21.868Z | glm-5.2 | 20.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:54:01.171Z | glm-5.2 | 5.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:55:06.225Z | glm-5.2 | 9.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:55:14.100Z | glm-5.2 | 4.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:55:59.363Z | glm-5.2 | 5.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:56:48.329Z | glm-5.2 | 6.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:57:02.641Z | glm-5.2 | 4.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:38.239Z | glm-5.2 | 25.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:40.190Z | glm-5.2 | 29.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:41.021Z | glm-5.2 | 29.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:50.131Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:50.375Z | glm-5.2 | 7.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:50.465Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:58.341Z | glm-5.2 | 7.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:58:58.934Z | glm-5.2 | 7.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:00.228Z | glm-5.2 | 8.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:07.862Z | glm-5.2 | 8.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:09.626Z | glm-5.2 | 9.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:11.405Z | glm-5.2 | 10.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:17.085Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:19.093Z | glm-5.2 | 8.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:21.193Z | glm-5.2 | 8.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:26.939Z | glm-5.2 | 7.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:27.969Z | glm-5.2 | 7.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:35.332Z | glm-5.2 | 8.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:39.424Z | glm-5.2 | 7.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:41.722Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:43.996Z | glm-5.2 | 8.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:46.807Z | glm-5.2 | 6.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:53.531Z | glm-5.2 | 6.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:57.568Z | glm-5.2 | 10.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T12:59:58.993Z | glm-5.2 | 9.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:01.291Z | glm-5.2 | 6.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:06.941Z | glm-5.2 | 8.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:10.788Z | glm-5.2 | 7.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:16.389Z | glm-5.2 | 4.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:16.866Z | glm-5.2 | 9.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:27.938Z | glm-5.2 | 8.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:28.241Z | glm-5.2 | 10.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:34.513Z | glm-5.2 | 4.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:37.999Z | glm-5.2 | 10.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:40.077Z | glm-5.2 | 10.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:43.655Z | glm-5.2 | 8.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:51.624Z | glm-5.2 | 9.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:00:52.341Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:17.876Z | glm-5.2 | 18.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:20.520Z | glm-5.2 | 13.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:25.273Z | glm-5.2 | 7.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:29.680Z | glm-5.2 | 7.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:39.726Z | glm-5.2 | 8.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:52.542Z | glm-5.2 | 8.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:01:52.826Z | glm-5.2 | 8.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:02:00.320Z | glm-5.2 | 5.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:02:10.345Z | glm-5.2 | 5.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:02:18.573Z | glm-5.2 | 6.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:02:59.017Z | glm-5.2 | 11.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:04.357Z | glm-5.2 | 7.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:21.136Z | glm-5.2 | 9.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:29.657Z | glm-5.2 | 4.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:35.916Z | glm-5.2 | 9.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:40.849Z | glm-5.2 | 10.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:46.750Z | glm-5.2 | 5.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:03:56.336Z | glm-5.2 | 7.1 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:04:08.973Z | glm-5.2 | 9.8 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:04:09.263Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:04:21.512Z | glm-5.2 | 9.0 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:04:30.197Z | glm-5.2 | 4.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:04:57.800Z | glm-5.2 | 5.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:05:13.842Z | glm-5.2 | 8.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:06:00.676Z | glm-5.2 | 10.2 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:06:53.670Z | glm-5.2 | 10.7 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:07:24.796Z | glm-5.2 | 12.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:12:24.312Z | glm-5.2 | 29.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:13:33.337Z | glm-5.2 | 8.3 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:14:16.283Z | glm-5.2 | 7.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:14:38.137Z | glm-5.2 | 7.6 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:14:51.648Z | glm-5.2 | 8.0 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:15:15.164Z | glm-5.2 | 8.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:15:32.169Z | glm-5.2 | 9.9 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:17:27.078Z | glm-5.2 | 105.0 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:17:58.746Z | glm-5.2 | 9.0 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:18:55.916Z | glm-5.2 | 7.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:19:31.836Z | glm-5.2 | 7.5 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:20:08.910Z | glm-5.2 | 11.4 ms | https://api.z.ai/api/coding/paas/v4
+- 2026-07-07T13:29:27.861Z | mimo-v2.5 | 7.3 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T13:29:38.490Z | mimo-v2.5 | 6.7 ms | https://opencode.ai/zen/go/v1
+- 2026-07-07T13:32:03.759Z | minimax-m3 | 6.1 ms | https://opencode.ai/zen/go/v1
+
+---
+## Extra: Geregistreerde MCP Tools
+
+Aantal registered tool entries: **4080**
+
+**102 unieke MCP tools** geregistreerd:
+
+### linear (55 tools)
+- `mcp_linear_create_attachment`
+- `mcp_linear_create_attachment_from_upload`
+- `mcp_linear_create_issue_label`
+- `mcp_linear_delete_attachment`
+- `mcp_linear_delete_comment`
+- `mcp_linear_delete_customer`
+- `mcp_linear_delete_customer_need`
+- `mcp_linear_delete_status_update`
+- `mcp_linear_extract_images`
+- `mcp_linear_get_agent_skill`
+- `mcp_linear_get_attachment`
+- `mcp_linear_get_diff`
+- `mcp_linear_get_diff_threads`
+- `mcp_linear_get_document`
+- `mcp_linear_get_initiative`
+- `mcp_linear_get_issue`
+- `mcp_linear_get_issue_status`
+- `mcp_linear_get_milestone`
+- `mcp_linear_get_project`
+- `mcp_linear_get_release`
+- ... en 35 meer
+
+### notion (24 tools)
+- `mcp_notion_API-create-a-comment`
+- `mcp_notion_API-create-a-data-source`
+- `mcp_notion_API-delete-a-block`
+- `mcp_notion_API-get-block-children`
+- `mcp_notion_API-get-self`
+- `mcp_notion_API-get-user`
+- `mcp_notion_API-get-users`
+- `mcp_notion_API-list-data-source-templates`
+- `mcp_notion_API-move-page`
+- `mcp_notion_API-patch-block-children`
+- `mcp_notion_API-patch-page`
+- `mcp_notion_API-post-page`
+- `mcp_notion_API-post-search`
+- `mcp_notion_API-query-data-source`
+- `mcp_notion_API-retrieve-a-block`
+- `mcp_notion_API-retrieve-a-comment`
+- `mcp_notion_API-retrieve-a-data-source`
+- `mcp_notion_API-retrieve-a-database`
+- `mcp_notion_API-retrieve-a-page`
+- `mcp_notion_API-retrieve-a-page-property`
+- ... en 4 meer
+
+### playwright (23 tools)
+- `mcp_playwright_browser_click`
+- `mcp_playwright_browser_close`
+- `mcp_playwright_browser_console_messages`
+- `mcp_playwright_browser_drag`
+- `mcp_playwright_browser_drop`
+- `mcp_playwright_browser_evaluate`
+- `mcp_playwright_browser_file_upload`
+- `mcp_playwright_browser_fill_form`
+- `mcp_playwright_browser_handle_dialog`
+- `mcp_playwright_browser_hover`
+- `mcp_playwright_browser_navigate`
+- `mcp_playwright_browser_navigate_back`
+- `mcp_playwright_browser_network_request`
+- `mcp_playwright_browser_network_requests`
+- `mcp_playwright_browser_press_key`
+- `mcp_playwright_browser_resize`
+- `mcp_playwright_browser_run_code_unsafe`
+- `mcp_playwright_browser_select_option`
+- `mcp_playwright_browser_snapshot`
+- `mcp_playwright_browser_tabs`
+- ... en 3 meer
+
+
+---
+## Sessie Overzicht
+
+**42 unieke sessies** in de log.
+
+- `007c9c16-6889-490a-a0da-98e6a879491d`: 2026-07-07T08:07:34.258Z t/m 2026-07-07T08:07:36.075Z
+- `00d08671-b206-479b-99cf-8adf75ed5c2f`: 2026-07-07T08:11:37.135Z t/m 2026-07-07T08:11:39.565Z
+- `044a11bf-15cd-43f2-9694-9d82d5480230`: 2026-07-07T08:15:21.990Z t/m 2026-07-07T08:18:00.815Z
+- `04f7c773-334d-4217-96b4-bac8dc9a53e9`: 2026-07-07T11:18:46.306Z t/m 2026-07-07T11:29:38.385Z
+- `0733aaae-6fa4-4ef7-9038-273f40a464e8`: 2026-07-07T08:07:55.660Z t/m 2026-07-07T08:08:01.598Z
+- `0b3e423a-14be-4e44-a088-35dc7d92b4c5`: 2026-07-07T08:31:19.191Z t/m 2026-07-07T08:32:58.208Z
+- `16f12abc-1479-422f-9231-6dbf3c03fd01`: 2026-07-07T11:50:18.915Z t/m 2026-07-07T13:34:58.781Z
+- `30b21612-09dd-478e-9065-ec5ad0daeb51`: 2026-07-07T12:58:08.597Z t/m 2026-07-07T13:22:54.197Z
+- `31bcc154-1858-4f99-a7c6-8589678a3898`: 2026-07-07T08:06:57.959Z t/m 2026-07-07T08:06:59.065Z
+- `3bbc864a-aa5b-42f9-a14d-fc5d420c15ad`: 2026-07-07T05:26:43.323Z t/m 2026-07-07T05:28:41.499Z
+- `4618f689-41f8-47dc-901d-3f8a529c0980`: 2026-07-07T08:22:28.644Z t/m 2026-07-07T08:28:00.032Z
+- `4a7b5949-40c4-4096-a40b-3a110732f0a4`: 2026-07-07T08:21:20.738Z t/m 2026-07-07T08:25:02.834Z
+- `4dc07934-54e6-43fe-b52b-5f20bd50d727`: 2026-07-07T11:57:42.640Z t/m 2026-07-07T11:58:29.235Z
+- `4ea46a22-4207-41e9-be1a-4f8aa8b49842`: 2026-07-07T08:39:05.518Z t/m 2026-07-07T08:40:20.377Z
+- `575661e6-55fe-47e3-b469-98be465d886e`: 2026-07-07T08:05:54.528Z t/m 2026-07-07T08:06:05.206Z
+- `5c719f77-35dc-4d43-be2e-2c738938b127`: 2026-07-07T07:09:58.902Z t/m 2026-07-07T11:49:43.959Z
+- `64b74d9a-17ee-47f0-b14e-a893999fc82e`: 2026-07-07T08:34:57.604Z t/m 2026-07-07T08:38:40.593Z
+- `7cbcd792-7053-48a1-9572-5ebd38f72248`: 2026-07-07T08:22:28.700Z t/m 2026-07-07T08:47:44.257Z
+- `7eb79ae6-9089-4b02-be0c-af79ea6d658b`: 2026-07-06T22:43:49.120Z t/m 2026-07-06T22:44:17.592Z
+- `84e5341d-026c-4c24-9c52-9988f6a28ee2`: 2026-07-07T09:23:26.812Z t/m 2026-07-07T09:30:49.639Z
+- `8880cc2b-386b-4904-a4d6-e381bc06fc6d`: 2026-07-07T11:18:45.409Z t/m 2026-07-07T11:24:40.972Z
+- `8e5198bb-a032-4182-b5eb-b47ab269a63c`: 2026-07-07T08:18:30.433Z t/m 2026-07-07T08:19:50.398Z
+- `90ad69d1-90ed-4026-b755-5f9908ad53ee`: 2026-07-07T08:31:20.583Z t/m 2026-07-07T08:34:16.492Z
+- `99c2040a-c860-4101-aee3-658a1fd2e406`: 2026-07-07T08:03:49.915Z t/m 2026-07-07T08:05:34.479Z
+- `9abf53f7-2991-48b7-823a-ba7e56888460`: 2026-07-07T08:31:18.318Z t/m 2026-07-07T08:34:22.039Z
+- `9ee29577-2c2d-4159-a8f1-cca369bfcc70`: 2026-07-07T08:25:44.527Z t/m 2026-07-07T08:30:14.050Z
+- `a06e46c0-5e05-47d7-9b9c-d7ef927ddb7a`: 2026-07-07T12:28:05.209Z t/m 2026-07-07T12:28:27.266Z
+- `a2e92460-44b4-45f8-ae08-1411b7adeac5`: 2026-07-07T12:58:11.138Z t/m 2026-07-07T13:04:33.091Z
+- `ae84e790-0005-4119-b306-a7e037fab5a9`: 2026-07-07T12:58:09.850Z t/m 2026-07-07T13:00:47.743Z
+- `ae97b9a1-87e0-4640-ab7f-8442995e85a5`: 2026-07-07T08:22:27.685Z t/m 2026-07-07T08:39:45.795Z
+- `af3839b6-ebc6-4fc9-858d-954a75733ecc`: 2026-07-07T08:12:22.505Z t/m 2026-07-07T08:12:28.024Z
+- `b1b34116-125a-4c04-ade3-c3f8cffea9b4`: 2026-07-07T05:26:37.966Z t/m 2026-07-07T06:06:37.060Z
+- `ce5cf9c3-8e53-4a5b-9264-03f5b667db46`: 2026-07-07T11:18:45.667Z t/m 2026-07-07T11:29:44.807Z
+- `d5d547ad-c7ea-4e63-90eb-00754348ed20`: 2026-07-07T05:08:58.884Z t/m 2026-07-07T05:09:01.762Z
+- `dc6c3462-b4f3-4220-a367-862f25cb8aea`: 2026-07-07T11:57:35.875Z t/m 2026-07-07T11:58:28.977Z
+- `e5eb7c4c-3945-4fd9-b085-6bc52e8e38e1`: 2026-07-07T12:49:26.515Z t/m 2026-07-07T13:30:06.506Z
+- `e898e630-2138-41e6-a4bf-7962efc45d77`: 2026-07-07T08:12:53.161Z t/m 2026-07-07T08:13:44.273Z
+- `f62dad8f-1f57-4d65-880a-195a44c83ae2`: 2026-07-07T08:14:08.783Z t/m 2026-07-07T08:14:50.440Z
+- `f805e744-14a7-4d72-938a-1363eb99f3f0`: 2026-07-07T08:08:35.935Z t/m 2026-07-07T08:08:51.144Z
+- `f86f678d-85cf-41d9-8718-d95161e4fe1e`: 2026-07-07T12:27:59.866Z t/m 2026-07-07T12:28:27.390Z
+- `fc161daa-8ba9-4951-a934-c4d7b20176ec`: 2026-07-07T08:09:11.314Z t/m 2026-07-07T08:09:56.975Z
+- `fc22d517-6617-47f0-95b6-2dfc0af4ab3f`: 2026-07-07T09:05:26.761Z t/m 2026-07-07T09:18:49.313Z
+
+### Droid Modes
+
+- **terminal-ui**: 40049 entries
+- **non-interactive-cli**: 24225 entries
+- **interactive-cli**: 11635 entries

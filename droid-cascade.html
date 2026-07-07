@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droid Forensics — Cascade</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:#FAFAFA;color:#0a0a0a;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+.float-card{background:#fff;border:1px solid #eee;border-radius:12px;
+  box-shadow:0 4px 6px rgba(0,0,0,0.02),0 20px 40px rgba(0,0,0,0.04),0 40px 80px rgba(0,0,0,0.02);
+  transition:all 0.6s cubic-bezier(0.32,0.72,0,1);position:relative}
+.float-card:hover{transform:translateY(-8px) rotate(0deg) scale(1.02)!important;
+  box-shadow:0 8px 12px rgba(0,0,0,0.04),0 32px 64px rgba(0,0,0,0.08),0 64px 120px rgba(0,0,0,0.04);
+  z-index:50}
+.step-card{background:#fff;border:1px solid #eee;border-radius:16px;
+  box-shadow:0 2px 4px rgba(0,0,0,0.01),0 12px 24px rgba(0,0,0,0.03),0 24px 48px rgba(0,0,0,0.02);
+  transition:all 0.6s cubic-bezier(0.32,0.72,0,1)}
+.step-card:hover{transform:translateY(-4px) scale(1.03);
+  box-shadow:0 4px 8px rgba(0,0,0,0.02),0 20px 40px rgba(0,0,0,0.06),0 40px 80px rgba(0,0,0,0.03)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px) blur(8px)}to{opacity:1;transform:translateY(0) blur(0)}}
+@keyframes cascadePulse{0%,100%{box-shadow:0 0 0 0 rgba(244,63,94,0)}50%{box-shadow:0 0 0 8px rgba(244,63,94,0.08)}}
+.fade-in{animation:fadeUp 1s cubic-bezier(0.16,1,0.3,1) both}
+.delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}
+.crit-card{border-color:#fecaca;animation:cascadePulse 2s ease-in-out infinite}
+.big-num{font-size:5rem;font-weight:700;letter-spacing:-0.05em;line-height:0.9}
+.tag{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;color:#71717a}
+</style>
+</head>
+<body>
+<div class="max-w-7xl mx-auto px-6 py-20">
+
+  <!-- ═══════ HEADER ═══════ -->
+  <header class="fade-in mb-24">
+    <div class="tag mb-6">Case File № 0164 — Systems Autopsy</div>
+    <h1 class="text-6xl md:text-8xl font-bold tracking-tight leading-[0.9] mb-6">
+      Render Death<br>
+      <span class="font-normal text-stone-400">Spiral</span>
+    </h1>
+    <p class="text-xl text-stone-500 max-w-2xl font-light leading-relaxed">
+      Acht stappen van een 429 rate limit naar een full crash.
+      Hoe een coding agent zichzelf in een loop vastloopt.
+    </p>
+  </header>
+
+  <!-- ═══════ CASCADE — 8 staggered step cards ═══════ -->
+  <section class="mb-24 fade-in delay-1">
+    <div class="tag mb-4">The Cascade</div>
+    <h2 class="text-4xl font-semibold mb-12">8 stappen naar crash</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <div class="step-card p-6" style="transform:rotate(-1.5deg)">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 01</span>
+          <span class="w-2 h-2 rounded-full bg-red-500"></span>
+        </div>
+        <div class="big-num text-red-500 mb-2">232</div>
+        <div class="font-semibold text-lg mb-1">429 Rate Limit</div>
+        <div class="text-sm text-stone-500">LLM API weigert — Clinepass, OpenCode, GLM quota verbruikt</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(1.2deg);margin-top:24px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 02</span>
+          <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+        </div>
+        <div class="big-num text-stone-700 mb-2">→</div>
+        <div class="font-semibold text-lg mb-1">Error notification</div>
+        <div class="text-sm text-stone-500">Worker stuurt error naar TUI via JSON-RPC</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(-0.8deg);margin-top:0">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 03</span>
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+        </div>
+        <div class="big-num text-stone-700 mb-2">70×</div>
+        <div class="font-semibold text-lg mb-1">Header re-render</div>
+        <div class="text-sm text-stone-500">useMemo triggert op elke notification — dup keys</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(2deg);margin-top:32px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 04</span>
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+        </div>
+        <div class="big-num text-stone-700 mb-2">477×</div>
+        <div class="font-semibold text-lg mb-1">statSync</div>
+        <div class="text-sm text-stone-500">getReadinessHint zoekt .git door hele directory tree</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(1.5deg);margin-top:16px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 05</span>
+          <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+        </div>
+        <div class="big-num text-red-500 mb-2">56%</div>
+        <div class="font-semibold text-lg mb-1">Event loop blocked</div>
+        <div class="text-sm text-stone-500">CPU piekt — main thread kan input niet verwerken</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(-1.2deg);margin-top:40px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 06</span>
+          <span class="w-2 h-2 rounded-full bg-orange-500"></span>
+        </div>
+        <div class="big-num text-stone-700 mb-2">70×</div>
+        <div class="font-semibold text-lg mb-1">Duplicate keys</div>
+        <div class="text-sm text-stone-500">React gooit subtree weg, herbouwt volledig</div>
+      </div>
+
+      <div class="step-card p-6" style="transform:rotate(0.8deg);margin-top:8px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-stone-400">STAP 07</span>
+          <span class="w-2 h-2 rounded-full bg-red-500"></span>
+        </div>
+        <div class="big-num text-stone-700 mb-2">8×</div>
+        <div class="font-semibold text-lg mb-1">Max update depth</div>
+        <div class="text-sm text-stone-500">React's vangnet breekt oneindige render loop</div>
+      </div>
+
+      <div class="step-card crit-card p-6" style="transform:rotate(-2deg);margin-top:48px">
+        <div class="flex items-center justify-between mb-4">
+          <span class="mono text-xs text-red-500">STAP 08</span>
+          <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
+        </div>
+        <div class="big-num text-red-600 mb-2">💥</div>
+        <div class="font-semibold text-lg mb-1">Crash + retry</div>
+        <div class="text-sm text-stone-500">Worker retryt zonder backoff → terug naar stap 1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FLOATING ACTOR CARDS ═══════ -->
+  <section class="mb-24 fade-in delay-2">
+    <div class="tag mb-4">System Actors</div>
+    <h2 class="text-4xl font-semibold mb-12">Process map</h2>
+    
+    <div class="relative" style="min-height:480px">
+      <div class="float-card p-8 absolute" style="top:0;left:0;width:320px;transform:rotate(-2deg)">
+        <div class="tag mb-3 text-red-500">⚠ Primary Suspect</div>
+        <div class="text-2xl font-bold mb-2">TUI Process</div>
+        <div class="mono text-xs text-stone-400 mb-4">PID 2663905 • Ink/React</div>
+        <div class="grid grid-cols-3 gap-3">
+          <div><div class="text-2xl font-bold text-red-500">56%</div><div class="text-xs text-stone-400">CPU</div></div>
+          <div><div class="text-2xl font-bold">400MB</div><div class="text-xs text-stone-400">RSS</div></div>
+          <div><div class="text-2xl font-bold">14</div><div class="text-xs text-stone-400">Threads</div></div>
+        </div>
+      </div>
+
+      <div class="float-card p-8 absolute" style="top:40px;left:280px;width:300px;transform:rotate(1.5deg)">
+        <div class="tag mb-3 text-emerald-500">Worker</div>
+        <div class="text-2xl font-bold mb-2">droid exec</div>
+        <div class="mono text-xs text-stone-400 mb-4">42 sessions • GLM-5.2-0</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><div class="text-xl font-bold">5,085ms</div><div class="text-xs text-stone-400">teardown</div></div>
+          <div><div class="text-xl font-bold">31.9K</div><div class="text-xs text-stone-400">notifications</div></div>
+        </div>
+      </div>
+
+      <div class="float-card p-8 absolute" style="top:80px;left:560px;width:280px;transform:rotate(-1deg)">
+        <div class="tag mb-3 text-red-500">Error Source</div>
+        <div class="text-2xl font-bold mb-2">LLM API</div>
+        <div class="mono text-xs text-stone-400 mb-4">GLM • OpenCode • Clinepass</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><div class="text-xl font-bold text-red-500">232</div><div class="text-xs text-stone-400">429 errors</div></div>
+          <div><div class="text-xl font-bold">3</div><div class="text-xs text-stone-400">providers</div></div>
+        </div>
+      </div>
+
+      <div class="float-card p-8 absolute" style="top:220px;left:120px;width:260px;transform:rotate(2deg)">
+        <div class="tag mb-3 text-blue-500">MCP Servers</div>
+        <div class="text-xl font-bold mb-2">External Tools</div>
+        <div class="mono text-xs text-stone-400 mb-4">linear • notion • playwright</div>
+        <div class="grid grid-cols-3 gap-2">
+          <div><div class="text-lg font-bold">102</div><div class="text-xs text-stone-400">tools</div></div>
+          <div><div class="text-lg font-bold">1.2K</div><div class="text-xs text-stone-400">calls</div></div>
+          <div><div class="text-lg font-bold">120</div><div class="text-xs text-stone-400">connects</div></div>
+        </div>
+      </div>
+
+      <div class="float-card p-8 absolute" style="top:260px;left:400px;width:260px;transform:rotate(-1.5deg)">
+        <div class="tag mb-3 text-amber-500">Degraded</div>
+        <div class="text-xl font-bold mb-2">Plugin Loader</div>
+        <div class="mono text-xs text-stone-400 mb-4">8 marketplaces</div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><div class="text-lg font-bold text-amber-500">360</div><div class="text-xs text-stone-400">YAML errors</div></div>
+          <div><div class="text-lg font-bold">2,627</div><div class="text-xs text-stone-400">skills loaded</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ KEY METRICS ═══════ -->
+  <section class="mb-24 fade-in delay-3">
+    <div class="tag mb-4">By the Numbers</div>
+    <h2 class="text-4xl font-semibold mb-12">Forensic metrics</h2>
+    
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="float-card p-8 text-center" style="transform:rotate(-1deg)">
+        <div class="big-num text-red-500 mb-2">56%</div>
+        <div class="text-sm text-stone-400">CPU Main Thread</div>
+      </div>
+      <div class="float-card p-8 text-center" style="transform:rotate(1deg)">
+        <div class="big-num text-stone-800 mb-2">31.9K</div>
+        <div class="text-sm text-stone-400">JSON-RPC Notifications</div>
+      </div>
+      <div class="float-card p-8 text-center" style="transform:rotate(-0.5deg)">
+        <div class="big-num text-red-500 mb-2">232</div>
+        <div class="text-sm text-stone-400">429 Rate Limit Errors</div>
+      </div>
+      <div class="float-card p-8 text-center" style="transform:rotate(1.5deg)">
+        <div class="big-num text-amber-500 mb-2">2.9K</div>
+        <div class="text-sm text-stone-400">YAML Parse Errors</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="pt-12 border-t border-stone-100">
+    <div class="flex justify-between items-end">
+      <div>
+        <div class="tag mb-2">Verdict</div>
+        <p class="text-lg text-stone-600 font-light max-w-md">
+          Sync I/O in render path is root cause. Fix: verwijder statSync uit useMemo, gebruik useEffect.
+        </p>
+      </div>
+      <div class="text-right">
+        <div class="mono text-xs text-stone-300">droid v0.164.1</div>
+        <div class="mono text-xs text-stone-300">103,994 log lines • 42 sessions</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
