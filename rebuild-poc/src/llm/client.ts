@@ -8,6 +8,8 @@ export interface LlmConfig {
   baseUrl?: string;
   apiKey?: string;
   maxTokens?: number;
+  /** AbortSignal to cancel an in-flight stream (end-to-end cancellation). */
+  signal?: AbortSignal;
 }
 
 export interface LlmChunk {
@@ -15,11 +17,16 @@ export interface LlmChunk {
   content: string;
 }
 
+// Config-driven provider: DROID_LLM_* env vars take precedence, with safe
+// fallback to the original z.ai defaults so the POC still runs out-of-the-box.
 const DEFAULT_CONFIG: LlmConfig = {
-  model: process.env.LLM_MODEL || 'deepseek-v4-flash-free',
-  baseUrl: process.env.LLM_API_URL || 'https://api.z.ai/v1/chat/completions',
-  apiKey: process.env.LLM_API_KEY || '',
-  maxTokens: parseInt(process.env.LLM_MAX_TOKENS || '4096'),
+  model: process.env.DROID_LLM_MODEL || process.env.LLM_MODEL || 'deepseek-v4-flash-free',
+  baseUrl:
+    process.env.DROID_LLM_ENDPOINT ||
+    process.env.LLM_API_URL ||
+    'https://api.z.ai/v1/chat/completions',
+  apiKey: process.env.DROID_LLM_API_KEY || process.env.LLM_API_KEY || '',
+  maxTokens: parseInt(process.env.DROID_LLM_MAX_TOKENS || process.env.LLM_MAX_TOKENS || '4096'),
 };
 
 /**
@@ -45,6 +52,7 @@ export async function* streamLlm(
     try {
       const response = await fetch(cfg.baseUrl!, {
         method: 'POST',
+        signal: cfg.signal,
         headers: {
           'Content-Type': 'application/json',
           ...(cfg.apiKey ? { 'Authorization': `Bearer ${cfg.apiKey}` } : {}),
@@ -81,6 +89,10 @@ export async function* streamLlm(
       let buffer = '';
 
       while (true) {
+        if (cfg.signal?.aborted) {
+          yield { type: 'done', content: '' };
+          return;
+        }
         const { done, value } = await reader.read();
         if (done) break;
 
