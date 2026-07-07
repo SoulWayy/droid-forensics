@@ -16,10 +16,10 @@ export interface LlmChunk {
 }
 
 const DEFAULT_CONFIG: LlmConfig = {
-  model: 'deepseek-v4-flash-free',
+  model: process.env.LLM_MODEL || 'deepseek-v4-flash-free',
   baseUrl: process.env.LLM_API_URL || 'https://api.z.ai/v1/chat/completions',
-  apiKey: process.env.LLM_API_KEY,
-  maxTokens: 4096,
+  apiKey: process.env.LLM_API_KEY || '',
+  maxTokens: parseInt(process.env.LLM_MAX_TOKENS || '4096'),
 };
 
 /**
@@ -34,6 +34,12 @@ export async function* streamLlm(
   const cfg = { ...DEFAULT_CONFIG, ...config };
   const maxRetries = 3;
   let attempt = 0;
+
+  // Fail fast if no API key configured — don't retry
+  if (!cfg.apiKey && !process.env.LLM_API_KEY) {
+    yield { type: 'error', content: 'No API key configured. Set LLM_API_KEY environment variable.' };
+    return;
+  }
 
   while (attempt <= maxRetries) {
     try {
