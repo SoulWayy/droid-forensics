@@ -51,18 +51,53 @@ python3 tools/smart-extract.py ~/.local/bin/droid
 
 ---
 
+## Verify against the REAL log (independent check)
+
+When the original log is available on the analyst machine, re-derive the
+ground-truth counts and compare to `BUG_REPORT.md`:
+
+```bash
+python3 tools/analyze_errors.py \
+  --log ~/.factory/logs/droid-log-single.log \
+  --out reports/_verify-timeline.md
+python3 tools/parse_sessions.py \
+  --log ~/.factory/logs/droid-log-single.log \
+  --out reports/_verify-sessions.md
+
+# raw substring counts (independent of the parser):
+grep -c 429      ~/.factory/logs/droid-log-single.log   # expect 2730
+grep -ci yaml   ~/.factory/logs/droid-log-single.log   # expect 13158
+grep -ci statSync ~/.factory/logs/droid-log-single.log # expect 933
+grep -c  'maximum update depth' ~/.factory/logs/console.log  # expect 8
+```
+
+> **Reconciliation:** the raw `429` substring count (2730) is larger than the
+> subagent-derived 232 (a filtered subset). The 8 `max-depth` crashes live in
+> `console.log` (the crash log), not in `droid-log-single.log`. The 70
+> duplicate-key errors are **not** a literal string in either raw log and rely
+> on `reports/subagent-timeline.md` — treat as reported, not independently
+> verified. See `BUG_REPORT.md` §Evidence for the full split.
+
+Run the fixture-based regression suite (also covers a real-log extract):
+
+```bash
+python3 -m unittest tests.test_parsers -v
+```
+
+---
+
 ## Expected Output
 
-- `analyze_errors.py` → error legend (dup-key=70, bad-setstate=8, max-update-depth=8, 429-rate-limit) and a per-minute timeline.
-- `parse_sessions.py` → session table with 42 unique session IDs and per-session 429 counts.
+- `analyze_errors.py` → error legend (429-rate-limit, max-update-depth, duplicate/parse) and a per-minute timeline. On the real log this surfaces the genuine 429 storm; on the redacted fixture the synthetic counts per the test asserts.
+- `parse_sessions.py` → session table with unique session IDs and per-session 429 counts.
 - `extract_mcp_network.py` → tool-call and MCP-registration tallies.
-- `extract_plugins.py` → skills/settings/YAML-error counts (≈2.924 YAML parse errors surface here).
+- `extract_plugins.py` → skills/settings/YAML-error counts.
 - `extract_glm_metrics.py` / `analyze_glm_streaming.py` → TTFT percentiles and 429/connection-error counts for GLM-5.2.
 
 ---
 
 ## Using Fixtures
 
-Always pass `fixtures/sample-droid-log.log` instead of `~/.factory/logs/droid-log-single.log`. This keeps runs reproducible without access to the original 64 MB log and avoids depending on a live Droid process. Add `--out` targets under `reports/` so generated artifacts stay in the audit dossier.
+Always pass `fixtures/sample-droid-log.log` instead of `~/.factory/logs/droid-log-single.log` for reproducible runs. `fixtures/sample-real-extract.log` is a small **anonymised slice of the real 64 MB log** (carrying the genuine 429 storm + Header.tsx/statSync render-path + react-reconciler max-depth stack trace) — it backs the `RealLogVerificationTests` and proves the root-cause chain against actual data. Generated `--out` artifacts belong under `reports/`.
 
 For the UI render-path simulation (not a log analysis): `rebuild-poc/full-droid-tui.tsx` approximates the Header render loop and can be exercised with `bun rebuild-poc/cli.ts`.
