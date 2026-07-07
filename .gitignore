@@ -17,6 +17,9 @@ droid-forensics/dist/
 droid-forensics/.parcel-cache/
 rebuild-poc/node_modules/
 rebuild-poc/bun.lock
+remotion-death-spiral/node_modules/
+remotion-death-spiral/out/
+remotion-death-spiral/dist/
 
 # Extracted source (regenerable from binary)
 extracted-source/

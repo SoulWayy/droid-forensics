@@ -3,207 +3,540 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Droid Forensics — Complete Triage</title>
+<title>Droid Forensics — Interactive</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Space Grotesk',sans-serif;background:#050505;color:#e5e5e5;overflow-x:hidden}
+body{font-family:'Space Grotesk',sans-serif;background:#050505;color:#e5e5e5;overflow:hidden}
 body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 50% at 20% 10%,rgba(124,58,237,0.1) 0%,transparent 60%),
-  radial-gradient(ellipse 50% 40% at 80% 30%,rgba(16,185,129,0.06) 0%,transparent 50%),
-  radial-gradient(ellipse 40% 30% at 50% 90%,rgba(244,63,94,0.05) 0%,transparent 40%)}
-.content{position:relative;z-index:2}
-.glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.3),inset 0 1px 1px rgba(255,255,255,0.05)}
-.glass:hover{border-color:rgba(255,255,255,0.15)}
+  background:radial-gradient(ellipse 50% 40% at 15% 15%,rgba(124,58,237,0.1) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 30% at 85% 25%,rgba(16,185,129,0.06) 0%,transparent 50%),
+  radial-gradient(ellipse 35% 25% at 50% 85%,rgba(244,63,94,0.04) 0%,transparent 40%)}
+#app{display:flex;height:100vh;position:relative;z-index:2}
+.sidebar{width:220px;flex-shrink:0;background:rgba(255,255,255,0.02);backdrop-filter:blur(20px);
+  border-right:1px solid rgba(255,255,255,0.06);padding:24px 16px;overflow-y:auto}
+.nav-item{padding:10px 16px;border-radius:10px;cursor:pointer;transition:all 0.3s cubic-bezier(0.32,0.72,0,1);
+  font-size:0.88rem;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.nav-item:hover{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.8)}
+.nav-item.active{background:rgba(124,58,237,0.15);color:#c4b5fd;border:1px solid rgba(124,58,237,0.2)}
+.main{flex:1;overflow-y:auto;padding:32px 40px}
 .mono{font-family:'JetBrains Mono',monospace}
-.metric{font-size:2.5rem;font-weight:700;letter-spacing:-0.04em;line-height:1;
-  background:linear-gradient(135deg,#fff,rgba(255,255,255,0.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px);filter:blur(6px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
-.fade-in{animation:fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both}
-.d1{animation-delay:0.1s}.d2{animation-delay:0.2s}.d3{animation-delay:0.3s}.d4{animation-delay:0.4s}.d5{animation-delay:0.5s}
-a{text-decoration:none;color:inherit}
+.glass{background:rgba(255,255,255,0.03);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.2)}
+.glass:hover{border-color:rgba(255,255,255,0.12)}
+.page{display:none;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1)}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.metric-big{font-size:3rem;font-weight:700;letter-spacing:-0.04em;line-height:1}
+.gradient-text{background:linear-gradient(135deg,#fff,rgba(255,255,255,0.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.bar-track{height:8px;background:rgba(255,255,255,0.06);border-radius:9999px;overflow:hidden}
+.bar-fill{height:100%;border-radius:9999px;transition:width 1.2s cubic-bezier(0.32,0.72,0,1)}
+.tag{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,0.4)}
+.step-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;
+  padding:16px;transition:all 0.4s cubic-bezier(0.32,0.72,0,1);cursor:pointer}
+.step-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.05)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,63,94,0.2)}50%{box-shadow:0 0 0 12px rgba(244,63,94,0)}}
+.pulse{animation:pulse 2s infinite}
+.chart-bar{display:flex;align-items:center;gap:12px;margin:6px 0}
+.chart-label{width:160px;font-size:0.78rem;color:rgba(255,255,255,0.5);flex-shrink:0}
+.chart-track{flex:1;height:20px;background:rgba(255,255,255,0.04);border-radius:4px;overflow:hidden;position:relative}
+.chart-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;
+  font-size:0.7rem;font-weight:600;color:#fff;transition:width 1s cubic-bezier(0.32,0.72,0,1)}
+a{color:inherit;text-decoration:none}
+.artifact-card{transition:all 0.5s cubic-bezier(0.32,0.72,0,1)}
+.artifact-card:hover{transform:translateY(-4px) scale(1.02)}
 </style>
 </head>
 <body>
-<div class="content max-w-6xl mx-auto px-6 py-16">
+<div id="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="mb-8 px-4">
+      <div class="tag mb-1">Case File 0164</div>
+      <div class="text-lg font-bold">Droid Forensics</div>
+      <div class="mono text-[10px] text-white/30 mt-1">v0.164.1</div>
+    </div>
+    <div class="nav-item active" data-page="overview">📊 Overview</div>
+    <div class="nav-item" data-page="performance">⚡ Performance</div>
+    <div class="nav-item" data-page="architecture">🏗️ Architecture</div>
+    <div class="nav-item" data-page="spiral">💀 Death Spiral</div>
+    <div class="nav-item" data-page="evidence">🔍 Evidence</div>
+    <div class="nav-item" data-page="artifacts">🎨 Artifacts</div>
+    <div class="mt-8 px-4 pt-4 border-t border-white/5">
+      <div class="mono text-[10px] text-white/20">103,994 log lines<br>42 sessions analyzed</div>
+    </div>
+  </nav>
 
-  <!-- HERO -->
-  <header class="fade-in mb-16">
-    <div class="inline-block text-[10px] tracking-[0.25em] uppercase font-medium px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
-      Case File № 0164 — Systems Autopsy
-    </div>
-    <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-6">
-      Droid Performance<br>
-      <span class="font-light text-white/40">Forensics</span>
-    </h1>
-    <p class="text-lg text-white/40 max-w-2xl font-light leading-relaxed">
-      Complete reverse engineering van een coding agent met 56% CPU,
-      31,994 JSON-RPC notifications, en een render death spiral.
-      103,994 logregels. 42 sessies. 3 design artifacts.
-    </p>
-  </header>
-
-  <!-- KEY METRICS -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 fade-in d1">
-    <div class="glass p-6 text-center">
-      <div class="metric text-red-400">56%</div>
-      <div class="text-xs text-white/40 mt-2">CPU Main Thread</div>
-    </div>
-    <div class="glass p-6 text-center">
-      <div class="metric">31.9K</div>
-      <div class="text-xs text-white/40 mt-2">JSON-RPC Notifications</div>
-    </div>
-    <div class="glass p-6 text-center">
-      <div class="metric text-red-400">232</div>
-      <div class="text-xs text-white/40 mt-2">429 Rate Limits</div>
-    </div>
-    <div class="glass p-6 text-center">
-      <div class="metric text-amber-400">2.9K</div>
-      <div class="text-xs text-white/40 mt-2">YAML Errors</div>
-    </div>
-  </div>
-
-  <!-- VISUALIZATION ARTIFACTS -->
-  <section class="mb-16 fade-in d2">
-    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Visualizations</div>
-    <h2 class="text-3xl font-semibold mb-8">Design Artifacts</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <a href="droid-ethereal.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3">🌌</div>
-        <div class="font-semibold text-lg mb-1">Ethereal Glass</div>
-        <div class="text-sm text-white/40">OLED black, glass cards, bento grid</div>
-        <div class="mono text-xs text-violet-400 mt-3">→ droid-ethereal.html</div>
-      </a>
-      <a href="droid-editorial.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3">📰</div>
-        <div class="font-semibold text-lg mb-1">Editorial Luxury</div>
-        <div class="text-sm text-white/40">Cream, serif, film grain, editorial split</div>
-        <div class="mono text-xs text-amber-400 mt-3">→ droid-editorial.html</div>
-      </a>
-      <a href="droid-cascade.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3"> cards</div>
-        <div class="font-semibold text-lg mb-1">Soft Structuralism</div>
-        <div class="text-sm text-white/40">White, bold grotesk, z-axis cascade</div>
-        <div class="mono text-xs text-emerald-400 mt-3">→ droid-cascade.html</div>
-      </a>
-      <a href="droid-canvas.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3">🔍</div>
-        <div class="font-semibold text-lg mb-1">Forensic Case File</div>
-        <div class="text-sm text-white/40">Konva canvas, red string detective board</div>
-        <div class="mono text-xs text-rose-400 mt-3">→ droid-canvas.html</div>
-      </a>
-      <a href="droid-architectuur-visualisatie.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3">📋</div>
-        <div class="font-semibold text-lg mb-1">Tabbed Explorer</div>
-        <div class="text-sm text-white/40">7 tabs: architectuur, processen, protocol, hotspots</div>
-        <div class="mono text-xs text-blue-400 mt-3">→ visualisatie.html</div>
-      </a>
-      <a href="bevindingen-canvas.html" class="glass p-6 block transition-all hover:scale-[1.02]">
-        <div class="text-2xl mb-3">📊</div>
-        <div class="font-semibold text-lg mb-1">Bevindingen Canvas</div>
-        <div class="text-sm text-white/40">Eerdere bevindingen visualisatie</div>
-        <div class="mono text-xs text-white/40 mt-3">→ bevindingen-canvas.html</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- DOCUMENTS -->
-  <section class="mb-16 fade-in d3">
-    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Documentation</div>
-    <h2 class="text-3xl font-semibold mb-8">Forensic Reports</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <a href="droid-architectuur-puzzel.md" class="glass p-6 block hover:scale-[1.01] transition-all">
-        <div class="flex justify-between items-start mb-2">
-          <div class="font-semibold text-lg">Architectuur Puzzel</div>
-          <span class="mono text-xs text-white/30">52KB</span>
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    
+    <!-- ═══════ OVERVIEW ═══════ -->
+    <div class="page active" id="page-overview">
+      <div class="tag mb-3">Systems Autopsy</div>
+      <h1 class="text-4xl font-bold mb-4">Performance Forensics</h1>
+      <p class="text-white/40 max-w-2xl mb-12">Reverse engineering van een coding agent met render latency tot 168ms (target <16ms), TTFT van 3-10s, en CPU 56%.</p>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="glass p-6">
+          <div class="tag mb-3">Render Latency</div>
+          <div class="metric-big text-red-400">168ms</div>
+          <div class="text-xs text-white/30 mt-2">target <16ms (60fps)</div>
+          <div class="bar-track mt-3"><div class="bar-fill" style="width:100%;background:#f43f5e"></div></div>
         </div>
-        <div class="text-sm text-white/40">Complete reverse-engineered architecture — 1714 regels, 9 appendices, build-it-yourself guide</div>
-      </a>
-      <a href="eindrapport.md" class="glass p-6 block hover:scale-[1.01] transition-all">
-        <div class="flex justify-between items-start mb-2">
-          <div class="font-semibold text-lg">Eindrapport</div>
-          <span class="mono text-xs text-white/30">8KB</span>
+        <div class="glass p-6">
+          <div class="tag mb-3">CPU Main Thread</div>
+          <div class="metric-big text-red-400">56%</div>
+          <div class="text-xs text-white/30 mt-2">14 threads total</div>
+          <div class="bar-track mt-3"><div class="bar-fill" style="width:56%;background:#f43f5e"></div></div>
         </div>
-        <div class="text-sm text-white/40">Root causes, evidence, en recommended fixes</div>
-      </a>
-      <a href="onderzoeksmatrix.md" class="glass p-6 block hover:scale-[1.01] transition-all">
-        <div class="flex justify-between items-start mb-2">
-          <div class="font-semibold text-lg">Onderzoeksmatrix</div>
-          <span class="mono text-xs text-white/30">3KB</span>
+        <div class="glass p-6">
+          <div class="tag mb-3">TTFT</div>
+          <div class="metric-big text-amber-400">10.8s</div>
+          <div class="text-xs text-white/30 mt-2">time to first token</div>
+          <div class="bar-track mt-3"><div class="bar-fill" style="width:72%;background:#fbbf24"></div></div>
         </div>
-        <div class="text-sm text-white/40">Gap analysis — wat wel en niet onderzocht is</div>
-      </a>
-      <a href="actieplan.md" class="glass p-6 block hover:scale-[1.01] transition-all">
-        <div class="flex justify-between items-start mb-2">
-          <div class="font-semibold text-lg">Actieplan</div>
-          <span class="mono text-xs text-white/30">4KB</span>
+        <div class="glass p-6">
+          <div class="tag mb-3">Cache Hit Rate</div>
+          <div class="metric-big text-emerald-400">92.5%</div>
+          <div class="text-xs text-white/30 mt-2">MCP tool search</div>
+          <div class="bar-track mt-3"><div class="bar-fill" style="width:92.5%;background:#10b981"></div></div>
         </div>
-        <div class="text-sm text-white/40">Volgende stappen en aanbevelingen</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- SUBAGENT ANALYSIS -->
-  <section class="mb-16 fade-in d4">
-    <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-white/40 mb-4">Subagent Analysis</div>
-    <h2 class="text-3xl font-semibold mb-8">Distilled Log Data</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <a href="subagent-sessies.md" class="glass p-5 block hover:scale-[1.02] transition-all">
-        <div class="text-2xl font-bold text-white mb-1">42</div>
-        <div class="text-xs text-white/40 mb-2">Sessions</div>
-        <div class="mono text-[10px] text-white/30">→ subagent-sessies.md</div>
-      </a>
-      <a href="subagent-timeline.md" class="glass p-5 block hover:scale-[1.02] transition-all">
-        <div class="text-2xl font-bold text-red-400 mb-1">113</div>
-        <div class="text-xs text-white/40 mb-2">Error Timeline</div>
-        <div class="mono text-[10px] text-white/30">→ subagent-timeline.md</div>
-      </a>
-      <a href="subagent-mcp-netwerk.md" class="glass p-5 block hover:scale-[1.02] transition-all">
-        <div class="text-2xl font-bold text-amber-400 mb-1">1.2K</div>
-        <div class="text-xs text-white/40 mb-2">MCP Tool Calls</div>
-        <div class="mono text-[10px] text-white/30">→ subagent-mcp-netwerk.md</div>
-      </a>
-      <a href="subagent-plugins-settings.md" class="glass p-5 block hover:scale-[1.02] transition-all">
-        <div class="text-2xl font-bold text-emerald-400 mb-1">2.6K</div>
-        <div class="text-xs text-white/40 mb-2">Skills Loaded</div>
-        <div class="mono text-[10px] text-white/30">→ subagent-plugins-settings.md</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ROOT CAUSE -->
-  <section class="mb-16 fade-in d5">
-    <div class="glass p-8">
-      <div class="text-[10px] tracking-[0.25em] uppercase font-medium text-red-400 mb-4">Root Cause</div>
-      <h2 class="text-3xl font-semibold mb-6">Render Death Spiral</h2>
-      <div class="mono text-sm text-white/60 leading-relaxed mb-6">
-        <span class="text-red-400">429 Rate Limit</span> (232×)
-        → error notification to TUI
-        → <span class="text-white">Header.tsx</span> re-renders (useMemo)
-        → <span class="text-white">getReadinessHint</span> → <span class="text-red-400">statSync</span> (477×)
-        → event loop blocked → <span class="text-red-400">CPU 56%</span>
-        → React <span class="text-amber-400">duplicate keys</span> (70×) → full re-render
-        → <span class="text-amber-400">maximum update depth</span> (8×) → crash
-        → worker retry without backoff → back to start
       </div>
-      <div class="text-sm text-white/40">
-        <strong class="text-white/80">Verdict:</strong> Sync I/O (statSync) in the React render path (useMemo) is the root cause.
-        Rate limits are an external trigger, not the bug.
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div class="glass p-6">
+          <div class="tag mb-2">Token Savings</div>
+          <div class="text-2xl font-bold mb-1">22.3M tokens</div>
+          <div class="text-sm text-white/40">Bespaard door MCP cache — gem. 27,077 per call</div>
+        </div>
+        <div class="glass p-6">
+          <div class="tag mb-2">Startup Latency</div>
+          <div class="text-2xl font-bold text-amber-400 mb-1">4.5-17s</div>
+          <div class="text-sm text-white/40">cli_startup_total_latency — erg traag</div>
+        </div>
+      </div>
+
+      <div class="glass p-6">
+        <div class="tag mb-3">Verdict</div>
+        <p class="text-lg text-white/60">De root cause is <strong class="text-white">synchrone I/O in de React render path</strong>. Header.tsx roept <code class="mono text-violet-400">statSync</code> aan in een <code class="mono text-violet-400">useMemo</code> tijdens render, wat de event loop blokkeert. Render latency piekt naar 168ms (10× te lang voor 60fps).</p>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="pt-8 border-t border-white/5 fade-in d5">
-    <div class="flex justify-between items-center text-xs text-white/30">
-      <div class="mono">droid v0.164.1 • 103,994 log lines • 42 sessions</div>
-      <div class="mono">Reverse engineered 2026-07-07</div>
+    <!-- ═══════ PERFORMANCE ═══════ -->
+    <div class="page" id="page-performance">
+      <div class="tag mb-3">Real Metrics</div>
+      <h1 class="text-4xl font-bold mb-4">Performance Breakdown</h1>
+      <p class="text-white/40 mb-12">Echte metrics uit 103,994 logregels — geen rate limits, alleen performance data.</p>
+
+      <!-- Render latency chart -->
+      <div class="glass p-8 mb-6">
+        <div class="tag mb-2">cli_tui_render_call_latency</div>
+        <h2 class="text-xl font-semibold mb-6">Render Latency Distribution</h2>
+        <div class="chart-bar">
+          <div class="chart-label">31ms (best)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:18%;background:#10b981">31ms</div></div>
+          <div class="mono text-xs text-white/30 w-12">2fps→</div>
+        </div>
+        <div class="chart-bar">
+          <div class="chart-label">130ms (P50)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:77%;background:#fbbf24">130ms</div></div>
+          <div class="mono text-xs text-white/30 w-12">8fps→</div>
+        </div>
+        <div class="chart-bar">
+          <div class="chart-label">155ms (P75)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:92%;background:#f97316">155ms</div></div>
+          <div class="mono text-xs text-white/30 w-12">6fps→</div>
+        </div>
+        <div class="chart-bar">
+          <div class="chart-label">168ms (worst)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:100%;background:#f43f5e">168ms</div></div>
+          <div class="mono text-xs text-white/30 w-12">6fps→</div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/5 text-sm text-white/40">
+          Target voor 60fps: <span class="mono text-emerald-400"><16ms</span>. Droid rendert op <strong class="text-red-400">6-32fps</strong> in plaats van 60fps.
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- TTFT -->
+        <div class="glass p-8">
+          <div class="tag mb-2">chat_client_time_to_first_token</div>
+          <h2 class="text-xl font-semibold mb-6">TTFT (Time To First Token)</h2>
+          <div class="chart-bar">
+            <div class="chart-label">3.1s (best)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:29%;background:#10b981">3.1s</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">6.3s</div>
+            <div class="chart-track"><div class="chart-fill" style="width:58%;background:#fbbf24">6.3s</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">9.4s</div>
+            <div class="chart-track"><div class="chart-fill" style="width:87%;background:#f97316">9.4s</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">10.9s (worst)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:100%;background:#f43f5e">10.9s</div></div>
+          </div>
+          <div class="mt-4 text-sm text-white/40">820 samples — LLM streaming start</div>
+        </div>
+
+        <!-- Key press latency -->
+        <div class="glass p-8">
+          <div class="tag mb-2">cli_tui_keypress_queue_latency</div>
+          <h2 class="text-xl font-semibold mb-6">Input Lag (Key Press)</h2>
+          <div class="chart-bar">
+            <div class="chart-label">0.04ms (best)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:0.5%;background:#10b981">0.04ms</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">5ms (P50)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:6%;background:#fbbf24">5ms</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">147ms (P75)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:57%;background:#f97316">147ms</div></div>
+          </div>
+          <div class="chart-bar">
+            <div class="chart-label">256ms (worst)</div>
+            <div class="chart-track"><div class="chart-fill" style="width:100%;background:#f43f5e">256ms</div></div>
+          </div>
+          <div class="mt-4 text-sm text-white/40">945 samples — input voelt ragged</div>
+        </div>
+      </div>
+
+      <!-- Cache stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="glass p-6">
+          <div class="tag mb-2">Cache Hit Rate</div>
+          <div class="metric-big text-emerald-400">92.5%</div>
+          <div class="text-xs text-white/30 mt-2">MCP tool search cache</div>
+        </div>
+        <div class="glass p-6">
+          <div class="tag mb-2">Tokens Saved</div>
+          <div class="metric-big text-violet-400">22.3M</div>
+          <div class="text-xs text-white/30 mt-2">total via caching</div>
+        </div>
+        <div class="glass p-6">
+          <div class="tag mb-2">Avg Savings/Call</div>
+          <div class="metric-big text-blue-400">27K</div>
+          <div class="text-xs text-white/30 mt-2">tokens per MCP search</div>
+        </div>
+      </div>
+
+      <!-- Memory -->
+      <div class="glass p-8">
+        <div class="tag mb-2">cli_startup_idle_rss_mb</div>
+        <h2 class="text-xl font-semibold mb-6">Memory (RSS)</h2>
+        <div class="chart-bar">
+          <div class="chart-label">299MB (idle)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:75%;background:#10b981">299MB</div></div>
+        </div>
+        <div class="chart-bar">
+          <div class="chart-label">324MB (peak)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:81%;background:#fbbf24">324MB</div></div>
+        </div>
+        <div class="chart-bar">
+          <div class="chart-label">400MB (active)</div>
+          <div class="chart-track"><div class="chart-fill" style="width:100%;background:#f43f5e">400MB</div></div>
+        </div>
+        <div class="mt-4 text-sm text-white/40">74GB virtueel (normaal voor JSC), 400MB resident</div>
+      </div>
     </div>
-  </footer>
 
+    <!-- ═══════ ARCHITECTURE ═══════ -->
+    <div class="page" id="page-architecture">
+      <div class="tag mb-3">3-Layer Model</div>
+      <h1 class="text-4xl font-bold mb-4">Architecture</h1>
+      <p class="text-white/40 mb-12">Droid is een 3-laag binary: Rust core, JavaScriptCore engine, en JS bundle.</p>
+      
+      <div class="space-y-4 mb-8">
+        <div class="glass p-6" style="border-left:4px solid #3fb950">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold">Layer 1 — Rust Core</h2>
+            <span class="mono text-xs text-white/30">~50MB .text</span>
+          </div>
+          <p class="text-sm text-white/40 mb-4">Bun canary v1.3.14 (Rust rewrite). Async runtime, HTTP/TLS, PTY, JSON-RPC.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">tokio 1.49</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">hyper 1.8</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">reqwest 0.12</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">rustls 0.23</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">portable-pty 0.8</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">523 crates</span>
+          </div>
+        </div>
+        
+        <div class="glass p-6" style="border-left:4px solid #bc8cff">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold">Layer 2 — JavaScriptCore</h2>
+            <span class="mono text-xs text-white/30">WebKit JSC</span>
+          </div>
+          <p class="text-sm text-white/40 mb-4">JS engine met JIT compiler en Garbage Collector. NAPI bindings naar Rust.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">JIT Worker thread</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">GC HeapHelper × 3</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">74GB VSZ (normaal)</span>
+          </div>
+        </div>
+        
+        <div class="glass p-6" style="border-left:4px solid #f43f5e">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-xl font-semibold">Layer 3 — JS Bundle</h2>
+            <span class="mono text-xs text-white/30">53MB .bun</span>
+          </div>
+          <p class="text-sm text-white/40 mb-4">Ink/React TUI, agent logic, plugins, commands. BunFS embedded filesystem.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="mono text-xs px-2 py-1 rounded bg-red-500/10 text-red-400">Header.tsx ⚠</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">AgentLoop.ts</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">McpHub.ts</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">PluginLoader.ts</span>
+            <span class="mono text-xs px-2 py-1 rounded bg-white/5">parseFrontmatter.ts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass p-6">
+        <div class="tag mb-3">Process Model</div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <div class="font-semibold mb-1">Main TUI</div>
+            <div class="mono text-xs text-white/40">PID 2663905 • Ink/React • 14 threads • 400MB RSS</div>
+          </div>
+          <div>
+            <div class="font-semibold mb-1">Worker (per prompt)</div>
+            <div class="mono text-xs text-white/40">droid exec • JSON-RPC over loopback • 5,085ms teardown</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ DEATH SPIRAL ═══════ -->
+    <div class="page" id="page-spiral">
+      <div class="tag mb-3">Render Death Spiral</div>
+      <h1 class="text-4xl font-bold mb-4">The Cascade</h1>
+      <p class="text-white/40 mb-12">Hoe een synchrone statSync in useMemo leidt tot een render death spiral.</p>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
+        <div class="step-card">
+          <div class="mono text-xs text-amber-400 mb-2">STAP 01</div>
+          <div class="font-semibold text-sm mb-1">External trigger</div>
+          <div class="text-xs text-white/30">LLM API response komt binnen</div>
+        </div>
+        <div class="step-card">
+          <div class="mono text-xs text-amber-400 mb-2">STAP 02</div>
+          <div class="font-semibold text-sm mb-1">Notification</div>
+          <div class="text-xs text-white/30">31,994× JSON-RPC naar TUI</div>
+        </div>
+        <div class="step-card">
+          <div class="mono text-xs text-amber-400 mb-2">STAP 03</div>
+          <div class="font-semibold text-sm mb-1">Re-render</div>
+          <div class="text-xs text-white/30">Header.tsx useMemo triggert</div>
+        </div>
+        <div class="step-card pulse" style="border-color:rgba(244,63,94,0.3)">
+          <div class="mono text-xs text-red-400 mb-2">STAP 04</div>
+          <div class="font-semibold text-sm mb-1">statSync</div>
+          <div class="text-xs text-white/30">477× sync I/O door dir tree</div>
+        </div>
+        <div class="step-card pulse" style="border-color:rgba(244,63,94,0.3)">
+          <div class="mono text-xs text-red-400 mb-2">STAP 05</div>
+          <div class="font-semibold text-sm mb-1">CPU 56%</div>
+          <div class="text-xs text-white/30">Event loop blocked</div>
+        </div>
+        <div class="step-card">
+          <div class="mono text-xs text-orange-400 mb-2">STAP 06</div>
+          <div class="font-semibold text-sm mb-1">Dup keys</div>
+          <div class="text-xs text-white/30">70× React can't reconcile</div>
+        </div>
+        <div class="step-card">
+          <div class="mono text-xs text-orange-400 mb-2">STAP 07</div>
+          <div class="font-semibold text-sm mb-1">Max depth</div>
+          <div class="text-xs text-white/30">8× render loop detected</div>
+        </div>
+        <div class="step-card" style="border-color:rgba(244,63,94,0.3);background:rgba(244,63,94,0.05)">
+          <div class="mono text-xs text-red-400 mb-2">STAP 08</div>
+          <div class="font-semibold text-sm mb-1">Degraded</div>
+          <div class="text-xs text-white/30">168ms render → 6fps</div>
+        </div>
+      </div>
+
+      <div class="glass p-8">
+        <div class="tag mb-3">Root Cause</div>
+        <div class="mono text-sm text-white/60 leading-relaxed mb-4">
+          <span class="text-white">Header.tsx</span> gebruikt <span class="text-violet-400">useMemo</span> om 
+          <span class="text-violet-400">getReadinessHint</span> te berekenen. Dit roept 
+          <span class="text-red-400">statSync</span> aan om <span class="text-white">.git</span> te vinden 
+          in elke parent directory — <strong>synchronis I/O tijdens render</strong>.
+        </div>
+        <div class="mono text-sm text-white/60 leading-relaxed mb-4">
+          Bij elke notification (31,994×) re-rendert de Header. Elke render doet 4-5 statSync calls.
+          De event loop blokkeert. Render latency piekt naar <span class="text-red-400">168ms</span> 
+          (10× te lang voor 60fps). CPU naar <span class="text-red-400">56%</span>.
+        </div>
+        <div class="mt-6 pt-4 border-t border-white/5">
+          <div class="tag mb-2 text-emerald-400">Fix</div>
+          <div class="text-sm text-white/60">Verplaats <code class="mono text-violet-400">getReadinessHint</code> naar een <code class="mono text-violet-400">useEffect</code> met async I/O. Gebruik <code class="mono text-violet-400">useState</code> om het resultaat op te slaan.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ EVIDENCE ═══════ -->
+    <div class="page" id="page-evidence">
+      <div class="tag mb-3">Source Code Hotspots</div>
+      <h1 class="text-4xl font-bold mb-4">Evidence</h1>
+      <p class="text-white/40 mb-12">Gebaseerd op stack traces uit 103,994 logregels.</p>
+      
+      <div class="space-y-3 mb-8">
+        <div class="glass p-6 artifact-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-full bg-red-500"></span>
+              <span class="mono text-sm text-white/80">Header.tsx:376-386</span>
+            </div>
+            <span class="mono text-2xl font-bold text-red-400">209×</span>
+          </div>
+          <div class="text-sm text-white/40 ml-6">sync statSync in useMemo render path</div>
+          <div class="text-sm text-emerald-400/60 ml-6 mt-1">→ fix: useEffect + async</div>
+        </div>
+        <div class="glass p-6 artifact-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-full bg-red-500"></span>
+              <span class="mono text-sm text-white/80">parseFrontmatter.ts:28</span>
+            </div>
+            <span class="mono text-2xl font-bold text-red-400">2,924×</span>
+          </div>
+          <div class="text-sm text-white/40 ml-6">YAML indent errors in skill files</div>
+          <div class="text-sm text-emerald-400/60 ml-6 mt-1">→ fix: try/catch + defaults</div>
+        </div>
+        <div class="glass p-6 artifact-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-full bg-red-500"></span>
+              <span class="mono text-sm text-white/80">git.ts:18 (statSync)</span>
+            </div>
+            <span class="mono text-2xl font-bold text-red-400">477×</span>
+          </div>
+          <div class="text-sm text-white/40 ml-6">blocking I/O in render path</div>
+          <div class="text-sm text-emerald-400/60 ml-6 mt-1">→ fix: async git check</div>
+        </div>
+        <div class="glass p-6 artifact-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+              <span class="mono text-sm text-white/80">PluginLoader.ts:482</span>
+            </div>
+            <span class="mono text-2xl font-bold text-amber-400">720×</span>
+          </div>
+          <div class="text-sm text-white/40 ml-6">plugin load errors</div>
+          <div class="text-sm text-emerald-400/60 ml-6 mt-1">→ fix: validate manifests</div>
+        </div>
+        <div class="glass p-6 artifact-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+              <span class="mono text-sm text-white/80">getReadinessHint/index.ts:85</span>
+            </div>
+            <span class="mono text-2xl font-bold text-amber-400">75×</span>
+          </div>
+          <div class="text-sm text-white/40 ml-6">called from Header useMemo</div>
+          <div class="text-sm text-emerald-400/60 ml-6 mt-1">→ fix: move to useEffect</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ ARTIFACTS ═══════ -->
+    <div class="page" id="page-artifacts">
+      <div class="tag mb-3">Gallery</div>
+      <h1 class="text-4xl font-bold mb-4">Design Artifacts</h1>
+      <p class="text-white/40 mb-12">Meerdere visualisaties, elk met een ander design archetype.</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="droid-ethereal.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">🌌</div>
+          <div class="font-semibold text-lg mb-1">Ethereal Glass</div>
+          <div class="text-sm text-white/40">OLED black, glass cards, bento grid</div>
+          <div class="mono text-xs text-violet-400 mt-3">→ open</div>
+        </a>
+        <a href="droid-editorial.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">📰</div>
+          <div class="font-semibold text-lg mb-1">Editorial Luxury</div>
+          <div class="text-sm text-white/40">Cream, Fraunces serif, film grain</div>
+          <div class="mono text-xs text-amber-400 mt-3">→ open</div>
+        </a>
+        <a href="droid-cascade.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">🗂️</div>
+          <div class="font-semibold text-lg mb-1">Soft Structuralism</div>
+          <div class="text-sm text-white/40">White, Space Grotesk, z-axis cascade</div>
+          <div class="mono text-xs text-emerald-400 mt-3">→ open</div>
+        </a>
+        <a href="droid-canvas.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">🔍</div>
+          <div class="font-semibold text-lg mb-1">Forensic Case File</div>
+          <div class="text-sm text-white/40">Konva canvas, red string detective board</div>
+          <div class="mono text-xs text-rose-400 mt-3">→ open</div>
+        </a>
+        <a href="droid-architectuur-visualisatie.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">📋</div>
+          <div class="font-semibold text-lg mb-1">Tabbed Explorer</div>
+          <div class="text-sm text-white/40">7 tabs met Mermaid diagrams + data</div>
+          <div class="mono text-xs text-blue-400 mt-3">→ open</div>
+        </a>
+        <a href="bevindingen-canvas.html" target="_blank" class="glass p-6 artifact-card block">
+          <div class="text-3xl mb-3">📊</div>
+          <div class="font-semibold text-lg mb-1">Bevindingen Canvas</div>
+          <div class="text-sm text-white/40">Eerdere bevindingen visualisatie</div>
+          <div class="mono text-xs text-white/40 mt-3">→ open</div>
+        </a>
+      </div>
+
+      <div class="mt-8">
+        <div class="tag mb-3">Reports</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <a href="droid-architectuur-puzzel.md" target="_blank" class="glass p-6 artifact-card block">
+            <div class="font-semibold mb-1">Architectuur Puzzel</div>
+            <div class="text-sm text-white/40">52KB — complete reverse engineering</div>
+          </a>
+          <a href="eindrapport.md" target="_blank" class="glass p-6 artifact-card block">
+            <div class="font-semibold mb-1">Eindrapport</div>
+            <div class="text-sm text-white/40">Root causes & fixes</div>
+          </a>
+          <a href="subagent-sessies.md" target="_blank" class="glass p-6 artifact-card block">
+            <div class="font-semibold mb-1">Session Analysis</div>
+            <div class="text-sm text-white/40">42 sessions distilled</div>
+          </a>
+          <a href="subagent-timeline.md" target="_blank" class="glass p-6 artifact-card block">
+            <div class="font-semibold mb-1">Error Timeline</div>
+            <div class="text-sm text-white/40">113 errors, cascade analysis</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
 </div>
+
+<script>
+// ── NAV ROUTING ──
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('page-' + item.dataset.page).classList.add('active');
+    document.querySelector('.main').scrollTop = 0;
+  });
+});
+
+// ── HASH ROUTING ──
+window.addEventListener('hashchange', () => {
+  const page = window.location.hash.slice(2) || 'overview';
+  const nav = document.querySelector(`.nav-item[data-page="${page}"]`);
+  if (nav) nav.click();
+});
+if (window.location.hash) window.dispatchEvent(new Event('hashchange'));
+</script>
 </body>
 </html>

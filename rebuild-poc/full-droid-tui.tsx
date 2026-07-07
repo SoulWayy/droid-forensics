@@ -27,7 +27,6 @@ class AppState {
 const globalState = new AppState();
 
 // --- 2. RESILIENT IPC MANAGER ---
-// Nu met Fallback handlers en Tool Use Loaders
 class IpcManager {
   public onOutput?: (chunk: string) => void;
   public onStateChange?: (state: 'thinking' | 'tool_execution' | 'idle' | 'error') => void;
@@ -37,7 +36,7 @@ class IpcManager {
   public simulateBackendResponse(prompt: string) {
     // 1. Check permissions (Security Scanner hook)
     if (!globalState.permissions.trustHomeDir && prompt.includes('rm -rf')) {
-      this.onPermissionPrompt?.("⚠️ WARNING: Dangerous command detected. Do you trust this directory? (y/N)");
+      this.onPermissionPrompt?.("WARNING: Dangerous command detected. Do you trust this directory? (y/N)");
       return;
     }
 
@@ -86,12 +85,12 @@ const Header = memo(({ cwd }: { cwd: string }) => {
   }, []);
 
   return (
-    <Box flexDirection="row" borderStyle="single" borderColor="blue" paddingX={1} gap={2}>
-      <Text color="cyanBright" bold>🤖 DROID CORE v0.164.1 (Fase 6)</Text>
-      <Text color="gray">|</Text>
-      <Text color="white">{cwd}</Text>
-      <Text color="gray">|</Text>
-      <Text color={gitStatus === 'ready' ? "green" : "yellow"}>Git: {gitStatus === 'ready' ? '✓' : '...'}</Text>
+    <Box flexDirection="row" borderStyle="round" borderColor="blue" paddingX={1}>
+      <Text color="cyanBright" bold>DROID CORE v0.164.1 (Fase 6) </Text>
+      <Text color="gray">| </Text>
+      <Text color="white">{cwd} </Text>
+      <Text color="gray">| </Text>
+      <Text color={gitStatus === 'ready' ? "green" : "yellow"}>Git: {gitStatus === 'ready' ? 'Ready' : '...'}</Text>
     </Box>
   );
 });
@@ -99,7 +98,7 @@ const Header = memo(({ cwd }: { cwd: string }) => {
 // Tool Use Component (MCP Scanner hook)
 const ToolUseMessage = memo(({ tool, status }: { tool: string, status: string }) => (
   <Box paddingLeft={2} marginY={1} borderStyle="round" borderColor="magenta">
-    <Text color="magenta">⚙️ [MCP Tool] {tool}: </Text>
+    <Text color="magenta">[MCP Tool] {tool}: </Text>
     <Text color="gray">{status}</Text>
   </Box>
 ));
@@ -111,7 +110,7 @@ const TrustDialog = memo(({ message, onResolve }: { message: string, onResolve: 
     else if (input.toLowerCase() === 'n') onResolve(false);
   });
   return (
-    <Box marginY={1} padding={1} borderStyle="single" borderColor="red">
+    <Box marginY={1} padding={1} borderStyle="round" borderColor="red">
       <Text color="redBright" bold>{message}</Text>
     </Box>
   );
@@ -121,17 +120,20 @@ const ChatHistory = ({ history, activeChunk, activeTool }: { history: React.Reac
   <Box flexDirection="column" paddingY={1} paddingX={2} minHeight={10}>
     {history}
     {activeTool && <ToolUseMessage tool={activeTool.name} status={activeTool.status} />}
-    {activeChunk && <Text color="yellow">{activeChunk}<Text color="white" dimColor> █</Text></Text>}
+    {activeChunk && <Text color="yellow">{activeChunk}<Text color="white" dimColor> _</Text></Text>}
   </Box>
 );
 
 const StatusLine = memo(({ state, tokens, costs }: { state: string, tokens: number, costs: number }) => (
-  <Box flexDirection="row" borderStyle="singleTop" borderColor="gray" gap={3}>
-    <Text color="magentaBright" bold>Model: custom:GLM-5.2-0</Text>
-    <Text color="yellow">Tokens: {tokens}</Text>
+  <Box flexDirection="row" borderStyle="round" borderColor="gray">
+    <Text color="magentaBright" bold>Model: custom:GLM-5.2-0 </Text>
+    <Text color="gray">| </Text>
+    <Text color="yellow">Tokens: {tokens} </Text>
+    <Text color="gray">| </Text>
     <Text color={state === 'error' ? 'red' : state === 'tool_execution' ? 'magenta' : state === 'thinking' ? 'cyan' : 'green'}>
-      State: {state.toUpperCase()}
+      State: {state.toUpperCase()} 
     </Text>
+    <Text color="gray">| </Text>
     <Text color="green">Costs: ${costs.toFixed(4)}</Text>
   </Box>
 ));
@@ -140,9 +142,9 @@ const PromptInput = ({ onSubmit, disabled }: { onSubmit: (val: string) => void, 
   const [value, setValue] = useState('');
   return (
     <Box flexDirection="row" paddingX={1}>
-      <Text color="greenBright" bold>❯ </Text>
+      <Text color="greenBright" bold>{'> '} </Text>
       {disabled ? <Text dimColor>Even geduld...</Text> : (
-        <TextInput value={value} onChange={setValue} onSubmit={(v) => { if (v.trim()) { onSubmit(v); setValue(''); } }} placeholder="Typ commando of 'search file' om MCP te testen..." />
+        <TextInput value={value} onChange={setValue} onSubmit={(v) => { if (v.trim()) { onSubmit(v); setValue(''); } }} placeholder="Typ commando..." />
       )}
     </Box>
   );
